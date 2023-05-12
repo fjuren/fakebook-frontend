@@ -1,23 +1,18 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthorizationPage from './pages/AuthorizationPage';
 
 function App() {
+  const test = false; // placeholder. This should check if user loggin JWT token is still active. If not, take user to auth page. In auth page, take user to login page.
+  if (test) return <AuthorizationPage />;
+
   return (
     <>
-      <AuthorizationPage />
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-      </div> */}
-      {/* <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/timeline"></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

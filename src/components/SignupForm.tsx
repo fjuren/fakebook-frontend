@@ -29,7 +29,7 @@ export default function SignupForm() {
       <Button variant="contained">Sign Up</Button>
       <Button variant="contained">Log in with a test account</Button>
       {/* Already have an account? */}
-      <a href="">Already have an account?</a>
+      <a href="/login">Already have an account?</a>
     </Box>
   );
 }

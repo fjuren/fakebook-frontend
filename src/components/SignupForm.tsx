@@ -2,6 +2,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
 
 export default function SignupForm() {
   return (
@@ -13,8 +14,8 @@ export default function SignupForm() {
       noValidate
       autoComplete="off"
     >
-      <h1>Create a new account</h1>
-      <p>It's quick and easy</p>
+      <Typography variant="h5">Create a new account</Typography>
+      <Typography variant="body1"> It's quick and easy</Typography>
       <TextField id="outlined-basic" label="First name" variant="outlined" />
       <TextField id="outlined-basic" label="Last name" variant="outlined" />
       <TextField id="outlined-basic" label="Email" variant="outlined" />
@@ -25,10 +26,8 @@ export default function SignupForm() {
         variant="outlined"
       />
 
-      {/* Sign Up */}
       <Button variant="contained">Sign Up</Button>
       <Button variant="contained">Log in with a test account</Button>
-      {/* Already have an account? */}
       <a href="/login">Already have an account?</a>
     </Box>
   );

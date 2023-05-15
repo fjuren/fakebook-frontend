@@ -1,0 +1,10 @@
+#authPage {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+form {
+  display: grid;
+  place-items: center;
+}

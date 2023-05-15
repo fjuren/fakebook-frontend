@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Divider } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function LoginForm() {
       noValidate
       autoComplete="off"
     >
-      <h3>Log Into Fakebook</h3>
+      <Typography variant="h5">Log Into Fakebook</Typography>
       <TextField id="outlined-basic" label="Email" variant="outlined" />
       <TextField id="outlined-basic" label="Password" variant="outlined" />
 

@@ -18,12 +18,20 @@ export default function LoginForm() {
       autoComplete="off"
     >
       <Typography variant="h5">Log Into Fakebook</Typography>
-      <TextField id="outlined-basic" label="Email" variant="outlined" />
-      <TextField id="outlined-basic" label="Password" variant="outlined" />
+      <TextField
+        id="outlined-basic"
+        type="email"
+        label="Email"
+        variant="outlined"
+      />
+      <TextField
+        id="outlined-basic"
+        type="password"
+        label="Password"
+        variant="outlined"
+      />
 
-      {/* Sign Up */}
       <Button variant="contained">Log In</Button>
-      {/* Already have an account? */}
       <a href="">Forgot account?</a>
       <div id="divider">
         <Divider> or </Divider>

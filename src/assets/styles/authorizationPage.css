@@ -8,3 +8,8 @@ form {
   display: grid;
   place-items: center;
 }
+
+form * {
+  display: grid;
+  justify-content: center;
+}

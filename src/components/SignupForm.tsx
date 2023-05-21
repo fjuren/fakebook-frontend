@@ -11,17 +11,38 @@ export default function SignupForm() {
       sx={{
         '& > :not(style)': { m: 1, width: '25ch' },
       }}
-      noValidate
-      autoComplete="off"
+      // noValidate
+      autoComplete="on"
     >
       <Typography variant="h5">Create a new account</Typography>
       <Typography variant="body1"> It's quick and easy</Typography>
-      <TextField id="outlined-basic" label="First name" variant="outlined" />
-      <TextField id="outlined-basic" label="Last name" variant="outlined" />
-      <TextField id="outlined-basic" label="Email" variant="outlined" />
-      <TextField id="outlined-basic" label="New password" variant="outlined" />
       <TextField
         id="outlined-basic"
+        type="text"
+        label="First name"
+        variant="outlined"
+      />
+      <TextField
+        id="outlined-basic"
+        type="text"
+        label="Last name"
+        variant="outlined"
+      />
+      <TextField
+        id="outlined-basic"
+        type="email"
+        label="Email"
+        variant="outlined"
+      />
+      <TextField
+        id="outlined-basic"
+        type="password"
+        label="New password"
+        variant="outlined"
+      />
+      <TextField
+        id="outlined-basic"
+        type="password"
         label="Confirm password"
         variant="outlined"
       />

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { validateEmail, validatePassword } from '../utils/helpers';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
 const TextFieldHideRequiredAsterisk = styled(TextField)({
@@ -65,6 +66,33 @@ export default function SignupForm() {
     } else {
       setLnameError(false);
       setLnameErrorText('');
+    }
+    if (!validateEmail(email)) {
+      setEmailError(true);
+      setEmailErrorText(
+        'Please enter a valid email address. Eg example@gmail.com'
+      );
+    } else {
+      setEmailError(false);
+      setEmailErrorText('');
+    }
+    if (!validatePassword(password)) {
+      setPasswordError(true);
+      setPasswordErrorText(
+        'Your password must be 8-100 characters long, with at least one uppercase, one number and one special symbol. Eg !@#$%'
+      );
+    } else {
+      setPasswordError(false);
+      setPasswordErrorText('');
+    }
+    if (confirmPassword !== password) {
+      setConfirmPasswordError(true);
+      setConfirmPasswordErrorText(
+        'Your passwords do not match. Please try again'
+      );
+    } else {
+      setConfirmPasswordError(false);
+      setConfirmPasswordErrorText('');
     }
 
     if (

@@ -38,24 +38,13 @@ export default function SignupForm() {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState('');
 
-  // useEffect(() => {
-  //   // email
-  // }, [email]);
-
-  // useEffect(() => {
-  //   // password
-  // }, [password, confirmPassword]);
-
-  // useEffect(() => {
-  //   // confirmPassword
-  // }, [password, confirmPassword]);
-
   const signupHandler = (e: any) => {
     e.preventDefault();
 
     if (firstName.length === 0) {
       setFnameError(true);
       setFnameErrorText('Please enter your first name');
+      return;
     } else {
       setFnameError(false);
       setFnameErrorText('');
@@ -63,6 +52,7 @@ export default function SignupForm() {
     if (lastName.length === 0) {
       setLnameError(true);
       setLnameErrorText('Please enter your last name');
+      return;
     } else {
       setLnameError(false);
       setLnameErrorText('');
@@ -72,6 +62,7 @@ export default function SignupForm() {
       setEmailErrorText(
         'Please enter a valid email address. Eg example@gmail.com'
       );
+      return;
     } else {
       setEmailError(false);
       setEmailErrorText('');
@@ -81,6 +72,7 @@ export default function SignupForm() {
       setPasswordErrorText(
         'Your password must be 8-100 characters long, with at least one uppercase, one number and one special symbol. Eg !@#$%'
       );
+      return;
     } else {
       setPasswordError(false);
       setPasswordErrorText('');
@@ -90,23 +82,10 @@ export default function SignupForm() {
       setConfirmPasswordErrorText(
         'Your passwords do not match. Please try again'
       );
+      return;
     } else {
       setConfirmPasswordError(false);
       setConfirmPasswordErrorText('');
-    }
-
-    if (
-      fnameError ||
-      lnameError ||
-      emailError ||
-      passwordError ||
-      confirmPasswordError
-    ) {
-      console.log(
-        'Remember to prevent submission and let user know there are unresolved errors on submit. eg you have 1 or more errors'
-      );
-    } else {
-      // validation good; run API
     }
 
     const data = {

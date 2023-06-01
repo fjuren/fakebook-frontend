@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { validateEmail, validatePassword } from '../utils/helpers';
 
@@ -12,9 +11,7 @@ const TextFieldHideRequiredAsterisk = styled(TextField)({
   },
 });
 
-export default function SignupForm() {
-  const navigate = useNavigate();
-
+export default function SignupForm({ toggleLogin }: any) {
   // field values
   const [firstName, setFname] = useState('');
   const [lastName, setLname] = useState('');
@@ -96,15 +93,20 @@ export default function SignupForm() {
       confirmPassword,
     };
 
-    console.log(data);
+    // console.log(data);
     // TODO
     // [ ] create process.env development & production urls
-    // [ ] field validation on front end
     axios
       .post('http://localhost:3000/api/users/signup', data)
       .then((response) => {
+        console.log(response);
         if (response.status === 200) {
-          navigate('/timeline'); // TODO handle authorization with JWT and update app.tsx to access routes once user is authenticated
+          const token = response.data.token; // recall this gives Bearer <token id>
+          localStorage.setItem('token', token);
+
+          // navigate('/timeline'); // TODO handle authorization with JWT and update app.tsx to access routes once user is authenticated
+
+          return response.data;
         }
         console.log(response.data);
       })
@@ -181,7 +183,9 @@ export default function SignupForm() {
         Sign Up
       </Button>
       <Button variant="contained">Log in with a test account</Button>
-      <a href="/login">Already have an account?</a>
+      <Link component="button" variant="body2" onClick={toggleLogin}>
+        Already have an account?
+      </Link>
     </Box>
   );
 }

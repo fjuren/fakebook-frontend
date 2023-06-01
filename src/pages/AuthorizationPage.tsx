@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import SignupForm from '../components/SignupForm';
@@ -7,6 +7,14 @@ import LoginForm from '../components/LoginForm';
 import '../assets/styles/authorizationPage.css';
 
 export default function AuthorizationPage() {
+  const [loadLoginPage, setLoadLoginPage] = useState(true);
+
+  const toggleLogin = () => {
+    setLoadLoginPage(!loadLoginPage);
+  };
+
+  console.log(loadLoginPage);
+
   return (
     <>
       <div id="authPage">
@@ -20,12 +28,11 @@ export default function AuthorizationPage() {
           >
             fakebook
           </h1>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<LoginForm />}></Route>
-              <Route path="/signup" element={<SignupForm />}></Route>
-            </Routes>
-          </BrowserRouter>
+          {loadLoginPage ? (
+            <LoginForm toggleLogin={toggleLogin} />
+          ) : (
+            <SignupForm toggleLogin={toggleLogin} />
+          )}
         </ThemeProvider>
       </div>
     </>

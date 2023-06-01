@@ -1,10 +1,22 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthorizationPage from './pages/AuthorizationPage';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const test = true; // placeholder. This should check if user loggin JWT token is still active. If not, take user to auth page. In auth page, take user to login page.
-  if (test) return <AuthorizationPage />;
+  const [authUser, setAuthUser] = useState('');
+
+  useEffect(() => {
+    // const getUser = JSON.parse(localStorage.getItem('token') || '{}');
+    const getUser: string | null = localStorage.getItem('token');
+    console.log(getUser);
+
+    if (getUser) {
+      setAuthUser(getUser);
+    }
+  }, []);
+
+  if (authUser === '') return <AuthorizationPage />;
 
   return (
     <>

@@ -1,13 +1,9 @@
-// import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Divider, Typography } from '@mui/material';
 
-export default function LoginForm() {
-  const navigate = useNavigate();
-
+export default function LoginForm({ toggleLogin }: any) {
   return (
     <Box
       component="form"
@@ -36,12 +32,7 @@ export default function LoginForm() {
       <div id="divider">
         <Divider> or </Divider>
       </div>
-      <Button
-        variant="contained"
-        onClick={() => {
-          navigate('/signup');
-        }}
-      >
+      <Button variant="contained" onClick={toggleLogin}>
         Create new account
       </Button>
       <Button variant="contained">Log in with a test account</Button>

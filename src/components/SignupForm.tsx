@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { validateEmail, validatePassword } from '../utils/helpers';
+import { signup } from '../services/auth.service';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
 const TextFieldHideRequiredAsterisk = styled(TextField)({
@@ -85,34 +86,25 @@ export default function SignupForm({ toggleLogin }: any) {
       setConfirmPasswordErrorText('');
     }
 
-    const data = {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-    };
-
-    // console.log(data);
     // TODO
     // [ ] create process.env development & production urls
-    axios
-      .post('http://localhost:3000/api/users/signup', data)
+    signup(firstName, lastName, email, password, confirmPassword)
       .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          const token = response.data.token; // recall this gives Bearer <token id>
-          localStorage.setItem('token', token);
-
-          // navigate('/timeline'); // TODO handle authorization with JWT and update app.tsx to access routes once user is authenticated
-
-          return response.data;
-        }
         console.log(response.data);
+        if (response.status === 200) {
+          // const token = response.data.token; // recall this gives Bearer <token id>
+          // localStorage.setItem('token', token);
+          // // navigate('/timeline'); // TODO handle authorization with JWT and update app.tsx to access routes once user is authenticated
+          // return response.data;
+          console.log(response.data);
+        }
       })
       .catch((err) => {
         // 400 error messages from backend
-        console.log(err.response.data.errors);
+        console.log(
+          `~ERROR~ err.response.data.errors: ${err.response.data.errors}`
+        );
+        console.log(`~ERROR~ err: ${err}`);
       });
   };
 

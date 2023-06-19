@@ -10,22 +10,22 @@ function App() {
 
   console.log(authUser);
 
-  useEffect(() => {
-    const user = getUser();
-    if (user) {
-      setAuthUser(user);
-    }
-    // const getUser = JSON.parse(localStorage.getItem('token') || '{}');
-    // const getUser: string | null = localStorage.getItem('token');
-    // console.log(getUser);
+  // useEffect(() => {
+  //   const user = getUser();
+  //   if (user) {
+  //     setAuthUser(user);
+  //   }
+  //   // const getUser = JSON.parse(localStorage.getItem('token') || '{}');
+  //   // const getUser: string | null = localStorage.getItem('token');
+  //   // console.log(getUser);
 
-    // if (getUser) {
-    //   setAuthUser(getUser);
-    // }
-    const logOut = () => {
-      logout();
-    };
-  }, []);
+  //   // if (getUser) {
+  //   //   setAuthUser(getUser);
+  //   // }
+  //   const logOut = () => {
+  //     logout();
+  //   };
+  // }, []);
 
   // if (authUser) return <AuthorizationPage />;
 

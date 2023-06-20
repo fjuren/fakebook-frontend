@@ -10,24 +10,20 @@ function App() {
 
   console.log(authUser);
 
-  // useEffect(() => {
-  //   const user = getUser();
-  //   if (user) {
-  //     setAuthUser(user);
-  //   }
-  //   // const getUser = JSON.parse(localStorage.getItem('token') || '{}');
-  //   // const getUser: string | null = localStorage.getItem('token');
-  //   // console.log(getUser);
+  useEffect(() => {
+    const user = getUser();
+    console.log(user);
 
-  //   // if (getUser) {
-  //   //   setAuthUser(getUser);
-  //   // }
-  //   const logOut = () => {
-  //     logout();
-  //   };
-  // }, []);
+    if (user) {
+      setAuthUser(user);
+    }
 
-  // if (authUser) return <AuthorizationPage />;
+    console.log(authUser);
+
+    const logOut = () => {
+      logout();
+    };
+  }, []);
 
   return (
     <>
@@ -40,6 +36,12 @@ function App() {
           </Routes>
         </BrowserRouter>
       )}
+      {/* <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AuthorizationPage />}></Route>
+          <Route path="/timeline" element={<TimelinePage />}></Route>
+        </Routes>
+      </BrowserRouter> */}
     </>
   );
 }

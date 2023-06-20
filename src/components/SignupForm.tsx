@@ -4,6 +4,7 @@ import { Box, TextField, Button, Typography, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { validateEmail, validatePassword } from '../utils/helpers';
 import { signup } from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
 const TextFieldHideRequiredAsterisk = styled(TextField)({
@@ -92,10 +93,7 @@ export default function SignupForm({ toggleLogin }: any) {
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {
-          // const token = response.data.token; // recall this gives Bearer <token id>
-          // localStorage.setItem('token', token);
-          // // navigate('/timeline'); // TODO handle authorization with JWT and update app.tsx to access routes once user is authenticated
-          // return response.data;
+          window.location.reload();
           console.log(response.data);
         }
       })

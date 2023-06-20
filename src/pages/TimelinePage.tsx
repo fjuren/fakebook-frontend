@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 
@@ -9,6 +9,18 @@ import { getTimeline } from '../services/post.service';
 // }
 
 export default function TimelinePage() {
+  const [timelineContent, setTimelineContent] = useState('');
+
+  // useEffect(() => {
+  // getTimeline()
+  // .then((response) => {
+  //   setTimelineContent(response.data);
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });
+  // });
+
   return (
     <>
       <div id="timelinePage">
@@ -22,6 +34,7 @@ export default function TimelinePage() {
           >
             Timeline
           </h1>
+          <h4>{timelineContent}</h4>
         </ThemeProvider>
       </div>
     </>

@@ -9,13 +9,22 @@ export const signup = (
   password: string,
   confirmPassword: string
 ) => {
-  return axios.post(API_URL + '/signup', {
-    firstName,
-    lastName,
-    email,
-    password,
-    confirmPassword,
-  });
+  return axios
+    .post(API_URL + '/signup', {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+    })
+    .then((response) => {
+      if (response.data.token) {
+        localStorage.setItem('token', JSON.stringify(response.data)); // TODO REMOVE PASSWORD FROM RESPONSE
+        // const token = response.data.token; // recall this gives Bearer <token id>
+        // localStorage.setItem('token', token);
+      }
+      return response;
+    });
 };
 
 export const login = (email: string, password: string) => {
@@ -25,7 +34,7 @@ export const login = (email: string, password: string) => {
       password,
     })
     .then((response) => {
-      if (response.data.accessToken) {
+      if (response.data.token) {
         localStorage.setItem('token', JSON.stringify(response.data));
         // const token = response.data.token; // recall this gives Bearer <token id>
         // localStorage.setItem('token', token);

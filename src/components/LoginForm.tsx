@@ -5,15 +5,62 @@ import Button from '@mui/material/Button';
 import { Divider, Typography } from '@mui/material';
 import { login } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { validateEmail, validatePassword } from '../utils/helpers';
 
 export default function LoginForm({ toggleLogin }: any) {
+  // field values
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // field validation
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorText, setEmailErrorText] = useState('');
+
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorText, setPasswordErrorText] = useState('');
 
   const navigate = useNavigate();
 
   const loginHandler = (e: any) => {
     e.preventDefault();
+
+    // client side validation
+    if (email.length === 0) {
+      setEmailError(true);
+      setEmailErrorText('Please enter your email');
+      return;
+    } else {
+      setEmailError(false);
+      setEmailErrorText('');
+    }
+    if (!validateEmail(email)) {
+      setEmailError(true);
+      setEmailErrorText(
+        'Please enter a valid email address. Eg example@gmail.com'
+      );
+      return;
+    } else {
+      setEmailError(false);
+      setEmailErrorText('');
+    }
+    if (password.length === 0) {
+      setPasswordError(true);
+      setPasswordErrorText('Please enter your password');
+      return;
+    } else {
+      setPasswordError(false);
+      setPasswordErrorText('');
+    }
+    if (!validatePassword(password)) {
+      setPasswordError(true);
+      setPasswordErrorText(
+        'Your password must be 8-100 characters long, with at least one uppercase, one number and one special symbol. Eg !@#$%'
+      );
+      return;
+    } else {
+      setPasswordError(false);
+      setPasswordErrorText('');
+    }
 
     login(email, password)
       .then((response) => {
@@ -53,6 +100,8 @@ export default function LoginForm({ toggleLogin }: any) {
         onChange={(e) => {
           setEmail(e.target.value);
         }}
+        error={emailError}
+        helperText={emailErrorText}
       />
       <TextField
         id="outlined-basic"
@@ -63,6 +112,8 @@ export default function LoginForm({ toggleLogin }: any) {
         onChange={(e) => {
           setPassword(e.target.value);
         }}
+        error={passwordError}
+        helperText={passwordErrorText}
       />
 
       <Button variant="contained" type="submit">

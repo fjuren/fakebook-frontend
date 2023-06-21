@@ -37,6 +37,8 @@ export default function SignupForm({ toggleLogin }: any) {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState('');
 
+  const navigate = useNavigate();
+
   const signupHandler = (e: any) => {
     e.preventDefault();
 
@@ -93,6 +95,7 @@ export default function SignupForm({ toggleLogin }: any) {
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {
+          navigate('/timeline');
           window.location.reload();
           console.log(response.data);
         }

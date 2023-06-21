@@ -1,47 +1,38 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AuthorizationPage from './pages/AuthorizationPage';
 import TimelinePage from './pages/TimelinePage';
 import { getUser, logout } from './services/auth.service';
 import './App.css';
 
 function App() {
-  const [authUser, setAuthUser] = useState(undefined);
+  const [authUser, setAuthUser] = useState(getUser());
 
   console.log(authUser);
 
-  useEffect(() => {
-    const user = getUser();
-    console.log(user);
+  const logOut = () => {
+    logout();
+  };
 
-    if (user) {
-      setAuthUser(user);
-    }
-
-    console.log(authUser);
-
-    const logOut = () => {
-      logout();
-    };
-  }, []);
+  console.log('authUser: ');
+  console.log(authUser);
 
   return (
     <>
-      {authUser === undefined ? (
-        <AuthorizationPage />
-      ) : (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/timeline" element={<TimelinePage />}></Route>
-          </Routes>
-        </BrowserRouter>
-      )}
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AuthorizationPage />}></Route>
-          <Route path="/timeline" element={<TimelinePage />}></Route>
+          <Route
+            path="/"
+            element={
+              !authUser ? <AuthorizationPage /> : <Navigate to="/timeline" />
+            }
+          ></Route>
+          <Route
+            path="/timeline"
+            element={authUser ? <TimelinePage /> : <Navigate to="/" />}
+          ></Route>
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
     </>
   );
 }

@@ -13,8 +13,6 @@ export default function AuthorizationPage() {
     setLoadLoginPage(!loadLoginPage);
   };
 
-  console.log(loadLoginPage);
-
   return (
     <>
       <div id="authPage">

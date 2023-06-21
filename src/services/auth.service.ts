@@ -20,8 +20,6 @@ export const signup = (
     .then((response) => {
       if (response.data.token) {
         localStorage.setItem('token', JSON.stringify(response.data)); // TODO REMOVE PASSWORD FROM RESPONSE
-        // const token = response.data.token; // recall this gives Bearer <token id>
-        // localStorage.setItem('token', token);
       }
       return response;
     });
@@ -34,12 +32,11 @@ export const login = (email: string, password: string) => {
       password,
     })
     .then((response) => {
+      console.log(response);
       if (response.data.token) {
-        localStorage.setItem('token', JSON.stringify(response.data));
-        // const token = response.data.token; // recall this gives Bearer <token id>
-        // localStorage.setItem('token', token);
+        localStorage.setItem('token', JSON.stringify(response.data)); // recall this contains Bearer <token
       }
-      return response.data;
+      return response;
     });
 };
 

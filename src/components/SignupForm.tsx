@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { Box, TextField, Button, Typography, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { validateEmail, validatePassword } from '../utils/helpers';

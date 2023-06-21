@@ -6,6 +6,7 @@ import { getUser, logout } from './services/auth.service';
 import './App.css';
 
 function App() {
+  // getUser checks localStorage
   const [authUser, setAuthUser] = useState(getUser());
 
   console.log(authUser);

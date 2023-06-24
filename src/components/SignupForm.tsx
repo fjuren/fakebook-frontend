@@ -100,11 +100,12 @@ export default function SignupForm({ toggleLogin }: any) {
         }
       })
       .catch((err) => {
-        // 400 error messages from backend
-        console.log(
-          `~ERROR~ err.response.data.errors: ${err.response.data.errors}`
-        );
-        console.log(`~ERROR~ err: ${err}`);
+        // handler if email already exists
+        if (err.response.data.error.includes('Email')) {
+          setEmailError(true);
+          setEmailErrorText(err.response.data.error);
+        }
+        console.log(err.response.data);
       });
   };
 

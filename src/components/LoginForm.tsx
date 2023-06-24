@@ -43,6 +43,7 @@ export default function LoginForm({ toggleLogin }: any) {
       setEmailError(false);
       setEmailErrorText('');
     }
+    // if email doesn't exist? This validation is in API call below in login helper
     if (password.length === 0) {
       setPasswordError(true);
       setPasswordErrorText('Please enter your password');
@@ -51,6 +52,7 @@ export default function LoginForm({ toggleLogin }: any) {
       setPasswordError(false);
       setPasswordErrorText('');
     }
+    // if password is incorrect? This validation is in API call below in login helper
     if (!validatePassword(password)) {
       setPasswordError(true);
       setPasswordErrorText(
@@ -62,6 +64,7 @@ export default function LoginForm({ toggleLogin }: any) {
       setPasswordErrorText('');
     }
 
+    // API call in login helper; includes validation from backend
     login(email, password)
       .then((response) => {
         console.log(response);
@@ -72,11 +75,17 @@ export default function LoginForm({ toggleLogin }: any) {
         }
       })
       .catch((err) => {
-        // 400 error messages from backend
-        console.log(
-          `~ERROR~ err.response.data.errors: ${err.response.data.errors}`
-        );
-        console.log(`~ERROR~ err: ${err}`);
+        // handler if email doesn't exist
+        if (err.response.data.error.includes('Email')) {
+          setEmailError(true);
+          setEmailErrorText(err.response.data.error);
+        }
+        // hander if password is incorrect
+        if (err.response.data.error.includes('Password')) {
+          setPasswordError(true);
+          setPasswordErrorText(err.response.data.error);
+        }
+        console.log(err.response.data);
       });
   };
 

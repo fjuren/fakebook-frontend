@@ -32,7 +32,7 @@ export const login = (email: string, password: string) => {
       password,
     })
     .then((response) => {
-      console.log(response);
+      console.log(response.status);
       if (response.data.token) {
         localStorage.setItem('token', JSON.stringify(response.data)); // recall this contains Bearer <token
       }

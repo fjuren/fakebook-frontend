@@ -11,15 +11,16 @@ import { getTimeline } from '../services/post.service';
 export default function TimelinePage() {
   const [timelineContent, setTimelineContent] = useState('');
 
-  // useEffect(() => {
-  // getTimeline()
-  // .then((response) => {
-  //   setTimelineContent(response.data);
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // });
-  // });
+  useEffect(() => {
+    const data = getTimeline()
+      .then((response) => {
+        console.log(response.data);
+        // setTimelineContent(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>

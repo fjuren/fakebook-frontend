@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import TimelineCard from '../components/TimelinePostCard';
+import TimelinePostCard from '../components/TimelinePostCard';
 import { Stack } from '@mui/material';
 
 import { getTimeline } from '../services/post.service';
@@ -36,13 +36,13 @@ export default function TimelinePage() {
             Timeline
           </h1>
           <div id="timeline-content">
-            {/* <TimelineCard /> */}
             <Stack spacing={2}>
               {timelineContent.map((post, index) => {
                 console.log(post);
                 return (
                   <div key={index}>
-                    <h4>{post.content}</h4>
+                    <TimelinePostCard post={post} />
+                    {/* <h4>{post.content}</h4> */}
                   </div>
                 );
               })}

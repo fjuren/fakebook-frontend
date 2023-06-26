@@ -13,6 +13,7 @@ import { red } from '@mui/material/colors';
 // import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import { Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -30,7 +31,15 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function TimelinePostCard() {
+// TODO: build interface after updating timeline API data
+// interface Post {
+//   post: {
+//     title: string;
+//   };
+// }
+
+export default function TimelinePostCard({ post }: any) {
+  // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -53,24 +62,26 @@ export default function TimelinePostCard() {
         title="User's full name here"
         subheader="Full date and time of post here"
       />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {post.content}
+        </Typography>
+      </CardContent>
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image={post.image}
         alt="Add alt text?"
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          User post here?
-        </Typography>
-      </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="ThumbUpOutlined">
+        <Button size="medium">
           <ThumbUpAltOutlinedIcon />
-        </IconButton>
-        <IconButton aria-label="ChatBubbleOutlined">
+          <p>Like</p>
+        </Button>
+        <Button size="medium">
           <ChatBubbleOutlineOutlinedIcon />
-        </IconButton>
+          <p>Comment</p>
+        </Button>
         {/* <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

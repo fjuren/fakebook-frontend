@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
+import TimelineCard from '../components/TimelinePostCard';
+import { Stack } from '@mui/material';
 
 import { getTimeline } from '../services/post.service';
 
@@ -9,19 +11,17 @@ import { getTimeline } from '../services/post.service';
 // }
 
 export default function TimelinePage() {
-  const [timelineContent, setTimelineContent] = useState('');
+  const [timelineContent, setTimelineContent] = useState<any[]>([]);
 
   useEffect(() => {
-    const data = getTimeline()
+    getTimeline()
       .then((response) => {
-        console.log(response.data);
-        // setTimelineContent(response.data);
+        setTimelineContent(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
   return (
     <>
       <div id="timelinePage">
@@ -35,7 +35,19 @@ export default function TimelinePage() {
           >
             Timeline
           </h1>
-          <h4>{timelineContent}</h4>
+          <div id="timeline-content">
+            {/* <TimelineCard /> */}
+            <Stack spacing={2}>
+              {timelineContent.map((post, index) => {
+                console.log(post);
+                return (
+                  <div key={index}>
+                    <h4>{post.content}</h4>
+                  </div>
+                );
+              })}
+            </Stack>
+          </div>
         </ThemeProvider>
       </div>
     </>

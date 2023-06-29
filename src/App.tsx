@@ -8,14 +8,10 @@ import './App.css';
 function App() {
   // getUser checks localStorage
   const [authUser, setAuthUser] = useState(getUser());
-
-  console.log(authUser);
-
   const logOut = () => {
     logout();
   };
 
-  console.log('authUser: ');
   console.log(authUser);
 
   return (

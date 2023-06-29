@@ -16,6 +16,8 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import { Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { getLocalTime } from '../utils/helpers';
+
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -50,17 +52,19 @@ export default function TimelinePostCard({ post }: any) {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
+          <Avatar
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+            src={post.user.avatar}
+          ></Avatar>
         }
         action={
           <IconButton aria-label="settings">
             {/* <MoreVertIcon /> */}
           </IconButton>
         }
-        title="User's full name here"
-        subheader="Full date and time of post here"
+        title={post.user.firstName + ' ' + post.user.lastName}
+        subheader={getLocalTime(post.postCreated)}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">

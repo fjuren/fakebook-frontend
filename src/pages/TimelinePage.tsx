@@ -38,7 +38,6 @@ export default function TimelinePage() {
           <div id="timeline-content">
             <Stack spacing={2}>
               {timelineContent.map((post, index) => {
-                console.log(post);
                 return (
                   <div key={index}>
                     <TimelinePostCard post={post} />

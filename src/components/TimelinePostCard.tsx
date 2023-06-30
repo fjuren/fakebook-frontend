@@ -16,7 +16,7 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import { Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { getLocalTime } from '../utils/helpers';
+import { conditionalDateDisplay } from '../utils/helpers';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -64,7 +64,7 @@ export default function TimelinePostCard({ post }: any) {
           </IconButton>
         }
         title={post.user.firstName + ' ' + post.user.lastName}
-        subheader={getLocalTime(post.postCreated)}
+        subheader={conditionalDateDisplay(post.postCreated)}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">

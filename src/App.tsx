@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AuthorizationPage from './pages/AuthorizationPage';
 import TimelinePage from './pages/TimelinePage';
+import CreatePostPage from './pages/CreatePostPage';
 import { getUser, logout } from './services/auth.service';
 import './App.css';
 
@@ -27,6 +28,10 @@ function App() {
           <Route
             path="/timeline"
             element={authUser ? <TimelinePage /> : <Navigate to="/" />}
+          ></Route>
+          <Route
+            path="/create-post"
+            element={authUser ? <CreatePostPage /> : <Navigate to="/" />}
           ></Route>
         </Routes>
       </BrowserRouter>

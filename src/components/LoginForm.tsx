@@ -67,7 +67,6 @@ export default function LoginForm({ toggleLogin }: any) {
     // API call in login helper; includes validation from backend
     login(email, password)
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           navigate('/timeline');
           window.location.reload();

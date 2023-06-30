@@ -3,6 +3,9 @@ import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import TimelinePostCard from '../components/TimelinePostCard';
 import { Stack } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 import { getTimeline } from '../services/post.service';
 
@@ -12,6 +15,7 @@ import { getTimeline } from '../services/post.service';
 
 export default function TimelinePage() {
   const [timelineContent, setTimelineContent] = useState<any[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTimeline()
@@ -35,6 +39,19 @@ export default function TimelinePage() {
           >
             Timeline
           </h1>
+          <div>
+            <Fab
+              color="primary"
+              variant="extended"
+              aria-label="add"
+              onClick={() => {
+                navigate('/create-post');
+              }}
+            >
+              <AddIcon sx={{ mr: 1 }} />
+              Create post
+            </Fab>
+          </div>
           <div id="timeline-content">
             <Stack spacing={2}>
               {timelineContent.map((post, index) => {

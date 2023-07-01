@@ -13,8 +13,6 @@ function App() {
     logout();
   };
 
-  console.log(authUser);
-
   return (
     <>
       <BrowserRouter>

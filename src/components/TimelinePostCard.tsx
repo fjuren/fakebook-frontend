@@ -43,7 +43,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export default function TimelinePostCard({ post }: any) {
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -71,12 +70,14 @@ export default function TimelinePostCard({ post }: any) {
           {post.content}
         </Typography>
       </CardContent>
-      <CardMedia
-        component="img"
-        height="194"
-        image={post.image}
-        alt="Add alt text?"
-      />
+      {post.image !== '' ? (
+        <CardMedia
+          component="img"
+          height="194"
+          image={post.image}
+          alt="Add alt text?"
+        />
+      ) : null}
       <CardActions disableSpacing>
         <Button size="medium">
           <ThumbUpAltOutlinedIcon />

@@ -7,7 +7,8 @@ export const getTimeline = () => {
   return axios.get(API_URL + '/timeline', { headers: authHeader() });
 };
 
-export const timelinePost = (content: string, image?: string) => {
+export const timelinePost = (content: string, image?: FormData) => {
+  console.log(content, image);
   return axios.post(
     API_URL + '/create_post',
     {

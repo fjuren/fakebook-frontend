@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Typography, Link } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import IconButton from '@mui/material/IconButton';
 import { timelinePost } from '../services/post.service';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
@@ -20,6 +19,7 @@ export default function CreatePostPage() {
   const [contentError, setContentError] = useState(false);
   const [contentErrorText, setContentErrorText] = useState('');
 
+  const [file, setFile] = useState<any>(null);
   const navigate = useNavigate();
 
   const postHandler = async (e: any) => {
@@ -39,7 +39,10 @@ export default function CreatePostPage() {
       setContentErrorText('');
     }
 
-    const image = '';
+    const image: FormData = new FormData();
+    image.append('image', file);
+
+    // console.log(...image);
 
     timelinePost(content, image) // need to add media
       .then((response) => {
@@ -55,8 +58,8 @@ export default function CreatePostPage() {
   };
 
   const addMedia = (e: any) => {
-    e.preventDefault();
-    alert('option to add photo');
+    const file = e.target.files[0];
+    setFile(file);
   };
 
   return (
@@ -90,15 +93,27 @@ export default function CreatePostPage() {
                 helperText={contentErrorText}
               />
               <div>
-                <IconButton
-                  color="primary"
-                  aria-label="add photos"
-                  onClick={(e) => addMedia(e)}
-                >
-                  <AddPhotoAlternateIcon />
-                </IconButton>
+                <input
+                  id="add-media"
+                  type="file"
+                  accept="image/*, video/*"
+                  onChange={addMedia}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="add-media">
+                  <Button component="span" size="medium">
+                    <AddPhotoAlternateIcon />
+                    <p>Add photo/video</p>
+                  </Button>
+                </label>
               </div>
-              <div>Add photos</div>
+              <div>
+                {file ? (
+                  <Typography style={{ color: 'red' }}>
+                    {file.name} added!
+                  </Typography>
+                ) : null}
+              </div>
               <Button variant="contained" type="submit">
                 Post
               </Button>

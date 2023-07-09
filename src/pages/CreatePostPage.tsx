@@ -39,12 +39,11 @@ export default function CreatePostPage() {
       setContentErrorText('');
     }
 
-    const image: FormData = new FormData();
-    image.append('image', file);
+    const postData: FormData = new FormData();
+    postData.append('content', content); // string from post
+    postData.append('file', file); // file as image/video/GIF
 
-    // console.log(...image);
-
-    timelinePost(content, image) // need to add media
+    timelinePost(postData)
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {
@@ -72,6 +71,7 @@ export default function CreatePostPage() {
           <div>
             <Box
               component="form"
+              // encType="multipart/form-data" // ????????
               onSubmit={postHandler}
               sx={{
                 '& > :not(style)': { m: 1, width: '25ch' },
@@ -96,7 +96,7 @@ export default function CreatePostPage() {
                 <input
                   id="add-media"
                   type="file"
-                  accept="image/*, video/*"
+                  accept="image/*, video/*, .gif"
                   onChange={addMedia}
                   style={{ display: 'none' }}
                 />

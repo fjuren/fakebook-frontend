@@ -7,14 +7,11 @@ export const getTimeline = () => {
   return axios.get(API_URL + '/timeline', { headers: authHeader() });
 };
 
-export const timelinePost = (content: string, image?: FormData) => {
-  console.log(content, image);
+export const timelinePost = (postData: FormData) => {
   return axios.post(
     API_URL + '/create_post',
-    {
-      content,
-      image,
-    },
+    // { content, image }, // keeping this syntax as reminder of curly braces
+    postData, // contains content (as string) and file
     { headers: authHeader() }
   );
 };

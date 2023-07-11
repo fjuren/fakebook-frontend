@@ -20,6 +20,7 @@ export default function CreatePostPage() {
   const [contentErrorText, setContentErrorText] = useState('');
 
   const [file, setFile] = useState<any>(null);
+  const [fileType, setFileType] = useState<any>(null);
   const navigate = useNavigate();
 
   const postHandler = async (e: any) => {
@@ -42,6 +43,7 @@ export default function CreatePostPage() {
     const postData: FormData = new FormData();
     postData.append('content', content); // string from post
     postData.append('file', file); // file as image/video/GIF
+    postData.set('type', fileType);
 
     timelinePost(postData)
       .then((response) => {
@@ -58,7 +60,9 @@ export default function CreatePostPage() {
 
   const addMedia = (e: any) => {
     const file = e.target.files[0];
+    const fileType = file.type;
     setFile(file);
+    setFileType(fileType);
   };
 
   return (
@@ -71,7 +75,6 @@ export default function CreatePostPage() {
           <div>
             <Box
               component="form"
-              // encType="multipart/form-data" // ????????
               onSubmit={postHandler}
               sx={{
                 '& > :not(style)': { m: 1, width: '25ch' },
@@ -109,7 +112,7 @@ export default function CreatePostPage() {
               </div>
               <div>
                 {file ? (
-                  <Typography style={{ color: 'red' }}>
+                  <Typography style={{ color: 'green' }}>
                     {file.name} added!
                   </Typography>
                 ) : null}

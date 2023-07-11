@@ -75,7 +75,7 @@ export default function TimelinePostCard({ post }: any) {
           component="img"
           height="194"
           image={post.image}
-          alt="Add alt text?"
+          alt="image"
         />
       ) : null}
       <CardActions disableSpacing>

@@ -6,6 +6,13 @@ import { createTheme } from '@mui/material';
 
 const theme = createTheme({
   palette: {
+    primary: {
+      main: '#5076CC', // facebook blue
+    },
+    secondary: {
+      main: '#f4f5f9', // light grey
+      light: '#ffffff', // white
+    },
     text: {
       primary: '#1877F2',
       // secondary: {

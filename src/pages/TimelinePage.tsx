@@ -30,7 +30,7 @@ export default function TimelinePage() {
     <>
       <div id="timelinePage">
         <ThemeProvider theme={theme}>
-          <h1
+          {/* <h1
             style={{
               color: '#1877F2',
               fontFamily: 'sans-serif',
@@ -38,7 +38,7 @@ export default function TimelinePage() {
             }}
           >
             Timeline
-          </h1>
+          </h1> */}
           <div>
             <Fab
               color="primary"

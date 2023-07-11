@@ -5,6 +5,7 @@ import TimelinePage from './pages/TimelinePage';
 import CreatePostPage from './pages/CreatePostPage';
 import { getUser, logout } from './services/auth.service';
 import './App.css';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
 
 function App() {
   // getUser checks localStorage
@@ -16,6 +17,8 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        {!authUser ? <ResponsiveAppBar /> : null}
+        <ResponsiveAppBar />
         <Routes>
           <Route
             path="/"

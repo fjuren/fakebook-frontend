@@ -16,10 +16,10 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Timeline'];
+// const settings = ['Profile', 'Logout']; // consider map function if more settings are added
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ userAvatar, userFirstnameLetter }: any) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -42,6 +42,10 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const handleUserLogout = () => {
+    // add logout here
+  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -50,6 +54,8 @@ function ResponsiveAppBar() {
           sx={{
             backgroundColor: theme.palette.secondary.light,
             color: theme.typography.body1,
+            // position: 'fixed',
+            marginBottom: '10px',
           }}
         >
           <Container maxWidth="xl">
@@ -71,12 +77,12 @@ function ResponsiveAppBar() {
                   display: { xs: 'none', md: 'flex' },
                   fontFamily: 'monospace',
                   fontWeight: 700,
-                  letterSpacing: '.3rem',
+                  // letterSpacing: '.3rem',
                   color: 'inherit',
                   textDecoration: 'none',
                 }}
               >
-                Fakebook
+                fakebook
               </Typography>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -149,7 +155,13 @@ function ResponsiveAppBar() {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Add alt text" src="" />
+                    {userAvatar !== '' ? (
+                      <Avatar alt="Profile picture" src={userAvatar} />
+                    ) : (
+                      <Avatar alt="Profile picture">
+                        {userFirstnameLetter}
+                      </Avatar>
+                    )}
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -168,11 +180,12 @@ function ResponsiveAppBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  <MenuItem key="Profile" onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                  <MenuItem key="Logout" onClick={handleUserLogout}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
             </Toolbar>

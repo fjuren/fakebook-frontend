@@ -42,7 +42,13 @@ export default function TimelinePage() {
           <div>
             <Fab
               color="primary"
-              sx={{ backgroundColor: theme.palette.primary.main }}
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                position: 'fixed',
+                bottom: 15,
+                right: 0,
+                zIndex: 2000,
+              }}
               variant="extended"
               aria-label="add"
               onClick={() => {

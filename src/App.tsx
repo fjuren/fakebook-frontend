@@ -10,15 +10,16 @@ import ResponsiveAppBar from './components/ResponsiveAppBar';
 function App() {
   // getUser checks localStorage
   const [authUser, setAuthUser] = useState(getUser());
-  const logOut = () => {
-    logout();
-  };
 
   return (
     <>
       <BrowserRouter>
-        {!authUser ? <ResponsiveAppBar /> : null}
-        <ResponsiveAppBar />
+        {authUser ? (
+          <ResponsiveAppBar
+            userAvatar={authUser.user.avatar}
+            userFirstnameLetter={authUser.user.firstName.substring(0, 1)}
+          />
+        ) : null}
         <Routes>
           <Route
             path="/"

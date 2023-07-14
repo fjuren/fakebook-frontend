@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:3000/api/users';
 
@@ -42,6 +43,11 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
   localStorage.removeItem('token');
+  return axios.post(API_URL + '/logout').then((response) => {
+    // const
+    console.log(response.data.message);
+    return response;
+  });
 };
 
 export const getUser = () => {

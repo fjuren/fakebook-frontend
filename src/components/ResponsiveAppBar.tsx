@@ -11,15 +11,22 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
+import { logout } from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Timeline'];
 // const settings = ['Profile', 'Logout']; // consider map function if more settings are added
 
-function ResponsiveAppBar({ userAvatar, userFirstnameLetter }: any) {
+function ResponsiveAppBar({
+  userAvatar,
+  userFirstnameLetter,
+  handleLogout,
+}: any) {
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -43,7 +50,12 @@ function ResponsiveAppBar({ userAvatar, userFirstnameLetter }: any) {
   };
 
   const handleUserLogout = () => {
-    // add logout here
+    logout().then((response) => {
+      console.log(response.data);
+      setAnchorElUser(null);
+      handleLogout(null);
+    });
+    navigate('/');
   };
 
   return (
@@ -121,8 +133,8 @@ function ResponsiveAppBar({ userAvatar, userFirstnameLetter }: any) {
                   ))}
                 </Menu>
               </Box>
-              <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-              <Typography
+              {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
+              {/* <Typography
                 variant="h5"
                 noWrap
                 component="a"
@@ -139,7 +151,7 @@ function ResponsiveAppBar({ userAvatar, userFirstnameLetter }: any) {
                 }}
               >
                 LOGO
-              </Typography>
+              </Typography> */}
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {pages.map((page) => (
                   <Button

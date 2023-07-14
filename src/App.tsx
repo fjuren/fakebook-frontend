@@ -11,6 +11,10 @@ function App() {
   // getUser checks localStorage
   const [authUser, setAuthUser] = useState(getUser());
 
+  const handleLogout = () => {
+    setAuthUser(null);
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -18,6 +22,7 @@ function App() {
           <ResponsiveAppBar
             userAvatar={authUser.user.avatar}
             userFirstnameLetter={authUser.user.firstName.substring(0, 1)}
+            handleLogout={handleLogout}
           />
         ) : null}
         <Routes>

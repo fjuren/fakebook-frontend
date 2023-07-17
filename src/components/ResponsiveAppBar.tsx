@@ -50,12 +50,12 @@ function ResponsiveAppBar({
   };
 
   const handleUserLogout = () => {
-    logout().then((response) => {
-      console.log(response.data);
+    logout().then(() => {
+      // console.log(response.data);
       setAnchorElUser(null);
       handleLogout(null);
+      navigate('/');
     });
-    navigate('/');
   };
 
   return (

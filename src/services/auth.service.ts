@@ -33,7 +33,7 @@ export const login = (email: string, password: string) => {
       password,
     })
     .then((response) => {
-      console.log(response.status);
+      // console.log(response.status);
       if (response.data.token) {
         localStorage.setItem('token', JSON.stringify(response.data)); // recall this contains Bearer <token
       }
@@ -43,11 +43,10 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
   localStorage.removeItem('token');
-  return axios.post(API_URL + '/logout').then((response) => {
-    // const
-    console.log(response.data.message);
-    return response;
-  });
+  return axios.post(API_URL + '/logout');
+  // .then((response) => {
+  //   console.log(response.data.message);
+  // });
 };
 
 export const getUser = () => {

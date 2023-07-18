@@ -68,6 +68,7 @@ export default function LoginForm({ toggleLogin }: any) {
     login(email, password)
       .then((response) => {
         if (response.status === 200) {
+          event?.preventDefault();
           window.location.reload();
           navigate('/timeline');
         }

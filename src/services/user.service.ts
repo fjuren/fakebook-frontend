@@ -1,11 +1,11 @@
-// import axios from 'axios';
-// import { authHeader } from './auth-header';
+import axios from 'axios';
+import { authHeader } from './auth-header';
 
-// const API_URL = 'http://localhost:5173/api/posts';
+const API_URL = 'http://localhost:5173/api/users';
 
-// export const getTimeline = () => {
-//   return axios.get(API_URL + '/timeline'), { headers: authHeader() };
-// };
+export const getUser = () => {
+  // return axios.get(API_URL + )
+};
 
 // for when I add role profiles to the backend
 

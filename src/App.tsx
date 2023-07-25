@@ -6,6 +6,7 @@ import CreatePostPage from './pages/CreatePostPage';
 import { getUser, logout } from './services/auth.service';
 import './App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   // getUser checks localStorage
@@ -39,6 +40,10 @@ function App() {
           <Route
             path="/create-post"
             element={authUser ? <CreatePostPage /> : <Navigate to="/" />}
+          ></Route>
+          <Route
+            path="/profile"
+            element={authUser ? <ProfilePage /> : <Navigate to="/" />}
           ></Route>
         </Routes>
       </BrowserRouter>

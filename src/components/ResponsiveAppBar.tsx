@@ -49,6 +49,10 @@ function ResponsiveAppBar({
     setAnchorElUser(null);
   };
 
+  const handleProfile = () => {
+    navigate('/profile');
+  };
+
   const handleUserLogout = () => {
     logout().then(() => {
       // console.log(response.data);
@@ -192,7 +196,7 @@ function ResponsiveAppBar({
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem key="Profile" onClick={handleCloseUserMenu}>
+                  <MenuItem key="Profile" onClick={handleProfile}>
                     <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
                   <MenuItem key="Logout" onClick={handleUserLogout}>

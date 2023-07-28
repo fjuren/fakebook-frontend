@@ -11,7 +11,6 @@ import ProfilePage from './pages/ProfilePage';
 function App() {
   // getUser checks localStorage
   const [authUser, setAuthUser] = useState(getUser());
-
   const handleLogout = () => {
     setAuthUser(null);
   };

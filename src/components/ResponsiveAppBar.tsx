@@ -17,7 +17,7 @@ import theme from '../theme';
 import { logout } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['Timeline'];
+// const pages = ['Timeline']; // Leaving this in case I need to create many pages
 // const settings = ['Profile', 'Logout']; // consider map function if more settings are added
 
 function ResponsiveAppBar({
@@ -50,6 +50,7 @@ function ResponsiveAppBar({
   };
 
   const handleProfile = () => {
+    setAnchorElUser(null);
     navigate('/profile');
   };
 
@@ -76,12 +77,14 @@ function ResponsiveAppBar({
         >
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              <img
-                src="/fakebook.svg"
-                // srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                alt="Fakebook logo"
-                loading="lazy"
-              />
+              <a href="/">
+                <img
+                  src="/fakebook.svg"
+                  // srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt="Fakebook logo"
+                  loading="lazy"
+                />
+              </a>
               {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
               <Typography
                 variant="h6"
@@ -130,42 +133,43 @@ function ResponsiveAppBar({
                     display: { xs: 'block', md: 'none' },
                   }}
                 >
-                  {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                  ))}
+                  <MenuItem key="Timeline" onClick={handleCloseNavMenu}>
+                    <Typography
+                      textAlign="center"
+                      variant="h6"
+                      noWrap
+                      component="a"
+                      href="/timeline"
+                      sx={{
+                        color: theme.typography.body1,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      Timeline
+                    </Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
-              {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
-              {/* <Typography
-                variant="h5"
-                noWrap
-                component="a"
-                href=""
-                sx={{
-                  mr: 2,
-                  display: { xs: 'flex', md: 'none' },
-                  flexGrow: 1,
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-              >
-                LOGO
-              </Typography> */}
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {pages.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
+                <Button
+                  key="Timeline"
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  <Typography
+                    textAlign="center"
+                    variant="h6"
+                    noWrap
+                    component="a"
+                    href="/timeline"
+                    sx={{
+                      color: theme.typography.body1,
+                      textDecoration: 'none',
+                    }}
                   >
-                    {page}
-                  </Button>
-                ))}
+                    Timeline
+                  </Typography>
+                </Button>
               </Box>
 
               <Box sx={{ flexGrow: 0 }}>

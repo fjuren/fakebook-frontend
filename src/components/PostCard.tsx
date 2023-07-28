@@ -40,7 +40,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 //   };
 // }
 
-export default function TimelinePostCard({ post }: any) {
+export default function PostCard({ post }: any) {
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {

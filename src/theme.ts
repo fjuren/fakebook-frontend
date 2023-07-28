@@ -25,6 +25,9 @@ const theme = createTheme({
     button: {
       textTransform: 'none',
     },
+    body2: {
+      color: 'black',
+    },
   },
 });
 

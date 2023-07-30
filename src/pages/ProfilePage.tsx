@@ -3,7 +3,7 @@ import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { useNavigate } from 'react-router-dom';
 import { getUserProfile } from '../services/user.service';
-import PostCard from '../components/PostCard';
+import ProfilePostCard from '../components/ProfilePostCard';
 import { Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -23,13 +23,13 @@ export default function ProfilePage() {
   const [profileContent, setProfileContent] = useState<UserProfile | null>(
     null
   );
-  const [postContent, setPostContent] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getUserProfile()
       .then((response) => {
         setProfileContent(response.data);
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -72,14 +72,10 @@ export default function ProfilePage() {
               </div>
             )}
             <Stack spacing={2}>
-              <div>{profileContent?.friendRequest}</div>
-              <div>{profileContent?.userRequests}</div>
-            </Stack>
-            <Stack spacing={2}>
               {profileContent?.posts.map((post, index) => {
                 return (
                   <div key={index}>
-                    <PostCard post={post} />
+                    <ProfilePostCard post={post} user={profileContent} />
                   </div>
                 );
               })}

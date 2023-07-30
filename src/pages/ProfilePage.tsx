@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 interface UserProfile {
   firstName: string;
   lastName: string;
+  friends: any[];
   friendRequest: any[];
   userRequests: any[];
   posts: any[];
@@ -56,12 +57,20 @@ export default function ProfilePage() {
               {} {/* space */}
               {profileContent?.lastName}
             </Typography>
-            <AvatarGroup total={24}>
-              <Avatar alt="name" src="url" />
-              <Avatar alt="name" src="url" />
-              <Avatar alt="name" src="url" />
-              <Avatar alt="name" src="url" />
-            </AvatarGroup>
+            {profileContent?.friends.length !== 0 ? (
+              <div>
+                <AvatarGroup total={profileContent?.friends.length}>
+                  {profileContent?.friends.map((friend) => (
+                    <Avatar alt={friend.firstName} src={friend.avatar} />
+                  ))}
+                </AvatarGroup>
+              </div>
+            ) : (
+              <div>
+                You haven't added any friends yet! Send friend requests to add
+                new friends.
+              </div>
+            )}
             <Stack spacing={2}>
               <div>{profileContent?.friendRequest}</div>
               <div>{profileContent?.userRequests}</div>

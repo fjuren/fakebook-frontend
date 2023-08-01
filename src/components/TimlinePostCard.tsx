@@ -13,21 +13,19 @@ import { red } from '@mui/material/colors';
 // import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import { Button } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Button, ButtonProps } from '@mui/material';
 import CustomAvatar from './CustomAvatar';
 
 import { conditionalDateDisplay } from '../utils/helpers';
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
+interface ExpandMoreProps extends ButtonProps {
+  expand: boolean | string; // added string here due to reactordom error in console when rendering
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
+const ExpandMoreButton = styled((props: ExpandMoreProps) => {
   const { ...other } = props;
-  return <IconButton {...other} />;
+  return <Button startIcon={<ChatBubbleOutlineOutlinedIcon />} {...other} />;
 })(({ theme }) => ({
-  // marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
@@ -78,23 +76,18 @@ export default function TimelinePostCard({ post }: any) {
         />
       ) : null}
       <CardActions disableSpacing>
-        <Button size="medium">
-          <ThumbUpAltOutlinedIcon />
+        <Button size="medium" startIcon={<ThumbUpAltOutlinedIcon />}>
           <p>Like</p>
         </Button>
-        <ExpandMore
-          disableRipple
-          style={{ backgroundColor: 'transparent' }}
-          expand={expanded}
+        <ExpandMoreButton
+          color='primary'
+          expand={expanded.toString()} // added string here due to reactordom error in console when rendering
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <Button size="medium">
-            <ChatBubbleOutlineOutlinedIcon />
             <p>Comment</p>
-          </Button>
-        </ExpandMore>
+        </ExpandMoreButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

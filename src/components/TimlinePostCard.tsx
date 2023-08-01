@@ -24,11 +24,10 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
+  const { ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
+})(({ theme }) => ({
+  // marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
@@ -52,7 +51,10 @@ export default function TimelinePostCard({ post }: any) {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
-          <CustomAvatar avatarURL={post.user.avatar} userFirstnameLetter={post.user.firstName.substring(0, 1)}></CustomAvatar>
+          <CustomAvatar
+            avatarURL={post.user.avatar}
+            userFirstnameLetter={post.user.firstName.substring(0, 1)}
+          ></CustomAvatar>
         }
         action={
           <IconButton aria-label="settings">
@@ -80,18 +82,19 @@ export default function TimelinePostCard({ post }: any) {
           <ThumbUpAltOutlinedIcon />
           <p>Like</p>
         </Button>
-        <Button size="medium">
-          <ChatBubbleOutlineOutlinedIcon />
-          <p>Comment</p>
-        </Button>
-        {/* <ExpandMore
+        <ExpandMore
+          disableRipple
+          style={{ backgroundColor: 'transparent' }}
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon />
-        </ExpandMore> */}
+          <Button size="medium">
+            <ChatBubbleOutlineOutlinedIcon />
+            <p>Comment</p>
+          </Button>
+        </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

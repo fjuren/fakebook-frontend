@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+import CustomAvatar from './CustomAvatar';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { logout } from '../services/auth.service';
@@ -175,13 +176,7 @@ function ResponsiveAppBar({
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {userAvatar !== '' ? (
-                      <Avatar alt="Profile picture" src={userAvatar} />
-                    ) : (
-                      <Avatar alt="Profile picture">
-                        {userFirstnameLetter}
-                      </Avatar>
-                    )}
+                    <CustomAvatar avatarURL={userAvatar} userFirstnameLetter={userFirstnameLetter}></CustomAvatar>
                   </IconButton>
                 </Tooltip>
                 <Menu

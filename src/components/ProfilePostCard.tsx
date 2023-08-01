@@ -15,6 +15,7 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CustomAvatar from './CustomAvatar';
 
 import { conditionalDateDisplay } from '../utils/helpers';
 
@@ -51,11 +52,7 @@ export default function ProfilePostCard({ post, user }: any) {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
-          <Avatar
-            sx={{ bgcolor: red[500] }}
-            aria-label="recipe"
-            src={user.avatar}
-          ></Avatar>
+          <CustomAvatar avatarURL={user.avatar} userFirstnameLetter={user.firstName.substring(0, 1)} sx={{ bgcolor: red[500] }}></CustomAvatar>
         }
         action={
           <IconButton aria-label="settings">

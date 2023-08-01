@@ -8,6 +8,7 @@ import { Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Typography from '@mui/material/Typography';
+import CustomAvatar from '../components/CustomAvatar';
 
 interface UserProfile {
   firstName: string;
@@ -19,10 +20,18 @@ interface UserProfile {
   avatar: string;
 }
 
+const initialUserProfile: UserProfile = {
+  firstName: '',
+  lastName: '',
+  friends: [],
+  friendRequest: [],
+  userRequests: [],
+  posts: [],
+  avatar: '',
+};
+
 export default function ProfilePage() {
-  const [profileContent, setProfileContent] = useState<UserProfile | null>(
-    null
-  );
+  const [profileContent, setProfileContent] = useState<UserProfile>(initialUserProfile);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,11 +49,8 @@ export default function ProfilePage() {
       <div id="profilePage">
         <ThemeProvider theme={theme}>
           <div id="profile-content">
-            <Avatar
-              alt={profileContent?.firstName}
-              src={profileContent?.avatar}
-              sx={{ width: 168, height: 168 }}
-            />
+          <CustomAvatar avatarURL={profileContent?.avatar} userFirstnameLetter={profileContent?.firstName.substring(0, 1)} sx={{ fontSize: 84, width: 168, height: 168 }}></CustomAvatar>
+
             <Typography
               sx={{
                 color: theme.typography.body2,

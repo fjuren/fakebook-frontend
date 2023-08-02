@@ -17,6 +17,7 @@ import { Button, ButtonProps } from '@mui/material';
 import CustomAvatar from './CustomAvatar';
 import CommentBox from './CommentBox';
 import Box from '@mui/material/Box';
+import LinkButton from './LinkButton';
 
 import { conditionalDateDisplay } from '../utils/helpers';
 
@@ -44,7 +45,7 @@ const AvatarContainer = styled(Box)({
   display: 'flex',
   alignItems: 'flex-start',
   marginRight: '8px',
-  paddingTop: '8px'
+  paddingTop: '8px',
 });
 
 const CommentContainer = styled(Box)({
@@ -54,7 +55,6 @@ const CommentContainer = styled(Box)({
   paddingBottom: '8px',
 });
 
-
 // TODO: build interface after updating timeline API data
 // interface Post {
 //   post: {
@@ -63,13 +63,13 @@ const CommentContainer = styled(Box)({
 // }
 export default function TimelinePostCard({ post, user }: any) {
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
-    const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card sx={{ maxWidth: 300}}>
+    <Card sx={{ maxWidth: 300 }}>
       <CardHeader
         avatar={
           <CustomAvatar
@@ -98,24 +98,28 @@ export default function TimelinePostCard({ post, user }: any) {
           alt="image"
         />
       ) : null}
+      <LinkButton comments={post.comments} />
       <CardActions disableSpacing>
         <Button size="medium" startIcon={<ThumbUpAltOutlinedIcon />}>
           <p>Like</p>
         </Button>
         <ExpandMoreButton
-          color='primary'
+          color="primary"
           expand={expanded.toString()} // added string here due to reactordom error in console when rendering
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-            <p>Comment</p>
+          <p>Comment</p>
         </ExpandMoreButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <ContentContainer>
+        <ContentContainer>
           <AvatarContainer>
-            <CustomAvatar avatarURL={user.user.avatar} userFirstnameLetter={user.user.firstName.substring(0, 1)} />
+            <CustomAvatar
+              avatarURL={user.user.avatar}
+              userFirstnameLetter={user.user.firstName.substring(0, 1)}
+            />
           </AvatarContainer>
           <CommentContainer>
             <CommentBox />

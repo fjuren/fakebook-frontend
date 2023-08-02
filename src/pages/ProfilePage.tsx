@@ -38,7 +38,6 @@ export default function ProfilePage() {
     getUserProfile()
       .then((response) => {
         setProfileContent(response.data);
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

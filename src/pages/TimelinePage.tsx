@@ -13,7 +13,7 @@ import { getTimeline } from '../services/post.service';
 //   const timeline = getTimeline();
 // }
 
-export default function TimelinePage() {
+export default function TimelinePage({user}: any) {
   const [timelineContent, setTimelineContent] = useState<any[]>([]);
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ export default function TimelinePage() {
               {timelineContent.map((post, index) => {
                 return (
                   <div key={index}>
-                    <TimelinePostCard post={post} />
+                    <TimelinePostCard post={post} user={user} />
                     {/* <h4>{post.content}</h4> */}
                   </div>
                 );

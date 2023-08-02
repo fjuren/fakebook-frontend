@@ -15,6 +15,8 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Button, ButtonProps } from '@mui/material';
 import CustomAvatar from './CustomAvatar';
+import CommentBox from './CommentBox';
+import Box from '@mui/material/Box';
 
 import { conditionalDateDisplay } from '../utils/helpers';
 
@@ -31,22 +33,43 @@ const ExpandMoreButton = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+const ContentContainer = styled(Box)({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'flex-start',
+  paddingLeft: '8px',
+});
+
+const AvatarContainer = styled(Box)({
+  display: 'flex',
+  alignItems: 'flex-start',
+  marginRight: '8px',
+  paddingTop: '8px'
+});
+
+const CommentContainer = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  paddingBottom: '8px',
+});
+
+
 // TODO: build interface after updating timeline API data
 // interface Post {
 //   post: {
 //     title: string;
 //   };
 // }
-
-export default function TimelinePostCard({ post }: any) {
+export default function TimelinePostCard({ post, user }: any) {
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
-  const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 300}}>
       <CardHeader
         avatar={
           <CustomAvatar
@@ -90,10 +113,14 @@ export default function TimelinePostCard({ post }: any) {
         </ExpandMoreButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>Maybe open textbox here?</Typography>
-        </CardContent>
+      <ContentContainer>
+          <AvatarContainer>
+            <CustomAvatar avatarURL={user.user.avatar} userFirstnameLetter={user.user.firstName.substring(0, 1)} />
+          </AvatarContainer>
+          <CommentContainer>
+            <CommentBox />
+          </CommentContainer>
+        </ContentContainer>
       </Collapse>
     </Card>
   );

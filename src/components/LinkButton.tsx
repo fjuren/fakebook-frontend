@@ -19,7 +19,11 @@ export default function LinkButton({ comments }: any) {
       >
         {comments.length} Comments
       </Link>
-      <PostModal onOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <PostModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        comments={comments}
+      />
     </>
   );
 }

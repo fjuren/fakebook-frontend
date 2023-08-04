@@ -17,16 +17,18 @@ const style = {
 };
 
 export default function PostModal({
-  onOpen,
+  open,
   onClose,
+  comments,
 }: {
-  onOpen: boolean;
+  open: boolean;
   onClose: () => void;
+  comments: [];
 }) {
   return (
     <div>
       <Modal
-        open={onOpen}
+        open={open}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -36,7 +38,7 @@ export default function PostModal({
             Text in a modal
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            {comments}
           </Typography>
         </Box>
       </Modal>

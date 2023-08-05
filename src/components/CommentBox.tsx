@@ -5,7 +5,7 @@ import { IconButton, InputAdornment } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { postComment } from '../services/comment.service';
 
-export default function CommentBox() {
+export default function CommentBox({ postID }: any) {
   const [content, setContent] = useState('');
   const [contentError, setContentError] = useState(false);
   const [contentErrorText, setContentErrorText] = useState('');
@@ -23,7 +23,7 @@ export default function CommentBox() {
     }
 
     // post comment to api
-    postComment(content).then((response) => {
+    postComment(content, postID).then((response) => {
       console.log(response);
       setContent('');
     });

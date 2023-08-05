@@ -122,7 +122,7 @@ export default function TimelinePostCard({ post, user }: any) {
             />
           </AvatarContainer>
           <CommentContainer>
-            <CommentBox />
+            <CommentBox postID={post._id} />
           </CommentContainer>
         </ContentContainer>
       </Collapse>

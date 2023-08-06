@@ -25,6 +25,8 @@ export default function PostModal({
   onClose: () => void;
   comments: [];
 }) {
+  // console.log(comments);
+
   return (
     <div>
       <Modal
@@ -38,7 +40,7 @@ export default function PostModal({
             Text in a modal
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {comments}
+            {/* {comments} */}
           </Typography>
         </Box>
       </Modal>

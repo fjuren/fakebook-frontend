@@ -18,11 +18,20 @@ import CustomAvatar from './CustomAvatar';
 import CommentBox from './CommentBox';
 import Box from '@mui/material/Box';
 import LinkButton from './LinkButton';
+import MyComment from './MyComment';
+import Stack from '@mui/material/Stack';
 
 import { conditionalDateDisplay } from '../utils/helpers';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
+}
+
+interface commentsInt {
+  content: string;
+  userLikes?: [];
+  user: { _id: string; firstName: string; lastName: string };
+  commentCreated: Date; // note: This is stored in an ISO 8601 format and is UTC
 }
 
 const ExpandMoreButton = styled((props: ExpandMoreProps) => {
@@ -45,7 +54,7 @@ const AvatarContainer = styled(Box)({
   display: 'flex',
   alignItems: 'flex-start',
   marginRight: '8px',
-  paddingTop: '8px',
+  // paddingTop: '8px',
 });
 
 const CommentContainer = styled(Box)({
@@ -62,6 +71,7 @@ const CommentContainer = styled(Box)({
 //   };
 // }
 export default function TimelinePostCard({ post, user }: any) {
+  console.log(post);
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -113,6 +123,33 @@ export default function TimelinePostCard({ post, user }: any) {
           <p>Comment</p>
         </ExpandMoreButton>
       </CardActions>
+
+      <Stack spacing={1}>
+        {post.comments.map((commentData: commentsInt, index: number) => {
+          return (
+            <ContentContainer key={index}>
+              <AvatarContainer>
+                <CustomAvatar
+                  avatarURL={user.user.avatar}
+                  userFirstnameLetter={user.user.firstName.substring(0, 1)}
+                />
+              </AvatarContainer>
+              <CommentContainer>
+                <MyComment
+                  commentUserName={
+                    commentData.user.firstName + ' ' + commentData.user.lastName
+                  }
+                  commentContent={commentData.content}
+                  commentDate={conditionalDateDisplay(
+                    commentData.commentCreated
+                  )}
+                />
+              </CommentContainer>
+            </ContentContainer>
+          );
+        })}
+      </Stack>
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <ContentContainer>
           <AvatarContainer>

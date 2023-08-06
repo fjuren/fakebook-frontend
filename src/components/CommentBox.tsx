@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import theme from '../theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { IconButton, InputAdornment } from '@mui/material';
+import { IconButton, InputAdornment, ThemeProvider } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { postComment } from '../services/comment.service';
 
@@ -37,43 +38,48 @@ export default function CommentBox({ postID }: any) {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={commentHandler}
-      sx={{
-        '& .MuiTextField-root': { m: 1 },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="filled-multiline-flexible"
-        label="Write a comment..."
-        multiline
-        maxRows={30}
-        variant="filled"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        error={contentError}
-        helperText={contentErrorText}
-        onKeyPress={handleTextFieldEnterPress}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="send"
-                edge="end"
-                sx={{ position: 'absolute', bottom: 0, right: 10 }}
-                type="submit"
-              >
-                <SendIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-          sx: { borderRadius: 3 },
-          disableUnderline: true,
+    <ThemeProvider theme={theme}>
+      <Box
+        component="form"
+        onSubmit={commentHandler}
+        sx={{
+          '& .MuiTextField-root': { m: 1 },
         }}
-      />
-    </Box>
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="filled-multiline-flexible"
+          label="Write a comment..."
+          multiline
+          maxRows={30}
+          variant="filled"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          error={contentError}
+          helperText={contentErrorText}
+          onKeyPress={handleTextFieldEnterPress}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="send"
+                  edge="end"
+                  sx={{ position: 'absolute', bottom: 0, right: 10 }}
+                  type="submit"
+                >
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+            sx: {
+              borderRadius: 3,
+              backgroundColor: theme.palette.secondary.main,
+            },
+            disableUnderline: true,
+          }}
+        />
+      </Box>
+    </ThemeProvider>
   );
 }

@@ -13,7 +13,7 @@ import { getTimeline } from '../services/post.service';
 //   const timeline = getTimeline();
 // }
 
-export default function TimelinePage({user}: any) {
+export default function TimelinePage({ user }: any) {
   const [timelineContent, setTimelineContent] = useState<any[]>([]);
   const navigate = useNavigate();
 
@@ -30,15 +30,6 @@ export default function TimelinePage({user}: any) {
     <>
       <div id="timelinePage">
         <ThemeProvider theme={theme}>
-          {/* <h1
-            style={{
-              color: '#1877F2',
-              fontFamily: 'sans-serif',
-              letterSpacing: '-3px',
-            }}
-          >
-            Timeline
-          </h1> */}
           <div>
             <Fab
               color="primary"
@@ -65,7 +56,6 @@ export default function TimelinePage({user}: any) {
                 return (
                   <div key={index}>
                     <TimelinePostCard post={post} user={user} />
-                    {/* <h4>{post.content}</h4> */}
                   </div>
                 );
               })}

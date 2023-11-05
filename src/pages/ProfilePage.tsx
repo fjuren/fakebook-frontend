@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import { useNavigate } from 'react-router-dom';
 import { getUserProfile } from '../services/user.service';
-import ProfilePostCard from '../components/ProfilePostCard';
+import { getUserProfilePosts } from '../services/post.service';
+import TimelinePostCard from '../components/TimlinePostCard';
 import { Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -16,7 +16,6 @@ interface UserProfile {
   friends: any[];
   friendRequest: any[];
   userRequests: any[];
-  posts: any[];
   avatar: string;
 }
 
@@ -26,18 +25,37 @@ const initialUserProfile: UserProfile = {
   friends: [],
   friendRequest: [],
   userRequests: [],
-  posts: [],
   avatar: '',
 };
 
+interface UserProfilePosts {
+  comments: any[];
+  content: string;
+  image: string;
+  likes: any[];
+  user: {
+    avatar: string;
+    firstName: string;
+    lastName: string;
+  };
+}
+
 export default function ProfilePage() {
-  const [profileContent, setProfileContent] = useState<UserProfile>(initialUserProfile);
-  const navigate = useNavigate();
+  const [profileContent, setProfileContent] =
+    useState<UserProfile>(initialUserProfile);
+  const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
 
   useEffect(() => {
     getUserProfile()
       .then((response) => {
         setProfileContent(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    getUserProfilePosts()
+      .then((response) => {
+        setUserPosts(response.data.userProfilePosts.posts);
       })
       .catch((err) => {
         console.log(err);
@@ -48,7 +66,11 @@ export default function ProfilePage() {
       <div id="profilePage">
         <ThemeProvider theme={theme}>
           <div id="profile-content">
-          <CustomAvatar avatarURL={profileContent?.avatar} userFirstnameLetter={profileContent?.firstName.substring(0, 1)} sx={{ fontSize: 84, width: 168, height: 168 }}></CustomAvatar>
+            <CustomAvatar
+              avatarURL={profileContent?.avatar}
+              userFirstnameLetter={profileContent?.firstName.substring(0, 1)}
+              sx={{ fontSize: 84, width: 168, height: 168 }}
+            ></CustomAvatar>
 
             <Typography
               sx={{
@@ -77,10 +99,10 @@ export default function ProfilePage() {
               </div>
             )}
             <Stack spacing={2}>
-              {profileContent?.posts.map((post, index) => {
+              {userPosts?.map((post: any, index: number) => {
                 return (
                   <div key={index}>
-                    <ProfilePostCard post={post} user={profileContent} />
+                    <TimelinePostCard post={post} user={post.user} />
                   </div>
                 );
               })}

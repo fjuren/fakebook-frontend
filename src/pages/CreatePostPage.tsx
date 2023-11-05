@@ -47,7 +47,6 @@ export default function CreatePostPage() {
 
     timelinePost(postData)
       .then((response) => {
-        console.log(response.data);
         if (response.status === 200) {
           navigate('/timeline');
           window.location.reload();

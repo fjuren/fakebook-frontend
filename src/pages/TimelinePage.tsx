@@ -7,18 +7,18 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 
-import { getTimeline } from '../services/post.service';
+import { getTimelinePosts } from '../services/post.service';
 
 // const Timeline: React.FC = () => {
 //   const timeline = getTimeline();
 // }
 
-export default function TimelinePage({ user }: any) {
+export default function TimelinePage() {
   const [timelineContent, setTimelineContent] = useState<any[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getTimeline()
+    getTimelinePosts()
       .then((response) => {
         setTimelineContent(response.data);
       })
@@ -55,7 +55,7 @@ export default function TimelinePage({ user }: any) {
               {timelineContent.map((post, index) => {
                 return (
                   <div key={index}>
-                    <TimelinePostCard post={post} user={user} />
+                    <TimelinePostCard post={post} user={post.user} />
                   </div>
                 );
               })}

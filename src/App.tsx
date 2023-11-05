@@ -34,7 +34,7 @@ function App() {
           ></Route>
           <Route
             path="/timeline"
-            element={authUser ? <TimelinePage user={authUser} /> : <Navigate to="/" />}
+            element={authUser ? <TimelinePage /> : <Navigate to="/" />}
           ></Route>
           <Route
             path="/create-post"

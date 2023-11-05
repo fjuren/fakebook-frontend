@@ -3,7 +3,7 @@ import { authHeader } from './auth-header';
 
 const API_URL = 'http://localhost:3000/api/posts';
 
-export const getTimeline = () => {
+export const getTimelinePosts = () => {
   return axios.get(API_URL + '/timeline', { headers: authHeader() });
 };
 
@@ -14,4 +14,8 @@ export const timelinePost = (postData: FormData) => {
     postData, // contains content (as string) and file
     { headers: authHeader() }
   );
+};
+
+export const getUserProfilePosts = () => {
+  return axios.get(API_URL + '/profile', { headers: authHeader() });
 };

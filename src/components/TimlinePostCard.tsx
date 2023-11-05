@@ -6,10 +6,10 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+// import { red } from '@mui/material/colors';
 // import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
@@ -71,13 +71,11 @@ const CommentContainer = styled(Box)({
 //   };
 // }
 export default function TimelinePostCard({ post, user }: any) {
-  console.log(post);
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
   return (
     <Card sx={{ maxWidth: 300 }}>
       <CardHeader
@@ -130,8 +128,8 @@ export default function TimelinePostCard({ post, user }: any) {
             <ContentContainer key={index}>
               <AvatarContainer>
                 <CustomAvatar
-                  avatarURL={user.user.avatar}
-                  userFirstnameLetter={user.user.firstName.substring(0, 1)}
+                  avatarURL={user.avatar}
+                  userFirstnameLetter={user.firstName.substring(0, 1)}
                 />
               </AvatarContainer>
               <CommentContainer>
@@ -154,8 +152,8 @@ export default function TimelinePostCard({ post, user }: any) {
         <ContentContainer>
           <AvatarContainer>
             <CustomAvatar
-              avatarURL={user.user.avatar}
-              userFirstnameLetter={user.user.firstName.substring(0, 1)}
+              avatarURL={user.avatar}
+              userFirstnameLetter={user.firstName.substring(0, 1)}
             />
           </AvatarContainer>
           <CommentContainer>

@@ -21,7 +21,6 @@ import LinkButton from './LinkButton';
 import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
 
-import { postComment } from '../services/comment.service';
 import { conditionalDateDisplay } from '../utils/helpers';
 import { CommentContext } from '../utils/CommentContext';
 
@@ -66,13 +65,20 @@ const CommentContainer = styled(Box)({
   paddingBottom: '8px',
 });
 
+interface CommentBoxData {
+  commentCreated: string;
+  commentLikes: any[];
+  content: string;
+  user: string;
+}
+
 // TODO: build interface after updating timeline API data
 // interface Post {
 //   post: {
 //     title: string;
 //   };
 // }
-export default function TimelinePostCard({ post, postUser }: any) {
+export default function TimelinePostCard({ post }: any) {
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = useState(false);
   const { comments, setComments, user } = useContext(CommentContext);
@@ -81,15 +87,20 @@ export default function TimelinePostCard({ post, postUser }: any) {
     setExpanded(!expanded);
   };
 
-  const addComment = (newComment) => {
-    // need to insert the user info via react context api
+  const postCommentHandler = async (newCommentData: CommentBoxData) => {
+    addCommentToContext(newCommentData);
+  };
+
+  const addCommentToContext = (newCommentData: CommentBoxData) => {
+    // need to insert the user info via react context to the data created and returned from my api
     const commentData = [
       {
-        commentCreated: newComment.commentCreated,
-        commentLikes: newComment.commentLikes,
-        content: newComment.content,
+        // Returned API data
+        commentCreated: newCommentData.commentCreated,
+        commentLikes: newCommentData.commentLikes,
+        content: newCommentData.content,
         user: {
-          // from context
+          // user data from context for quick render of comment
           avatar: user.avatar,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -99,12 +110,6 @@ export default function TimelinePostCard({ post, postUser }: any) {
     setComments([...comments, commentData[0]]);
   };
 
-  const commentHandler = async (content) => {
-    addComment(content);
-    // postComment(content, post.id).then((response) => {
-    //   addComment(response);
-    // });
-  };
   const commentsToRender = comments.length > 0 ? comments : post.comments;
 
   return (
@@ -192,7 +197,10 @@ export default function TimelinePostCard({ post, postUser }: any) {
             />
           </AvatarContainer>
           <CommentContainer>
-            <CommentBox postID={post._id} onCommentSubmit={commentHandler} />
+            <CommentBox
+              postID={post._id}
+              postCommentHandler={postCommentHandler}
+            />
           </CommentContainer>
         </ContentContainer>
       </Collapse>

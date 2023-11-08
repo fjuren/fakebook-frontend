@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import theme from '../theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -6,30 +6,28 @@ import { IconButton, InputAdornment, ThemeProvider } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { postComment } from '../services/comment.service';
 
-import { CommentContext } from '../utils/CommentContext';
-
-export default function CommentBox({ postID, onCommentSubmit }: any) {
-  const [content, setContent] = useState('');
-  const [contentError, setContentError] = useState(false);
-  const [contentErrorText, setContentErrorText] = useState('');
-  const { comments, setComments } = useContext(CommentContext);
+export default function CommentBox({ postID, postCommentHandler }: any) {
+  const [commentText, setCommentText] = useState('');
+  const [commentTextError, setCommentTextError] = useState(false);
+  const [commentTextErrorText, setCommentTextErrorText] = useState('');
 
   const commentHandler = async (e: any) => {
     e.preventDefault();
 
-    if (content.length < 1) {
-      setContentError(true);
-      setContentErrorText('Please type a comment');
+    if (commentText.length < 1) {
+      setCommentTextError(true);
+      setCommentTextErrorText('Please type a comment');
       return;
     } else {
-      setContentError(false);
-      setContentErrorText('');
+      setCommentTextError(false);
+      setCommentTextErrorText('');
     }
 
     // post comment to api
-    postComment(content, postID).then((response) => {
-      onCommentSubmit(response.data.newComment);
-      setContent('');
+    postComment(commentText, postID).then((response) => {
+      const newCommentData = response.data.newComment;
+      postCommentHandler(newCommentData);
+      setCommentText('');
     });
   };
 
@@ -57,10 +55,10 @@ export default function CommentBox({ postID, onCommentSubmit }: any) {
           multiline
           maxRows={30}
           variant="filled"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          error={contentError}
-          helperText={contentErrorText}
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          error={commentTextError}
+          helperText={commentTextErrorText}
           onKeyPress={handleTextFieldEnterPress}
           InputProps={{
             endAdornment: (

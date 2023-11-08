@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -21,7 +21,9 @@ import LinkButton from './LinkButton';
 import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
 
+import { postComment } from '../services/comment.service';
 import { conditionalDateDisplay } from '../utils/helpers';
+import { CommentContext } from '../utils/CommentContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -30,7 +32,7 @@ interface ExpandMoreProps extends ButtonProps {
 interface commentsInt {
   content: string;
   userLikes?: [];
-  user: { _id: string; firstName: string; lastName: string };
+  user: { _id: string; firstName: string; lastName: string; avatar: string };
   commentCreated: Date; // note: This is stored in an ISO 8601 format and is UTC
 }
 
@@ -70,12 +72,41 @@ const CommentContainer = styled(Box)({
 //     title: string;
 //   };
 // }
-export default function TimelinePostCard({ post, user }: any) {
+export default function TimelinePostCard({ post, postUser }: any) {
   // export const TimelinePostCard: React.FC = ({ post }: Post) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const { comments, setComments, user } = useContext(CommentContext);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const addComment = (newComment) => {
+    // need to insert the user info via react context api
+    const commentData = [
+      {
+        commentCreated: newComment.commentCreated,
+        commentLikes: newComment.commentLikes,
+        content: newComment.content,
+        user: {
+          // from context
+          avatar: user.avatar,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      },
+    ];
+    setComments([...comments, commentData[0]]);
+  };
+
+  const commentHandler = async (content) => {
+    addComment(content);
+    // postComment(content, post.id).then((response) => {
+    //   addComment(response);
+    // });
+  };
+  const commentsToRender = comments.length > 0 ? comments : post.comments;
+
   return (
     <Card sx={{ maxWidth: 300 }}>
       <CardHeader
@@ -123,13 +154,16 @@ export default function TimelinePostCard({ post, user }: any) {
       </CardActions>
 
       <Stack spacing={1}>
-        {post.comments.map((commentData: commentsInt, index: number) => {
+        {commentsToRender.map((commentData: commentsInt, index: number) => {
           return (
             <ContentContainer key={index}>
               <AvatarContainer>
                 <CustomAvatar
-                  avatarURL={user.avatar}
-                  userFirstnameLetter={user.firstName.substring(0, 1)}
+                  avatarURL={commentData.user.avatar}
+                  userFirstnameLetter={commentData.user.firstName.substring(
+                    0,
+                    1
+                  )}
                 />
               </AvatarContainer>
               <CommentContainer>
@@ -152,12 +186,13 @@ export default function TimelinePostCard({ post, user }: any) {
         <ContentContainer>
           <AvatarContainer>
             <CustomAvatar
-              avatarURL={user.avatar}
-              userFirstnameLetter={user.firstName.substring(0, 1)}
+            // TODO this still uses the incorrect data
+            // avatarURL={postUser.avatar}
+            // userFirstnameLetter={postUser.firstName.substring(0, 1)}
             />
           </AvatarContainer>
           <CommentContainer>
-            <CommentBox postID={post._id} />
+            <CommentBox postID={post._id} onCommentSubmit={commentHandler} />
           </CommentContainer>
         </ContentContainer>
       </Collapse>

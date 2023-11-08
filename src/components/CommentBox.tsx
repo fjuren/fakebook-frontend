@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import theme from '../theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -6,10 +6,13 @@ import { IconButton, InputAdornment, ThemeProvider } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { postComment } from '../services/comment.service';
 
-export default function CommentBox({ postID }: any) {
+import { CommentContext } from '../utils/CommentContext';
+
+export default function CommentBox({ postID, onCommentSubmit }: any) {
   const [content, setContent] = useState('');
   const [contentError, setContentError] = useState(false);
   const [contentErrorText, setContentErrorText] = useState('');
+  const { comments, setComments } = useContext(CommentContext);
 
   const commentHandler = async (e: any) => {
     e.preventDefault();
@@ -25,7 +28,7 @@ export default function CommentBox({ postID }: any) {
 
     // post comment to api
     postComment(content, postID).then((response) => {
-      console.log(response);
+      onCommentSubmit(response.data.newComment);
       setContent('');
     });
   };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import TimelinePostCard from '../components/TimlinePostCard';
@@ -55,7 +55,7 @@ export default function TimelinePage() {
               {timelineContent.map((post, index) => {
                 return (
                   <div key={index}>
-                    <TimelinePostCard post={post} user={post.user} />
+                    <TimelinePostCard post={post} postUser={post.user} />
                   </div>
                 );
               })}

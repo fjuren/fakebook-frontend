@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -79,38 +79,40 @@ interface CommentBoxData {
 //   };
 // }
 export default function TimelinePostCard({ post }: any) {
-  // export const TimelinePostCard: React.FC = ({ post }: Post) => {
   const [expanded, setExpanded] = useState(false);
+  const [localComments, setLocalComments] = useState<any[]>(post.comments);
   const { comments, setComments, user } = useContext(CommentContext);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  // Triggered by the commentBox component
   const postCommentHandler = async (newCommentData: CommentBoxData) => {
     addCommentToContext(newCommentData);
   };
 
   const addCommentToContext = (newCommentData: CommentBoxData) => {
     // need to insert the user info via react context to the data created and returned from my api
-    const commentData = [
-      {
-        // Returned API data
-        commentCreated: newCommentData.commentCreated,
-        commentLikes: newCommentData.commentLikes,
-        content: newCommentData.content,
-        user: {
-          // user data from context for quick render of comment
-          avatar: user.avatar,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
+    const commentData = {
+      // Returned API data
+      commentCreated: newCommentData.commentCreated,
+      commentLikes: newCommentData.commentLikes,
+      content: newCommentData.content,
+      user: {
+        // user data from context for quick render of comment
+        avatar: user.avatar,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
-    ];
-    setComments([...comments, commentData[0]]);
+    };
+    setComments([...comments, commentData]);
+    setLocalComments([...localComments, commentData]);
+    // setCombinedComments([...localComments, ...comments]);
   };
 
-  const commentsToRender = comments.length > 0 ? comments : post.comments;
+  // Check if comments context has new comments. If so, load all localComments
+  const commentsToRender = comments.length > 0 ? localComments : post.comments;
 
   return (
     <Card sx={{ maxWidth: 300 }}>
@@ -142,7 +144,7 @@ export default function TimelinePostCard({ post }: any) {
           alt="image"
         />
       ) : null}
-      <LinkButton comments={post.comments} />
+      <LinkButton comments={commentsToRender} />
       <CardActions disableSpacing>
         <Button size="medium" startIcon={<ThumbUpAltOutlinedIcon />}>
           <p>Like</p>
@@ -191,9 +193,9 @@ export default function TimelinePostCard({ post }: any) {
         <ContentContainer>
           <AvatarContainer>
             <CustomAvatar
-            // TODO this still uses the incorrect data
-            // avatarURL={postUser.avatar}
-            // userFirstnameLetter={postUser.firstName.substring(0, 1)}
+              // TODO this still uses the incorrect data
+              avatarURL={user.avatar}
+              userFirstnameLetter={user.firstName.substring(0, 1)}
             />
           </AvatarContainer>
           <CommentContainer>

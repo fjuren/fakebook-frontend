@@ -10,7 +10,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // import { red } from '@mui/material/colors';
-// import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Button, ButtonProps } from '@mui/material';
@@ -21,8 +21,9 @@ import LinkButton from './LinkButton';
 import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
 
+import { likePost } from '../services/post.service';
 import { conditionalDateDisplay } from '../utils/helpers';
-import { CommentContext } from '../utils/CommentContext';
+import { TimelinePostCardContext } from '../utils/TimelinePostCardContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -81,7 +82,42 @@ interface CommentBoxData {
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
   const [localComments, setLocalComments] = useState<any[]>(post.comments);
-  const { comments, setComments, user } = useContext(CommentContext);
+  const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
+  const { comments, setComments, postLikes, setPostLikes, user } = useContext(
+    TimelinePostCardContext
+  );
+
+  const isLikedByCurrentUser = localLikes.includes(user.id);
+
+  const handleLike = () => {
+    if (post.user.firstName === 'Fabian') {
+      console.log('Before local likes: ', localLikes);
+      console.log('Before post likes: ', postLikes);
+
+      // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
+      likePost(post._id).then(() => {
+        console.log(isLikedByCurrentUser);
+        // setPostLikes(...postLikes, response.data.post.)
+        // console.log(response.data.handlePostLike.likes);
+        if (isLikedByCurrentUser) {
+          // remove the user Id from list of post likes
+          const updatedLike = localLikes.filter((id) => id !== user.id);
+          setPostLikes(updatedLike);
+          setLocalLikes(updatedLike);
+          console.log('Remove local likes: ', localLikes);
+          console.log('Remove post likes: ', postLikes);
+        } else {
+          // add the user Id to list of post likes
+          setPostLikes([...localLikes, user.id]);
+          setLocalLikes([...localLikes, user.id]);
+          console.log('Add local likes: ', localLikes);
+          console.log('Add post likes: ', postLikes);
+        }
+      });
+      console.log('After local likes: ', localLikes);
+      console.log('After post likes: ', postLikes);
+    }
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -146,7 +182,13 @@ export default function TimelinePostCard({ post }: any) {
       ) : null}
       <LinkButton comments={commentsToRender} />
       <CardActions disableSpacing>
-        <Button size="medium" startIcon={<ThumbUpAltOutlinedIcon />}>
+        <Button
+          size="medium"
+          startIcon={
+            isLikedByCurrentUser ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />
+          }
+          onClick={handleLike}
+        >
           <p>Like</p>
         </Button>
         <ExpandMoreButton

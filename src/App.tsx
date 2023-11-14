@@ -7,7 +7,7 @@ import { getUser, logout } from './services/auth.service';
 import './App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 import ProfilePage from './pages/ProfilePage';
-import { CommentProvider } from './utils/CommentContext';
+import { TimelinePostCardProvider } from './utils/TimelinePostCardContext';
 
 function App() {
   // getUser checks localStorage
@@ -21,10 +21,11 @@ function App() {
     avatar: authUser.user.avatar,
     firstName: authUser.user.firstName,
     lastName: authUser.user.lastName,
+    id: authUser.user._id,
   };
 
   return (
-    <CommentProvider minimalUserData={minimalUserData}>
+    <TimelinePostCardProvider minimalUserData={minimalUserData}>
       <>
         <BrowserRouter>
           {authUser ? (
@@ -56,7 +57,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </>
-    </CommentProvider>
+    </TimelinePostCardProvider>
   );
 }
 

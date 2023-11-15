@@ -20,6 +20,7 @@ import Box from '@mui/material/Box';
 import LinkButton from './LinkButton';
 import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
+import { useNavigate } from 'react-router-dom';
 
 import { likePost } from '../services/post.service';
 import { conditionalDateDisplay } from '../utils/helpers';
@@ -90,8 +91,17 @@ export default function TimelinePostCard({ post }: any) {
     // setPostLikes,
     user,
   } = useContext(TimelinePostCardContext);
+  const navigate = useNavigate();
 
-  const isLikedByCurrentUser = localLikes.includes(user.id);
+  const navToProfile = (user: any) => {
+    console.log(user);
+    navigate('/profile');
+  };
+
+  // Expands/collapses comment
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   const handleLike = () => {
     // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
@@ -108,10 +118,6 @@ export default function TimelinePostCard({ post }: any) {
 
     // calling API after conditional
     likePost(post._id);
-  };
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
   };
 
   // Triggered by the commentBox component
@@ -138,6 +144,8 @@ export default function TimelinePostCard({ post }: any) {
     // setCombinedComments([...localComments, ...comments]);
   };
 
+  // Check if post is liked by the logged in user
+  const isLikedByCurrentUser = localLikes.includes(user.id);
   // Check if comments context has new comments. If so, load all localComments
   const commentsToRender = comments.length > 0 ? localComments : post.comments;
 
@@ -145,16 +153,14 @@ export default function TimelinePostCard({ post }: any) {
     <Card sx={{ maxWidth: 300 }}>
       <CardHeader
         avatar={
-          <CustomAvatar
-            avatarURL={post.user.avatar}
-            userFirstnameLetter={post.user.firstName.substring(0, 1)}
-          ></CustomAvatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            {/* <MoreVertIcon /> */}
+          <IconButton onClick={() => navToProfile(post.user)} sx={{ p: 0 }}>
+            <CustomAvatar
+              avatarURL={post.user.avatar}
+              userFirstnameLetter={post.user.firstName.substring(0, 1)}
+            ></CustomAvatar>
           </IconButton>
         }
+        // action=headerClick}
         title={post.user.firstName + ' ' + post.user.lastName}
         subheader={conditionalDateDisplay(post.postCreated)}
       />
@@ -198,13 +204,18 @@ export default function TimelinePostCard({ post }: any) {
           return (
             <ContentContainer key={index}>
               <AvatarContainer>
-                <CustomAvatar
-                  avatarURL={commentData.user.avatar}
-                  userFirstnameLetter={commentData.user.firstName.substring(
-                    0,
-                    1
-                  )}
-                />
+                <IconButton
+                  onClick={() => navToProfile(commentData.user)}
+                  sx={{ p: 0 }}
+                >
+                  <CustomAvatar
+                    avatarURL={commentData.user.avatar}
+                    userFirstnameLetter={commentData.user.firstName.substring(
+                      0,
+                      1
+                    )}
+                  />
+                </IconButton>
               </AvatarContainer>
               <CommentContainer>
                 <MyComment
@@ -225,11 +236,13 @@ export default function TimelinePostCard({ post }: any) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <ContentContainer>
           <AvatarContainer>
-            <CustomAvatar
-              // TODO this still uses the incorrect data
-              avatarURL={user.avatar}
-              userFirstnameLetter={user.firstName.substring(0, 1)}
-            />
+            <IconButton onClick={() => navToProfile(user)} sx={{ p: 0 }}>
+              <CustomAvatar
+                // TODO this still uses the incorrect data
+                avatarURL={user.avatar}
+                userFirstnameLetter={user.firstName.substring(0, 1)}
+              />
+            </IconButton>
           </AvatarContainer>
           <CommentContainer>
             <CommentBox

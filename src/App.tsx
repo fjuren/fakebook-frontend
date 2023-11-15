@@ -17,12 +17,15 @@ function App() {
   };
   // console.log(authUser);
 
-  const minimalUserData = {
-    avatar: authUser.user.avatar,
-    firstName: authUser.user.firstName,
-    lastName: authUser.user.lastName,
-    id: authUser.user._id,
-  };
+  // minimalUserData only available if user is authenticated/logged in
+  const minimalUserData = authUser
+    ? {
+        avatar: authUser.user.avatar,
+        firstName: authUser.user.firstName,
+        lastName: authUser.user.lastName,
+        id: authUser.user._id,
+      }
+    : null;
 
   return (
     <TimelinePostCardProvider minimalUserData={minimalUserData}>

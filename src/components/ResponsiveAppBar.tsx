@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -176,7 +175,10 @@ function ResponsiveAppBar({
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <CustomAvatar avatarURL={userAvatar} userFirstnameLetter={userFirstnameLetter}></CustomAvatar>
+                    <CustomAvatar
+                      avatarURL={userAvatar}
+                      userFirstnameLetter={userFirstnameLetter}
+                    ></CustomAvatar>
                   </IconButton>
                 </Tooltip>
                 <Menu

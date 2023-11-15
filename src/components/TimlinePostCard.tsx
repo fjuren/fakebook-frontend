@@ -83,40 +83,31 @@ export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
   const [localComments, setLocalComments] = useState<any[]>(post.comments);
   const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
-  const { comments, setComments, postLikes, setPostLikes, user } = useContext(
-    TimelinePostCardContext
-  );
+  const {
+    comments,
+    setComments,
+    // postLikes, // holds likes context. Not needed at this time so commenting it out together with its implementation code
+    // setPostLikes,
+    user,
+  } = useContext(TimelinePostCardContext);
 
   const isLikedByCurrentUser = localLikes.includes(user.id);
 
   const handleLike = () => {
-    if (post.user.firstName === 'Fabian') {
-      console.log('Before local likes: ', localLikes);
-      console.log('Before post likes: ', postLikes);
-
-      // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
-      likePost(post._id).then(() => {
-        console.log(isLikedByCurrentUser);
-        // setPostLikes(...postLikes, response.data.post.)
-        // console.log(response.data.handlePostLike.likes);
-        if (isLikedByCurrentUser) {
-          // remove the user Id from list of post likes
-          const updatedLike = localLikes.filter((id) => id !== user.id);
-          setPostLikes(updatedLike);
-          setLocalLikes(updatedLike);
-          console.log('Remove local likes: ', localLikes);
-          console.log('Remove post likes: ', postLikes);
-        } else {
-          // add the user Id to list of post likes
-          setPostLikes([...localLikes, user.id]);
-          setLocalLikes([...localLikes, user.id]);
-          console.log('Add local likes: ', localLikes);
-          console.log('Add post likes: ', postLikes);
-        }
-      });
-      console.log('After local likes: ', localLikes);
-      console.log('After post likes: ', postLikes);
+    // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
+    if (isLikedByCurrentUser) {
+      // remove the user Id from list of post likes
+      const updatedLike = localLikes.filter((id) => id !== user.id);
+      // setPostLikes(updatedLike);
+      setLocalLikes(updatedLike);
+    } else {
+      // add the user Id to list of post likes
+      // setPostLikes([...localLikes, user.id]);
+      setLocalLikes([...localLikes, user.id]);
     }
+
+    // calling API after conditional
+    likePost(post._id);
   };
 
   const handleExpandClick = () => {

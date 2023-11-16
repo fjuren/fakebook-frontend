@@ -56,7 +56,7 @@ export default function ProfilePage() {
         .catch((err) => {
           console.log(err);
         });
-      getUserProfilePosts()
+      getUserProfilePosts(userID)
         .then((response) => {
           setUserPosts(response.data.userProfilePosts.posts);
         })

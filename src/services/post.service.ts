@@ -16,8 +16,8 @@ export const timelinePost = (postData: FormData) => {
   );
 };
 
-export const getUserProfilePosts = () => {
-  return axios.get(API_URL + '/profile', { headers: authHeader() });
+export const getUserProfilePosts = (userID: string) => {
+  return axios.get(API_URL + `/profile/${userID}`, { headers: authHeader() });
 };
 
 export const likePost = (postID: string) => {

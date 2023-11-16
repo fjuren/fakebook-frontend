@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import AuthorizationPage from './pages/AuthorizationPage';
 import TimelinePage from './pages/TimelinePage';
 import CreatePostPage from './pages/CreatePostPage';
@@ -23,14 +28,14 @@ function App() {
         avatar: authUser.user.avatar,
         firstName: authUser.user.firstName,
         lastName: authUser.user.lastName,
-        id: authUser.user._id,
+        _id: authUser.user._id,
       }
     : null;
 
   return (
     <TimelinePostCardProvider minimalUserData={minimalUserData}>
       <>
-        <BrowserRouter>
+        <Router>
           {authUser ? (
             <ResponsiveAppBar
               userAvatar={authUser.user.avatar}
@@ -54,11 +59,11 @@ function App() {
               element={authUser ? <CreatePostPage /> : <Navigate to="/" />}
             ></Route>
             <Route
-              path="/profile"
+              path="/profile/:userID"
               element={authUser ? <ProfilePage /> : <Navigate to="/" />}
             ></Route>
           </Routes>
-        </BrowserRouter>
+        </Router>
       </>
     </TimelinePostCardProvider>
   );

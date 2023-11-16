@@ -3,8 +3,10 @@ import { authHeader } from './auth-header';
 
 const API_URL = 'http://localhost:3000/api/users';
 
-export const getUserProfile = () => {
-  return axios.get(API_URL + '/profile', { headers: authHeader() });
+export const getUserProfile = (userID: string) => {
+  return axios.get(API_URL + `/profile/${userID}`, {
+    headers: authHeader(),
+  });
 };
 
 // for when I add role profiles to the backend

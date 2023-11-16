@@ -93,9 +93,8 @@ export default function TimelinePostCard({ post }: any) {
   } = useContext(TimelinePostCardContext);
   const navigate = useNavigate();
 
-  const navToProfile = (user: any) => {
-    console.log(user);
-    navigate('/profile');
+  const navToProfile = (userID: any) => {
+    navigate(`/profile/${userID}`);
   };
 
   // Expands/collapses comment
@@ -153,7 +152,7 @@ export default function TimelinePostCard({ post }: any) {
     <Card sx={{ maxWidth: 300 }}>
       <CardHeader
         avatar={
-          <IconButton onClick={() => navToProfile(post.user)} sx={{ p: 0 }}>
+          <IconButton onClick={() => navToProfile(post.user._id)} sx={{ p: 0 }}>
             <CustomAvatar
               avatarURL={post.user.avatar}
               userFirstnameLetter={post.user.firstName.substring(0, 1)}
@@ -205,7 +204,7 @@ export default function TimelinePostCard({ post }: any) {
             <ContentContainer key={index}>
               <AvatarContainer>
                 <IconButton
-                  onClick={() => navToProfile(commentData.user)}
+                  onClick={() => navToProfile(commentData.user._id)}
                   sx={{ p: 0 }}
                 >
                   <CustomAvatar
@@ -236,7 +235,7 @@ export default function TimelinePostCard({ post }: any) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <ContentContainer>
           <AvatarContainer>
-            <IconButton onClick={() => navToProfile(user)} sx={{ p: 0 }}>
+            <IconButton onClick={() => navToProfile(user._id)} sx={{ p: 0 }}>
               <CustomAvatar
                 // TODO this still uses the incorrect data
                 avatarURL={user.avatar}

@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Typography from '@mui/material/Typography';
 import CustomAvatar from '../components/CustomAvatar';
+import { useParams } from 'react-router-dom';
 
 interface UserProfile {
   firstName: string;
@@ -44,23 +45,29 @@ export default function ProfilePage() {
   const [profileContent, setProfileContent] =
     useState<UserProfile>(initialUserProfile);
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
+  const { userID } = useParams();
 
   useEffect(() => {
-    getUserProfile()
-      .then((response) => {
-        setProfileContent(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    getUserProfilePosts()
-      .then((response) => {
-        setUserPosts(response.data.userProfilePosts.posts);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (userID) {
+      getUserProfile(userID)
+        .then((response) => {
+          setProfileContent(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      getUserProfilePosts()
+        .then((response) => {
+          setUserPosts(response.data.userProfilePosts.posts);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log('Profile not found'); // TODO create error page for these types of things
+    }
+  }, [userID]);
+
   return (
     <>
       <div id="profilePage">

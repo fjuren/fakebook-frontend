@@ -106,13 +106,13 @@ export default function TimelinePostCard({ post }: any) {
     // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
     if (isLikedByCurrentUser) {
       // remove the user Id from list of post likes
-      const updatedLike = localLikes.filter((id) => id !== user.id);
+      const updatedLike = localLikes.filter((id) => id !== user._id);
       // setPostLikes(updatedLike);
       setLocalLikes(updatedLike);
     } else {
       // add the user Id to list of post likes
-      // setPostLikes([...localLikes, user.id]);
-      setLocalLikes([...localLikes, user.id]);
+      // setPostLikes([...localLikes, user._id]);
+      setLocalLikes([...localLikes, user._id]);
     }
 
     // calling API after conditional
@@ -144,7 +144,7 @@ export default function TimelinePostCard({ post }: any) {
   };
 
   // Check if post is liked by the logged in user
-  const isLikedByCurrentUser = localLikes.includes(user.id);
+  const isLikedByCurrentUser = localLikes.includes(user._id);
   // Check if comments context has new comments. If so, load all localComments
   const commentsToRender = comments.length > 0 ? localComments : post.comments;
 

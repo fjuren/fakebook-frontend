@@ -38,6 +38,7 @@ function App() {
         <Router>
           {authUser ? (
             <ResponsiveAppBar
+              userID={authUser.user._id}
               userAvatar={authUser.user.avatar}
               userFirstnameLetter={authUser.user.firstName.substring(0, 1)}
               handleLogout={handleLogout}

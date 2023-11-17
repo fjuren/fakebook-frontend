@@ -8,6 +8,7 @@ import { Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Typography from '@mui/material/Typography';
+import { Button } from '@mui/material';
 import CustomAvatar from '../components/CustomAvatar';
 import { useParams } from 'react-router-dom';
 
@@ -105,6 +106,14 @@ export default function ProfilePage() {
                 new friends.
               </div>
             )}
+            <div className="friendRequestBtns">
+              {/* TODO logic needed once backend friend handling is implemented */}
+              <Button variant="contained">Add friend</Button>
+              <Button variant="contained" disabled>
+                Friend request sent
+              </Button>
+              <Button variant="outlined">Unfriend</Button>
+            </div>
             <Stack spacing={2}>
               {userPosts?.map((post: any, index: number) => {
                 return (

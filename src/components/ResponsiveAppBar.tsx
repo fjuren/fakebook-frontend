@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 // const settings = ['Profile', 'Logout']; // consider map function if more settings are added
 
 function ResponsiveAppBar({
+  userID,
   userAvatar,
   userFirstnameLetter,
   handleLogout,
@@ -51,7 +52,7 @@ function ResponsiveAppBar({
 
   const handleProfile = () => {
     setAnchorElUser(null);
-    navigate('/profile');
+    navigate(`/profile/${userID}`);
   };
 
   const handleUserLogout = () => {

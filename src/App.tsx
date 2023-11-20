@@ -12,7 +12,7 @@ import { getUser, logout } from './services/auth.service';
 import './App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 import ProfilePage from './pages/ProfilePage';
-import { TimelinePostCardProvider } from './utils/TimelinePostCardContext';
+import { AppContextProvider } from './utils/AppContext';
 
 function App() {
   // getUser checks localStorage
@@ -33,7 +33,7 @@ function App() {
     : null;
 
   return (
-    <TimelinePostCardProvider minimalUserData={minimalUserData}>
+    <AppContextProvider minimalUserData={minimalUserData}>
       <>
         <Router>
           {authUser ? (
@@ -66,7 +66,7 @@ function App() {
           </Routes>
         </Router>
       </>
-    </TimelinePostCardProvider>
+    </AppContextProvider>
   );
 }
 

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import { getUserProfile } from '../services/user.service';
+import { getUserProfile, postFriendRequest } from '../services/user.service';
 import { getUserProfilePosts } from '../services/post.service';
 import TimelinePostCard from '../components/TimlinePostCard';
 import { Stack } from '@mui/material';
@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CustomAvatar from '../components/CustomAvatar';
 import { useParams } from 'react-router-dom';
+
+import { AppContext } from '../utils/AppContext';
 
 interface UserProfile {
   firstName: string;
@@ -46,7 +48,14 @@ export default function ProfilePage() {
   const [profileContent, setProfileContent] =
     useState<UserProfile>(initialUserProfile);
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
+  // user is the signed in user and captured as context
+  const { user } = useContext(AppContext);
+  // userID is the user of the visited profile page
   const { userID } = useParams();
+
+  const addFriend = (profileUserID: string, authedUserID: string) => {
+    postFriendRequest(profileUserID, authedUserID);
+  };
 
   useEffect(() => {
     if (userID) {
@@ -108,7 +117,12 @@ export default function ProfilePage() {
             )}
             <div className="friendRequestBtns">
               {/* TODO logic needed once backend friend handling is implemented */}
-              <Button variant="contained">Add friend</Button>
+              <Button
+                variant="contained"
+                onClick={() => addFriend(userID as string, user._id as string)}
+              >
+                Add friend
+              </Button>
               <Button variant="contained" disabled>
                 Friend request sent
               </Button>

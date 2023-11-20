@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { likePost } from '../services/post.service';
 import { conditionalDateDisplay } from '../utils/helpers';
-import { TimelinePostCardContext } from '../utils/TimelinePostCardContext';
+import { AppContext } from '../utils/AppContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -90,7 +90,7 @@ export default function TimelinePostCard({ post }: any) {
     // postLikes, // holds likes context. Not needed at this time so commenting it out together with its implementation code
     // setPostLikes,
     user,
-  } = useContext(TimelinePostCardContext);
+  } = useContext(AppContext);
   const navigate = useNavigate();
 
   const navToProfile = (userID: any) => {

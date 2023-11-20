@@ -9,6 +9,16 @@ export const getUserProfile = (userID: string) => {
   });
 };
 
+export const postFriendRequest = (userID: string, authedUserID: string) => {
+  return axios.post(
+    API_URL + `/friend_request/${userID}`,
+    { userID: userID, authedUserID: authedUserID },
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 // for when I add role profiles to the backend
 
 // export const getUserBoard = () => {

@@ -26,7 +26,7 @@ export const getAllFriendRequests = (
   authedUserID: string
 ) => {
   return axios.get(
-    API_URL + `/friends/${userOrAuthUserID}`,
+    API_URL + `/friends/`,
     // { userOrAuthUserID: userOrAuthUserID, authedUserID: authedUserID },
     {
       headers: authHeader(),

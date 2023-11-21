@@ -24,6 +24,7 @@ function ResponsiveAppBar({
   userID,
   userAvatar,
   userFirstnameLetter,
+  userName,
   handleLogout,
 }: any) {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ function ResponsiveAppBar({
 
   const handleFriends = () => {
     setAnchorElUser(null);
-    navigate(`/friends/${userID}`);
+    navigate(`/friends/${userName}/?userOrAuthUserID=${userID}`);
   };
 
   const handleUserLogout = () => {
@@ -190,6 +191,22 @@ function ResponsiveAppBar({
                     }}
                   >
                     Timeline
+                  </Typography>
+                </Button>
+                <Button key="Friends" onClick={handleCloseNavMenu}>
+                  <Typography
+                    textAlign="center"
+                    variant="h6"
+                    noWrap
+                    component="a"
+                    onClick={handleFriends}
+                    // href={`/friends/${userID}`}
+                    sx={{
+                      color: theme.typography.body1,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Friends
                   </Typography>
                 </Button>
               </Box>

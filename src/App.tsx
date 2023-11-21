@@ -42,6 +42,7 @@ function App() {
               userID={authUser.user._id}
               userAvatar={authUser.user.avatar}
               userFirstnameLetter={authUser.user.firstName.substring(0, 1)}
+              userName={authUser.user.firstName + '.' + authUser.user.lastName}
               handleLogout={handleLogout}
             />
           ) : null}
@@ -58,7 +59,8 @@ function App() {
             ></Route>
             <Route
               // the "userOrAuthUserID" id here could be the user of the authed individual, or it could be the user of someone else. It's based on which userID is being requested, and further checks and API calls in FriendsPage will be based on whether the requesting user is an authed user trying to access their own content, or if it is an authed user tyring to access someone else's content
-              path="/friends/:userOrAuthUserID"
+              path="/friends/:userName"
+              // path="/friends/:userName"
               element={
                 authUser ? (
                   <FriendsPage authedUser={minimalUserData} />

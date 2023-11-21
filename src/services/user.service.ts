@@ -9,12 +9,31 @@ export const getUserProfile = (userID: string) => {
   });
 };
 
+// Sends a friend request, from authedUser to user
 export const postFriendRequest = (userID: string, authedUserID: string) => {
   return axios.post(
     API_URL + `/friend_request/${userID}`,
     { userID: userID, authedUserID: authedUserID },
     {
       headers: authHeader(),
+    }
+  );
+};
+
+// Gets the friend requests
+export const getAllFriendRequests = (
+  userOrAuthUserID: string,
+  authedUserID: string
+) => {
+  return axios.get(
+    API_URL + `/friends/${userOrAuthUserID}`,
+    // { userOrAuthUserID: userOrAuthUserID, authedUserID: authedUserID },
+    {
+      headers: authHeader(),
+      params: {
+        userOrAuthUserID: userOrAuthUserID,
+        authedUserID: authedUserID,
+      },
     }
   );
 };

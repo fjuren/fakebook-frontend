@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { getUserProfile, postFriendRequest } from '../services/user.service';
@@ -10,7 +11,6 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CustomAvatar from '../components/CustomAvatar';
-import { useParams } from 'react-router-dom';
 
 import { AppContext } from '../utils/AppContext';
 
@@ -49,11 +49,13 @@ export default function ProfilePage() {
     useState<UserProfile>(initialUserProfile);
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
   // user is the signed in user and captured as context
-  const { user } = useContext(AppContext);
+  const { user, friendRequest, setFriendRequest } = useContext(AppContext);
   // userID is the user of the visited profile page
   const { userID } = useParams();
+  console.log(userID);
 
   const addFriend = (profileUserID: string, authedUserID: string) => {
+    setFriendRequest(...friendRequest, profileUserID);
     postFriendRequest(profileUserID, authedUserID);
   };
 
@@ -62,6 +64,7 @@ export default function ProfilePage() {
       getUserProfile(userID)
         .then((response) => {
           setProfileContent(response.data);
+          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -117,6 +120,7 @@ export default function ProfilePage() {
             )}
             <div className="friendRequestBtns">
               {/* TODO logic needed once backend friend handling is implemented */}
+              {/* when button clicked, user friendRequest context, otherwise check friend request via user state */}
               <Button
                 variant="contained"
                 onClick={() => addFriend(userID as string, user._id as string)}

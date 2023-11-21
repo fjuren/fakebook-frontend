@@ -55,6 +55,11 @@ function ResponsiveAppBar({
     navigate(`/profile/${userID}`);
   };
 
+  const handleFriends = () => {
+    setAnchorElUser(null);
+    navigate(`/friends/${userID}`);
+  };
+
   const handleUserLogout = () => {
     logout().then(() => {
       // console.log(response.data);
@@ -147,6 +152,22 @@ function ResponsiveAppBar({
                       }}
                     >
                       Timeline
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem key="Friends" onClick={handleCloseNavMenu}>
+                    <Typography
+                      textAlign="center"
+                      variant="h6"
+                      noWrap
+                      component="a"
+                      onClick={handleFriends}
+                      // href={`/friends/${userID}`}
+                      sx={{
+                        color: theme.typography.body1,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      Friends
                     </Typography>
                   </MenuItem>
                 </Menu>

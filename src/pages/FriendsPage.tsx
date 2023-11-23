@@ -5,6 +5,7 @@ import theme from '../theme';
 import { Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import FriendRequest from '../components/FriendRequest';
 import { getAllFriendRequests } from '../services/user.service';
 
 // ------------ ATTENTION -----------
@@ -14,7 +15,7 @@ import { getAllFriendRequests } from '../services/user.service';
 // The API endpoint is /friends/?<userOrAuthUserID>. The ID is all the API needs to handle the get request
 // ----------------------------------
 export default function FriendsPage(authedUser: any) {
-  const [friendRequests, setFriendRequests] = useState<any[]>([]);
+  const [allFriendRequests, setAllFriendRequests] = useState<any[]>([]);
   const [allFriends, setAllFriends] = useState<any[]>([]);
 
   const location = useLocation();
@@ -26,7 +27,8 @@ export default function FriendsPage(authedUser: any) {
     if (userOrAuthUserID) {
       getAllFriendRequests(userOrAuthUserID, authedUser.authedUser._id)
         .then((response) => {
-          setAllFriends(response.data);
+          setAllFriendRequests(response.data.userFriendData.friendRequest);
+          setAllFriends(response.data.userFriendData.friends);
         })
         .catch((err) => {
           console.log(err);
@@ -41,13 +43,20 @@ export default function FriendsPage(authedUser: any) {
         <ThemeProvider theme={theme}>
           <div id="friendRequests-content">
             <Stack spacing={2}>
-              {friendRequests.map((index) => {
-                return (
-                  <div key={index}>
-                    {/* <TimelinePostCard post={post} postUser={post.user} /> */}
-                  </div>
-                );
-              })}
+              {allFriendRequests.length === 0
+                ? 'No friend requests at this time'
+                : allFriendRequests.map((friendRequest, index) => {
+                    return (
+                      <div key={index}>
+                        <FriendRequest user={friendRequest} />
+                      </div>
+                    );
+                  })}
+            </Stack>
+            <Stack spacing={2}>
+              {/* {allFriends.map((index, friends) => {
+                return <div key={index}>{friends}</div>;
+              })} */}
             </Stack>
           </div>
           {/* <div id="allFriends-content">

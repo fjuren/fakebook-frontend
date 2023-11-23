@@ -6,6 +6,7 @@ import { Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import FriendRequest from '../components/FriendRequest';
+import Friends from '../components/Friends';
 import { getAllFriendRequests } from '../services/user.service';
 
 // ------------ ATTENTION -----------
@@ -41,6 +42,7 @@ export default function FriendsPage(authedUser: any) {
     <>
       <div id="friendsPage">
         <ThemeProvider theme={theme}>
+          <h2>Friend Requests</h2>
           <div id="friendRequests-content">
             <Stack spacing={2}>
               {allFriendRequests.length === 0
@@ -53,23 +55,21 @@ export default function FriendsPage(authedUser: any) {
                     );
                   })}
             </Stack>
+          </div>
+          <h2>Friends</h2>
+          <div id="allFriends-content">
             <Stack spacing={2}>
-              {/* {allFriends.map((index, friends) => {
-                return <div key={index}>{friends}</div>;
-              })} */}
+              {allFriends.length === 0
+                ? 'You have no friends :( Send some friend requests! :D'
+                : allFriends.map((friends, index) => {
+                    return (
+                      <div key={index}>
+                        <Friends user={friends} />
+                      </div>
+                    );
+                  })}
             </Stack>
           </div>
-          {/* <div id="allFriends-content">
-            <Stack spacing={2}>
-              {allFriends.map((post, index) => {
-                return (
-                  <div key={index}>
-                    <TimelinePostCard post={post} postUser={post.user} />
-                  </div>
-                );
-              })}
-            </Stack>
-          </div> */}
         </ThemeProvider>
       </div>
     </>

@@ -52,13 +52,12 @@ export default function ProfilePage() {
   const { user, friendRequest, setFriendRequest } = useContext(AppContext);
   // userID is the user of the visited profile page
   const { userID } = useParams();
-  console.log(userID);
 
   const addFriend = (profileUserID: string, authedUserID: string) => {
     setFriendRequest(...friendRequest, profileUserID);
     postFriendRequest(profileUserID, authedUserID);
   };
-
+  console.log(profileContent);
   useEffect(() => {
     if (userID) {
       getUserProfile(userID)
@@ -80,6 +79,10 @@ export default function ProfilePage() {
       console.log('Profile not found'); // TODO create error page for these types of things
     }
   }, [userID]);
+
+  console.log(profileContent.friendRequest);
+  console.log(friendRequest);
+  console.log(user);
 
   return (
     <>
@@ -121,16 +124,29 @@ export default function ProfilePage() {
             <div className="friendRequestBtns">
               {/* TODO logic needed once backend friend handling is implemented */}
               {/* when button clicked, user friendRequest context, otherwise check friend request via user state */}
-              <Button
-                variant="contained"
-                onClick={() => addFriend(userID as string, user._id as string)}
-              >
-                Add friend
-              </Button>
-              <Button variant="contained" disabled>
-                Friend request sent
-              </Button>
-              <Button variant="outlined">Unfriend</Button>
+              {user._id !== userID ? (
+                <div>
+                  {profileContent.friendRequest.includes(user._id) ||
+                  friendRequest.includes(user._id) ? (
+                    <Button variant="contained" disabled>
+                      Friend request sent
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={() =>
+                        addFriend(userID as string, user._id as string)
+                      }
+                    >
+                      Add friend
+                    </Button>
+                  )}
+                  {/* TODO add context once finishing friends api */}
+                  {profileContent.friends.includes(user._id) ? (
+                    <Button variant="outlined">Unfriend</Button>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
             <Stack spacing={2}>
               {userPosts?.map((post: any, index: number) => {

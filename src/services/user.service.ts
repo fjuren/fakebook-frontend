@@ -20,6 +20,8 @@ export const postFriendRequest = (userID: string, authedUserID: string) => {
   );
 };
 
+// Accepts or declines a friend request
+
 // Gets the friend requests
 export const getAllFriendRequests = (
   userOrAuthUserID: string,

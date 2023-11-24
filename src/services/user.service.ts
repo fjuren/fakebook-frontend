@@ -21,6 +21,19 @@ export const postFriendRequest = (userID: string, authedUserID: string) => {
 };
 
 // Accepts or declines a friend request
+export const postFriendRequestAnswer = (
+  answer: boolean,
+  authedUserID: string,
+  userID: string
+) => {
+  return axios.post(
+    API_URL + `/friend_request_answer/`,
+    { acceptOrDecline: answer, userID: userID, authedUserID: authedUserID },
+    {
+      headers: authHeader(),
+    }
+  );
+};
 
 // Gets the friend requests
 export const getAllFriendRequests = (

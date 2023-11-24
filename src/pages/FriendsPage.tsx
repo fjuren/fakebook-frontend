@@ -23,7 +23,6 @@ export default function FriendsPage(authedUser: any) {
   const queryParams = new URLSearchParams(location.search);
   const userOrAuthUserID = queryParams.get('userOrAuthUserID'); // Read attention note above. This is current state
   const navigate = useNavigate();
-
   useEffect(() => {
     if (userOrAuthUserID) {
       getAllFriendRequests(userOrAuthUserID, authedUser.authedUser._id)

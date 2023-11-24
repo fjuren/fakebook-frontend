@@ -80,10 +80,6 @@ export default function ProfilePage() {
     }
   }, [userID]);
 
-  console.log(profileContent.friendRequest);
-  console.log(friendRequest);
-  console.log(user);
-
   return (
     <>
       <div id="profilePage">

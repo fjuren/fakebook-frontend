@@ -9,7 +9,13 @@ import { postFriendRequestAnswer } from '../services/user.service';
 import { AppContext } from '../utils/AppContext';
 
 export default function FriendRequests(userData: any) {
-  const { user } = useContext(AppContext);
+  const {
+    user,
+    acceptFriendRequest,
+    setAcceptFriendRequest,
+    declineFriendRequest,
+    setDeclineFriendRequest,
+  } = useContext(AppContext);
   const navigate = useNavigate();
 
   const navToProfile = (userID: any) => {
@@ -20,10 +26,18 @@ export default function FriendRequests(userData: any) {
     // user._id = current user logged in and accepting the friend request
     // userData.user._id = user who submitted the friend request
     postFriendRequestAnswer(true, user._id, userData.user._id);
+    setAcceptFriendRequest((prevRequest: string[]) => [
+      ...prevRequest,
+      user._id,
+    ]);
   };
 
   const handleDelete = () => {
     postFriendRequestAnswer(false, user._id, userData.user._id);
+    setDeclineFriendRequest((prevRequest: string[]) => [
+      ...prevRequest,
+      user._id,
+    ]);
   };
 
   return (
@@ -55,16 +69,43 @@ export default function FriendRequests(userData: any) {
           <GroupAvatars userFriends={userData.user.friends} maxNum={2} />
         )}
       </div>
-      <div className="FriendRequestItem4">
-        <Button variant="contained" onClick={handleConfirm}>
-          Confirm
-        </Button>
-      </div>
-      <div className="FriendRequestItem5">
-        <Button variant="outlined" onClick={handleDelete}>
-          Delete
-        </Button>
-      </div>
+      {(userData.user.friends && userData.user.friends.includes(user._id)) ||
+      (acceptFriendRequest && acceptFriendRequest.includes(user._id)) ? (
+        <>
+          <div className="FriendRequestItem4">
+            <Button
+              variant="contained"
+              onClick={() => navToProfile(userData.user._id)}
+            >
+              Friend added
+            </Button>
+          </div>
+          <div className="FriendRequestItem5"></div>
+        </>
+      ) : (userData.user.friends && userData.user.friends.includes(user._id)) ||
+        (declineFriendRequest && declineFriendRequest.includes(user._id)) ? (
+        <>
+          <div className="FriendRequestItem4"></div>
+          <div className="FriendRequestItem5">
+            <Button variant="outlined" disabled>
+              Deleted
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="FriendRequestItem4">
+            <Button variant="contained" onClick={handleConfirm}>
+              Confirm
+            </Button>
+          </div>
+          <div className="FriendRequestItem5">
+            <Button variant="outlined" onClick={handleDelete}>
+              Delete
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

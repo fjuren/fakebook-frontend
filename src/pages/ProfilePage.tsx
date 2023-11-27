@@ -45,8 +45,10 @@ interface UserProfilePosts {
 }
 
 export default function ProfilePage() {
-  const [profileContent, setProfileContent] =
-    useState<UserProfile>(initialUserProfile);
+  const [profileContent, setProfileContent] = useState<UserProfile>({
+    ...initialUserProfile,
+    friendRequest: [],
+  });
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
   // user is the signed in user and captured as context
   const { user, friendRequest, setFriendRequest } = useContext(AppContext);
@@ -54,16 +56,17 @@ export default function ProfilePage() {
   const { userID } = useParams();
 
   const addFriend = (profileUserID: string, authedUserID: string) => {
-    setFriendRequest(...friendRequest, profileUserID);
+    setFriendRequest((prevFriendRequst: string[]) => [
+      ...prevFriendRequst,
+      authedUserID,
+    ]);
     postFriendRequest(profileUserID, authedUserID);
   };
-  console.log(profileContent);
   useEffect(() => {
     if (userID) {
       getUserProfile(userID)
         .then((response) => {
           setProfileContent(response.data);
-          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -118,12 +121,11 @@ export default function ProfilePage() {
               </div>
             )}
             <div className="friendRequestBtns">
-              {/* TODO logic needed once backend friend handling is implemented */}
-              {/* when button clicked, user friendRequest context, otherwise check friend request via user state */}
               {user._id !== userID ? (
                 <div>
-                  {profileContent.friendRequest.includes(user._id) ||
-                  friendRequest.includes(user._id) ? (
+                  {(profileContent.friendRequest &&
+                    profileContent.friendRequest.includes(user._id)) ||
+                  (friendRequest && friendRequest.includes(user._id)) ? (
                     <Button variant="contained" disabled>
                       Friend request sent
                     </Button>
@@ -137,7 +139,6 @@ export default function ProfilePage() {
                       Add friend
                     </Button>
                   )}
-                  {/* TODO add context once finishing friends api */}
                   {profileContent.friends.includes(user._id) ? (
                     <Button variant="outlined">Unfriend</Button>
                   ) : null}

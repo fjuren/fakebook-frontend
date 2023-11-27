@@ -35,6 +35,21 @@ export const postFriendRequestAnswer = (
   );
 };
 
+// Unfriend the existing friend
+export const unFriend = (
+  unfriend: true,
+  authedUserID: string,
+  userID: string
+) => {
+  return axios.post(
+    API_URL + `/unfriend/${userID}`,
+    { unfriend, userID, authedUserID },
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 // Gets the friend requests
 export const getAllFriendRequests = (
   userOrAuthUserID: string,

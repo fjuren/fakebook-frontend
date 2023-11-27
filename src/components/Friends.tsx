@@ -1,15 +1,21 @@
 import '../assets/styles/FriendRequest.css';
+import { useContext } from 'react';
 import GroupAvatars from './GroupAvatars';
 import CustomAvatar from './CustomAvatar';
 import { Button } from '@mui/material';
+import { AppContext } from '../utils/AppContext';
+import { unFriend } from '../services/user.service';
 
 export default function Friends(userData: any) {
-  const handleConfirm = () => {
+  const { user } = useContext(AppContext);
+  const navToProfile = () => {
     alert('confirm');
   };
 
   const handleDelete = () => {
-    alert('baleted');
+    // user._id = current user logged in and accepting the friend request
+    // userData.user._id = user who submitted the friend request
+    unFriend(true, user._id, userData.user._id);
   };
   return (
     <div className="FriendRequestContainer">
@@ -28,8 +34,8 @@ export default function Friends(userData: any) {
         )}
       </div>
       <div className="FriendRequestItem4">
-        <Button variant="contained" onClick={handleConfirm}>
-          See friend list
+        <Button variant="contained" onClick={navToProfile}>
+          View profile
         </Button>
       </div>
       <div className="FriendRequestItem5">

@@ -8,6 +8,7 @@ export const AppContextProvider = ({ children, minimalUserData }: any) => {
   const [friendRequest, setFriendRequest] = useState([]);
   const [acceptFriendRequest, setAcceptFriendRequest] = useState([]);
   const [declineFriendRequest, setDeclineFriendRequest] = useState([]);
+  const [unfriend, setUnfriend] = useState([]);
   const [user, setUser] = useState(minimalUserData);
 
   return (
@@ -23,6 +24,8 @@ export const AppContextProvider = ({ children, minimalUserData }: any) => {
         setAcceptFriendRequest,
         declineFriendRequest,
         setDeclineFriendRequest,
+        unfriend,
+        setUnfriend,
         user,
         setUser,
       }}

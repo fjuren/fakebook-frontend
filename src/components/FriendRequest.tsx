@@ -18,7 +18,7 @@ export default function FriendRequests(userData: any) {
   } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const navToProfile = (userID: any) => {
+  const navToProfile = (userID: string) => {
     navigate(`/profile/${userID}`);
   };
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import TimelinePostCard from '../components/TimlinePostCard';
-import { Stack } from '@mui/material';
+import { CircularProgress, Stack } from '@mui/material';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
@@ -10,36 +10,32 @@ import { useNavigate } from 'react-router-dom';
 import { getTimelinePosts } from '../services/post.service';
 
 export default function TimelinePage() {
-  console.log('TimelinePage is rendered');
   const [timelinePosts, setTimelinePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
 
-  // console.log(timelinePosts, page, hasMorePosts, loading, initialLoad);
-
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchTimelinePosts = async () => {
       if (loading || !hasMorePosts) return;
 
-      setLoading(true);
-      try {
-        const response = await getTimelinePosts(page);
-        console.log(response.data);
-        if (response.data.length === 0) {
-          setHasMorePosts(false);
-        } else {
-          setTimelinePosts((prevPosts) => [...prevPosts, ...response.data]);
-          setPage((prevPage) => prevPage + 1);
+      setTimeout(async () => {
+        try {
+          const response = await getTimelinePosts(page);
+          if (response.data.length === 0) {
+            setHasMorePosts(false);
+          } else {
+            setTimelinePosts((prevPosts) => [...prevPosts, ...response.data]);
+            setPage((prevPage) => prevPage + 1);
+          }
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
+      }, 500);
     };
 
     if (initialLoad) {
@@ -55,6 +51,7 @@ export default function TimelinePage() {
       // scrolled to the bottom of the page?
       if (scrollTop + clientHeight >= scrollHeight - 10) {
         fetchTimelinePosts();
+        setLoading(true);
       }
     };
 
@@ -99,7 +96,12 @@ export default function TimelinePage() {
                   </div>
                 );
               })}
-              {!loading && !hasMorePosts && <div>No more posts.</div>}
+              {loading && hasMorePosts && (
+                <div style={{ textAlign: 'center' }}>
+                  <CircularProgress />
+                </div>
+              )}
+              {!loading && !hasMorePosts && <div>No more posts. </div>}
             </Stack>
           </div>
         </ThemeProvider>

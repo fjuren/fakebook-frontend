@@ -5,6 +5,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children, minimalUserData }: any) => {
   const [comments, setComments] = useState([]);
   const [postLikes, setPostLikes] = useState([]);
+  const [postLikeCount, setPostLikeCount] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
   const [acceptFriendRequest, setAcceptFriendRequest] = useState([]);
   const [declineFriendRequest, setDeclineFriendRequest] = useState([]);
@@ -18,6 +19,8 @@ export const AppContextProvider = ({ children, minimalUserData }: any) => {
         setComments,
         postLikes,
         setPostLikes,
+        postLikeCount,
+        setPostLikeCount,
         friendRequest,
         setFriendRequest,
         acceptFriendRequest,

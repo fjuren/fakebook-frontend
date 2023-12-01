@@ -17,7 +17,10 @@ import { AppContextProvider } from './utils/AppContext';
 
 function App() {
   // getUser checks localStorage
-  const [authUser, setAuthUser] = useState(getUser());
+  // const [authUser, setAuthUser] = useState(getUser());
+  const [authUser, setAuthUser] = useState(() => {
+    return getUser();
+  });
   const handleLogout = () => {
     setAuthUser(null);
   };
@@ -32,7 +35,6 @@ function App() {
         _id: authUser.user._id,
       }
     : null;
-
   return (
     <AppContextProvider minimalUserData={minimalUserData}>
       <>

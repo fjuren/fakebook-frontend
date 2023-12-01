@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 // import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // import { red } from '@mui/material/colors';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -87,6 +87,8 @@ export default function TimelinePostCard({ post }: any) {
   const {
     comments,
     setComments,
+    postLikeCount,
+    setPostLikeCount,
     // postLikes, // holds likes context. Not needed at this time so commenting it out together with its implementation code
     // setPostLikes,
     user,
@@ -117,6 +119,11 @@ export default function TimelinePostCard({ post }: any) {
 
     // calling API after conditional
     likePost(post._id);
+  };
+
+  const countLikes = (postLikes: string[] | []) => {
+    const countPostLikes = postLikes.length;
+    return countPostLikes;
   };
 
   // Triggered by the commentBox component
@@ -176,6 +183,8 @@ export default function TimelinePostCard({ post }: any) {
           alt="image"
         />
       ) : null}
+      {countLikes(localLikes)}
+      <br></br>
       <LinkButton comments={commentsToRender} />
       <CardActions disableSpacing>
         <Button
@@ -197,7 +206,6 @@ export default function TimelinePostCard({ post }: any) {
           <p>Comment</p>
         </ExpandMoreButton>
       </CardActions>
-
       <Stack spacing={1}>
         {commentsToRender.map((commentData: commentsInt, index: number) => {
           return (
@@ -231,7 +239,6 @@ export default function TimelinePostCard({ post }: any) {
           );
         })}
       </Stack>
-
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <ContentContainer>
           <AvatarContainer>

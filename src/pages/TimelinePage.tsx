@@ -9,23 +9,63 @@ import { useNavigate } from 'react-router-dom';
 
 import { getTimelinePosts } from '../services/post.service';
 
-// const Timeline: React.FC = () => {
-//   const timeline = getTimeline();
-// }
-
 export default function TimelinePage() {
-  const [timelineContent, setTimelineContent] = useState<any[]>([]);
+  console.log('TimelinePage is rendered');
+  const [timelinePosts, setTimelinePosts] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  // console.log(timelinePosts, page, hasMorePosts, loading, initialLoad);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    getTimelinePosts()
-      .then((response) => {
-        setTimelineContent(response.data);
-      })
-      .catch((err) => {
+    const fetchTimelinePosts = async () => {
+      if (loading || !hasMorePosts) return;
+
+      setLoading(true);
+      try {
+        const response = await getTimelinePosts(page);
+        console.log(response.data);
+        if (response.data.length === 0) {
+          setHasMorePosts(false);
+        } else {
+          setTimelinePosts((prevPosts) => [...prevPosts, ...response.data]);
+          setPage((prevPage) => prevPage + 1);
+        }
+      } catch (err) {
         console.log(err);
-      });
-  }, []);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (initialLoad) {
+      setInitialLoad(false);
+      fetchTimelinePosts();
+    }
+
+    // scroll event listener
+    const handleScroll = () => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        document.documentElement;
+
+      // scrolled to the bottom of the page?
+      if (scrollTop + clientHeight >= scrollHeight - 10) {
+        fetchTimelinePosts();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // clean event listener
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [page, loading, hasMorePosts, initialLoad]);
+
   return (
     <>
       <div id="timelinePage">
@@ -52,13 +92,14 @@ export default function TimelinePage() {
           </div>
           <div id="timeline-content">
             <Stack spacing={2}>
-              {timelineContent.map((post, index) => {
+              {timelinePosts.map((post, index) => {
                 return (
                   <div key={index}>
                     <TimelinePostCard post={post} postUser={post.user} />
                   </div>
                 );
               })}
+              {!loading && !hasMorePosts && <div>No more posts.</div>}
             </Stack>
           </div>
         </ThemeProvider>

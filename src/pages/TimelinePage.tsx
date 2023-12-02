@@ -54,7 +54,6 @@ export default function TimelinePage() {
         setLoading(true);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
 
     // clean event listener

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from '@mui/material/Link';
 import PostModal from './PostModal';
 
-export default function LinkButton({ comments }: any) {
+export default function LinkButton({ post, comments }: any) {
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -22,7 +22,8 @@ export default function LinkButton({ comments }: any) {
       <PostModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        comments={comments}
+        post={post}
+        // comments={comments}
       />
     </>
   );

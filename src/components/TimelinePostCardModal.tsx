@@ -17,7 +17,6 @@ import { Button, ButtonProps } from '@mui/material';
 import CustomAvatar from './CustomAvatar';
 import CommentBox from './CommentBox';
 import Box from '@mui/material/Box';
-import LinkButton from './LinkButton';
 import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
@@ -36,15 +35,6 @@ interface commentsInt {
   user: { _id: string; firstName: string; lastName: string; avatar: string };
   commentCreated: Date; // note: This is stored in an ISO 8601 format and is UTC
 }
-
-const ExpandMoreButton = styled((props: ExpandMoreProps) => {
-  const { ...other } = props;
-  return <Button startIcon={<ChatBubbleOutlineOutlinedIcon />} {...other} />;
-})(({ theme }) => ({
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 const ContentContainer = styled(Box)({
   display: 'flex',
@@ -80,7 +70,7 @@ interface CommentBoxData {
 //     title: string;
 //   };
 // }
-export default function TimelinePostCard({ post }: any) {
+export default function TimelinePostCardModal({ post }: any) {
   const [expanded, setExpanded] = useState(false);
   const [localComments, setLocalComments] = useState<any[]>(post.comments);
   const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
@@ -156,7 +146,7 @@ export default function TimelinePostCard({ post }: any) {
   const commentsToRender = comments.length > 0 ? localComments : post.comments;
 
   return (
-    <Card sx={{ maxWidth: 300 }}>
+    <Card sx={{ height: '100%' }}>
       <CardHeader
         avatar={
           <IconButton onClick={() => navToProfile(post.user._id)} sx={{ p: 0 }}>
@@ -185,7 +175,7 @@ export default function TimelinePostCard({ post }: any) {
       ) : null}
       {countLikes(localLikes)}
       <br></br>
-      <LinkButton post={post} comments={commentsToRender} />
+      {post.comments.length} Comments
       <CardActions disableSpacing>
         <Button
           size="medium"
@@ -196,15 +186,6 @@ export default function TimelinePostCard({ post }: any) {
         >
           <p>Like</p>
         </Button>
-        <ExpandMoreButton
-          color="primary"
-          expand={expanded.toString()} // added string here due to reactordom error in console when rendering
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <p>Comment</p>
-        </ExpandMoreButton>
       </CardActions>
       <Stack spacing={1}>
         {commentsToRender.map((commentData: commentsInt, index: number) => {
@@ -239,25 +220,22 @@ export default function TimelinePostCard({ post }: any) {
           );
         })}
       </Stack>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <ContentContainer>
-          <AvatarContainer>
-            <IconButton onClick={() => navToProfile(user._id)} sx={{ p: 0 }}>
-              <CustomAvatar
-                // TODO this still uses the incorrect data
-                avatarURL={user.avatar}
-                userFirstnameLetter={user.firstName.substring(0, 1)}
-              />
-            </IconButton>
-          </AvatarContainer>
-          <CommentContainer>
-            <CommentBox
-              postID={post._id}
-              postCommentHandler={postCommentHandler}
+      <ContentContainer>
+        <AvatarContainer>
+          <IconButton onClick={() => navToProfile(user._id)} sx={{ p: 0 }}>
+            <CustomAvatar
+              avatarURL={user.avatar}
+              userFirstnameLetter={user.firstName.substring(0, 1)}
             />
-          </CommentContainer>
-        </ContentContainer>
-      </Collapse>
+          </IconButton>
+        </AvatarContainer>
+        <CommentContainer>
+          <CommentBox
+            postID={post._id}
+            postCommentHandler={postCommentHandler}
+          />
+        </CommentContainer>
+      </ContentContainer>
     </Card>
   );
 }

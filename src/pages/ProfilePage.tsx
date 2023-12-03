@@ -2,16 +2,17 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import { getUserProfile, postFriendRequest } from '../services/user.service';
-import { getUserProfilePosts } from '../services/post.service';
-import TimelinePostCard from '../components/TimlinePostCard';
-import { Stack } from '@mui/material';
+import { Stack, IconButton } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CustomAvatar from '../components/CustomAvatar';
 
+import { getUserProfile, postFriendRequest } from '../services/user.service';
+import { getUserProfilePosts } from '../services/post.service';
+import TimelinePostCard from '../components/TimlinePostCard';
+import ProfilePicButton from '../components/ProfilePicButton';
 import { AppContext } from '../utils/AppContext';
 
 interface UserProfile {
@@ -62,6 +63,7 @@ export default function ProfilePage() {
     ]);
     postFriendRequest(profileUserID, authedUserID);
   };
+
   useEffect(() => {
     if (userID) {
       getUserProfile(userID)
@@ -88,11 +90,17 @@ export default function ProfilePage() {
       <div id="profilePage">
         <ThemeProvider theme={theme}>
           <div id="profile-content">
-            <CustomAvatar
-              avatarURL={profileContent?.avatar}
-              userFirstnameLetter={profileContent?.firstName.substring(0, 1)}
-              sx={{ fontSize: 84, width: 168, height: 168 }}
-            ></CustomAvatar>
+            <div className="profile-pic">
+              <CustomAvatar
+                avatarURL={profileContent?.avatar}
+                userFirstnameLetter={profileContent?.firstName.substring(0, 1)}
+                sx={{ fontSize: 84, width: 168, height: 168 }}
+              ></CustomAvatar>
+              <ProfilePicButton
+                avatar={profileContent.avatar}
+                firstName={profileContent.firstName}
+              />
+            </div>
 
             <Typography
               sx={{

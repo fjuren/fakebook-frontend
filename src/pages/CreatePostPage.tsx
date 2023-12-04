@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Link } from '@mui/material';
+import { Box, TextField, Button, Typography } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { timelinePost } from '../services/post.service';
 

@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { Box, Button } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { useContext, useState } from 'react';
+import { Box, Button, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 
 import CustomAvatar from './CustomAvatar';
+import { updateProfilePic } from '../services/user.service';
+import { AppContext } from '../utils/AppContext';
 
 const style = {
   position: 'absolute',
@@ -32,16 +33,45 @@ export default function PostModal({
 }) {
   const [file, setFile] = useState<any>(null);
   const [fileType, setFileType] = useState<any>(null);
+  const [filePreview, setFilePreview] = useState<any>(null);
+  const { user } = useContext(AppContext);
 
-  const addProfilePic = () => {
-    alert('pic');
+  const edit = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target?.result as string;
+        setFile(file);
+        setFilePreview(dataUrl);
+
+        const fileType = file.type;
+        setFileType(fileType);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const addMedia = (e: any) => {
-    const file = e.target.files[0];
-    const fileType = file.type;
-    setFile(file);
-    setFileType(fileType);
+  const cancel = () => {
+    setFilePreview(null);
+    onClose();
+  };
+
+  const saveProfilePic = () => {
+    // e.preventDefault();
+    const profileImage: FormData = new FormData();
+    profileImage.append('file', file); // file as image/video/GIF
+    profileImage.set('type', fileType);
+
+    updateProfilePic(profileImage, user._id)
+      .then((response: any) => {
+        if (response.status === 200) {
+          onClose();
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -53,20 +83,28 @@ export default function PostModal({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <h2>Choose profile picture</h2>
+          <Typography>Choose profile picture</Typography>
           <div className="profile-pic-modal">
-            <CustomAvatar
-              avatarURL={avatar}
-              userFirstnameLetter={firstName.substring(0, 1)}
-              sx={{ fontSize: 84, width: 168, height: 168 }}
-            ></CustomAvatar>
+            {filePreview ? (
+              <CustomAvatar
+                avatarURL={filePreview}
+                userFirstnameLetter={firstName.substring(0, 1)}
+                sx={{ fontSize: 84, width: 168, height: 168 }}
+              ></CustomAvatar>
+            ) : (
+              <CustomAvatar
+                avatarURL={avatar}
+                userFirstnameLetter={firstName.substring(0, 1)}
+                sx={{ fontSize: 84, width: 168, height: 168 }}
+              ></CustomAvatar>
+            )}
           </div>
           <div>
             <input
               id="add-media"
               type="file"
-              accept="image/*, video/*, .gif"
-              onChange={addMedia}
+              accept="image/*"
+              onChange={edit}
               style={{ display: 'none' }}
             />
             <label htmlFor="add-media">
@@ -75,10 +113,10 @@ export default function PostModal({
               </Button>
             </label>
           </div>
-          <Button variant="outlined" type="submit" onClick={onClose}>
+          <Button variant="outlined" type="submit" onClick={cancel}>
             Cancel
           </Button>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" onClick={saveProfilePic}>
             Save
           </Button>
         </Box>

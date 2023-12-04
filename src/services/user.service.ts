@@ -9,6 +9,20 @@ export const getUserProfile = (userID: string) => {
   });
 };
 
+// update profile pic on profile page
+export const updateProfilePic = (
+  profileImage: FormData,
+  authedUserID: string
+) => {
+  return axios.post(
+    API_URL + `/update_profile_pic/${authedUserID}`,
+    profileImage,
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 // Sends a friend request, from authedUser to user
 export const postFriendRequest = (userID: string, authedUserID: string) => {
   return axios.post(

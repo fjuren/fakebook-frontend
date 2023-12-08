@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -82,18 +82,31 @@ interface CommentBoxData {
 // }
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
-  const [localComments, setLocalComments] = useState<any[]>(post.comments);
-  const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
+  // const [localComments, setLocalComments] = useState<any[]>(post.comments);
+  // const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
   const {
     comments,
     setComments,
     postLikeCount,
     setPostLikeCount,
-    // postLikes, // holds likes context. Not needed at this time so commenting it out together with its implementation code
-    // setPostLikes,
+    postLikes,
+    setPostLikes,
     user,
   } = useContext(AppContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Assuming 'post' is obtained from the API
+    const { likes } = post;
+    console.log(likes);
+    setPostLikes(likes);
+  }, [post, setPostLikes]);
+
+  // Check if comments context has new comments. If so, add to end of post.comments
+  const commentsToRender =
+    comments.length > 0 ? [...post.comments, ...comments] : post.comments;
+  // Check if post is liked by the logged in user
+  const isLikedByCurrentUser = postLikes.includes(user._id);
 
   const navToProfile = (userID: any) => {
     navigate(`/profile/${userID}`);
@@ -108,13 +121,13 @@ export default function TimelinePostCard({ post }: any) {
     // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
     if (isLikedByCurrentUser) {
       // remove the user Id from list of post likes
-      const updatedLike = localLikes.filter((id) => id !== user._id);
+      const updatedLike = postLikes.filter((id: any) => id !== user._id);
       // setPostLikes(updatedLike);
-      setLocalLikes(updatedLike);
+      setPostLikes(updatedLike);
     } else {
       // add the user Id to list of post likes
       // setPostLikes([...localLikes, user._id]);
-      setLocalLikes([...localLikes, user._id]);
+      setPostLikes([...postLikes, user._id]);
     }
 
     // calling API after conditional
@@ -146,14 +159,8 @@ export default function TimelinePostCard({ post }: any) {
       },
     };
     setComments([...comments, commentData]);
-    setLocalComments([...localComments, commentData]);
     // setCombinedComments([...localComments, ...comments]);
   };
-
-  // Check if post is liked by the logged in user
-  const isLikedByCurrentUser = localLikes.includes(user._id);
-  // Check if comments context has new comments. If so, load all localComments
-  const commentsToRender = comments.length > 0 ? localComments : post.comments;
 
   return (
     <Card sx={{ maxWidth: 300 }}>
@@ -183,7 +190,7 @@ export default function TimelinePostCard({ post }: any) {
           alt="image"
         />
       ) : null}
-      {countLikes(localLikes)}
+      {countLikes(postLikes)}
       <br></br>
       <LinkButton post={post} comments={commentsToRender} />
       <CardActions disableSpacing>

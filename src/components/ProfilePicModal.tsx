@@ -34,21 +34,36 @@ export default function PostModal({
   const [file, setFile] = useState<any>(null);
   const [fileType, setFileType] = useState<any>(null);
   const [filePreview, setFilePreview] = useState<any>(null);
+  const [contentError, setContentError] = useState(false);
+  const [contentErrorText, setContentErrorText] = useState('');
   const { user } = useContext(AppContext);
 
   const edit = (e: any) => {
-    const file = e.target.files[0];
-    if (file) {
+    const fileFromEdit = e.target.files[0];
+    const fileTypeFromEdit = fileFromEdit.type;
+    setContentError(false);
+    setContentErrorText('');
+
+    if (fileTypeFromEdit !== 'image/jpeg' && fileTypeFromEdit !== 'image/png') {
+      setContentError(true);
+      setContentErrorText('Whoops! Image files only (.jpeg or .png)');
+      return;
+    }
+    if (fileFromEdit) {
       const reader = new FileReader();
       reader.onload = (event) => {
+        // gets file url
         const dataUrl = event.target?.result as string;
-        setFile(file);
+        setFile(fileFromEdit);
         setFilePreview(dataUrl);
 
-        const fileType = file.type;
+        const fileType = fileFromEdit.type;
         setFileType(fileType);
+        setContentError(false);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(fileFromEdit);
+    } else {
+      return;
     }
   };
 
@@ -58,20 +73,30 @@ export default function PostModal({
   };
 
   const saveProfilePic = () => {
-    // e.preventDefault();
-    const profileImage: FormData = new FormData();
-    profileImage.append('file', file); // file as image/video/GIF
-    profileImage.set('type', fileType);
+    setContentError(false);
+    setContentErrorText('');
 
-    updateProfilePic(profileImage, user._id)
-      .then((response: any) => {
-        if (response.status === 200) {
-          onClose();
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    const profileImage: FormData = new FormData();
+    profileImage.append('file', file);
+    profileImage.set('type', fileType);
+    if (file) {
+      setContentError(false);
+      updateProfilePic(profileImage, user._id)
+        .then((response: any) => {
+          if (response.status === 200) {
+            onClose();
+            console.log(response.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    } else {
+      setContentError(true);
+      setContentErrorText(
+        'Whoops! Please choose a new profile picture, or cancel'
+      );
+    }
   };
 
   return (
@@ -119,6 +144,13 @@ export default function PostModal({
           <Button variant="contained" type="submit" onClick={saveProfilePic}>
             Save
           </Button>
+          <div className="error-message">
+            {contentError ? (
+              <Typography style={{ color: 'red' }}>
+                {contentErrorText}
+              </Typography>
+            ) : null}
+          </div>
         </Box>
       </Modal>
     </div>

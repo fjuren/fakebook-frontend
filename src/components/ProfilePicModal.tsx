@@ -36,7 +36,7 @@ export default function PostModal({
   const [filePreview, setFilePreview] = useState<any>(null);
   const [contentError, setContentError] = useState(false);
   const [contentErrorText, setContentErrorText] = useState('');
-  const { user } = useContext(AppContext);
+  const { user, setProfilePic } = useContext(AppContext);
 
   const edit = (e: any) => {
     const fileFromEdit = e.target.files[0];
@@ -84,8 +84,8 @@ export default function PostModal({
       updateProfilePic(profileImage, user._id)
         .then((response: any) => {
           if (response.status === 200) {
+            setProfilePic(response.data.fileURL);
             onClose();
-            console.log(response.data);
           }
         })
         .catch((err: any) => {

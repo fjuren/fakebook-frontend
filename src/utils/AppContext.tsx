@@ -5,11 +5,11 @@ export const PostLikesContext = createContext();
 
 export const AppContextProvider = ({ children, minimalUserData }: any) => {
   const [comments, setComments] = useState([]);
-  const [postLikeCount, setPostLikeCount] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
   const [acceptFriendRequest, setAcceptFriendRequest] = useState([]);
   const [declineFriendRequest, setDeclineFriendRequest] = useState([]);
   const [unfriend, setUnfriend] = useState([]);
+  const [profilePic, setProfilePic] = useState('');
   const [user, setUser] = useState(minimalUserData);
 
   return (
@@ -17,8 +17,6 @@ export const AppContextProvider = ({ children, minimalUserData }: any) => {
       value={{
         comments,
         setComments,
-        postLikeCount,
-        setPostLikeCount,
         friendRequest,
         setFriendRequest,
         acceptFriendRequest,
@@ -27,6 +25,8 @@ export const AppContextProvider = ({ children, minimalUserData }: any) => {
         setDeclineFriendRequest,
         unfriend,
         setUnfriend,
+        profilePic,
+        setProfilePic,
         user,
         setUser,
       }}

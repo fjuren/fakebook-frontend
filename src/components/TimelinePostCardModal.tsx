@@ -5,14 +5,12 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 // import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // import { red } from '@mui/material/colors';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Button, ButtonProps } from '@mui/material';
 import CustomAvatar from './CustomAvatar';
 import CommentBox from './CommentBox';
@@ -21,9 +19,9 @@ import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 
-import { likePost } from '../services/post.service';
 import { conditionalDateDisplay } from '../utils/helpers';
 import { AppContext } from '../utils/AppContext';
+import { PostLikesContext } from '../utils/AppContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -70,64 +68,21 @@ interface CommentBoxData {
 //     title: string;
 //   };
 // }
-export default function TimelinePostCardModal({
-  post,
-  localLikes,
-  setLocalLikes,
-  handleLike,
-}: any) {
+export default function TimelinePostCardModal({ post, handleLike }: any) {
   const [expanded, setExpanded] = useState(false);
-  // const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
-  const {
-    comments,
-    setComments,
-    // postLikeCount,
-    // setPostLikeCount,
-    // postLikes,
-    // setPostLikes,
-    user,
-  } = useContext(AppContext);
+  const { comments, setComments, user } = useContext(AppContext);
+  const { postLikes } = useContext(PostLikesContext);
   const navigate = useNavigate();
 
   const navToProfile = (userID: any) => {
     navigate(`/profile/${userID}`);
   };
 
-  // // Check if likes context has new likes
-  // const likesToRender =
-  //   postLikes.length > 0 ? [...post.likes, ...postLikes] : post.likes;
-
-  // useEffect(() => {
-  //   setPostLikes(post.likes);
-  // }, [post.likes]);
-
   // Check if comments context has new comments. If so, add to end of post.comments
   const commentsToRender =
     comments.length > 0 ? [...post.comments, ...comments] : post.comments;
   // Check if post is liked by the logged in user
-  const isLikedByCurrentUser = localLikes.includes(user._id);
-
-  // Expands/collapses comment
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  // const handleLike = () => {
-  //   // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
-  //   if (isLikedByCurrentUser) {
-  //     // remove the user Id from list of post likes
-  //     const updatedLike = localLikes.filter((id: string) => id !== user._id);
-  //     // setPostLikes(updatedLike);
-  //     setLocalLikes(updatedLike);
-  //   } else {
-  //     // add the user Id to list of post likes
-  //     // setPostLikes([...localLikes, user._id]);
-  //     setLocalLikes([...localLikes, user._id]);
-  //   }
-
-  //   // calling API after conditional
-  //   likePost(post._id);
-  // };
+  const isLikedByCurrentUser = postLikes.includes(user._id);
 
   const countLikes = (postLikes: string[] | []) => {
     const countPostLikes = postLikes.length;
@@ -184,7 +139,7 @@ export default function TimelinePostCardModal({
           alt="image"
         />
       ) : null}
-      {countLikes(localLikes)}
+      {countLikes(postLikes)}
       <br></br>
       {post.comments.length} Comments
       <CardActions disableSpacing>

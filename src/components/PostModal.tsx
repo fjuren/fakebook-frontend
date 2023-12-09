@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import TimelinePostCardModal from './TimelinePostCardModal';
@@ -22,15 +21,11 @@ export default function PostModal({
   open,
   onClose,
   post,
-  localLikes,
-  setLocalLikes,
   handleLike,
 }: {
   open: boolean;
   onClose: () => void;
   post: any;
-  localLikes: any;
-  setLocalLikes: any;
   handleLike: any;
 }) {
   return (
@@ -42,12 +37,7 @@ export default function PostModal({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <TimelinePostCardModal
-            post={post}
-            localLikes={localLikes}
-            setLocalLikes={setLocalLikes}
-            handleLike={handleLike}
-          />
+          <TimelinePostCardModal post={post} handleLike={handleLike} />
         </Box>
       </Modal>
     </div>

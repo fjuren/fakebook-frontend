@@ -24,7 +24,6 @@ function App() {
   const handleLogout = () => {
     setAuthUser(null);
   };
-  // console.log(authUser);
 
   // minimalUserData only available if user is authenticated/logged in
   const minimalUserData = authUser

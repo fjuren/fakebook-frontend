@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { likePost } from '../services/post.service';
 import { conditionalDateDisplay } from '../utils/helpers';
-import { AppContext } from '../utils/AppContext';
+import { AppContext, PostLikesContext } from '../utils/AppContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -82,24 +82,17 @@ interface CommentBoxData {
 // }
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
-  // const [localComments, setLocalComments] = useState<any[]>(post.comments);
-  const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
-  const {
-    comments,
-    setComments,
-    // postLikeCount,
-    // setPostLikeCount,
-    // postLikes,
-    // setPostLikes,
-    user,
-  } = useContext(AppContext);
+  const { comments, setComments, user } = useContext(AppContext);
+
+  const { postLikes, setPostLikes } = useContext(PostLikesContext);
+
   const navigate = useNavigate();
 
   // Check if comments context has new comments. If so, add to end of post.comments
   const commentsToRender =
     comments.length > 0 ? [...post.comments, ...comments] : post.comments;
   // Check if post is liked by the logged in user
-  const isLikedByCurrentUser = localLikes.includes(user._id);
+  const isLikedByCurrentUser = postLikes.includes(user._id);
 
   const navToProfile = (userID: any) => {
     navigate(`/profile/${userID}`);
@@ -114,13 +107,12 @@ export default function TimelinePostCard({ post }: any) {
     // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
     if (isLikedByCurrentUser) {
       // remove the user Id from list of post likes
-      const updatedLike = localLikes.filter((id: any) => id !== user._id);
+      const updatedLike = postLikes.filter((id: any) => id !== user._id);
       // setPostLikes(updatedLike);
-      setLocalLikes(updatedLike);
+      setPostLikes(updatedLike);
     } else {
       // add the user Id to list of post likes
-      // setPostLikes([...localLikes, user._id]);
-      setLocalLikes([...localLikes, user._id]);
+      setPostLikes([...postLikes, user._id]);
     }
 
     // calling API after conditional
@@ -152,7 +144,6 @@ export default function TimelinePostCard({ post }: any) {
       },
     };
     setComments([...comments, commentData]);
-    // setCombinedComments([...localComments, ...comments]);
   };
 
   return (
@@ -183,13 +174,11 @@ export default function TimelinePostCard({ post }: any) {
           alt="image"
         />
       ) : null}
-      {countLikes(localLikes)}
+      {countLikes(postLikes)}
       <br></br>
       <LinkButton
         post={post}
         comments={commentsToRender}
-        localLikes={localLikes}
-        setLocalLikes={setLocalLikes}
         handleLike={handleLike}
       />
       <CardActions disableSpacing>

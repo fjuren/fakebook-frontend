@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import TimelinePostCard from '../components/TimlinePostCard';
@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 
 import { getTimelinePosts } from '../services/post.service';
+import { PostLikesContextProvider } from '../utils/AppContext';
 
 export default function TimelinePage() {
   const [timelinePosts, setTimelinePosts] = useState<any[]>([]);
@@ -17,6 +18,7 @@ export default function TimelinePage() {
   const [initialLoad, setInitialLoad] = useState(true);
 
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchTimelinePosts = async () => {
       if (loading || !hasMorePosts) return;
@@ -89,9 +91,12 @@ export default function TimelinePage() {
           <div id="timeline-content">
             <Stack spacing={2}>
               {timelinePosts.map((post, index) => {
+                const initialPostLikes = post.likes;
                 return (
                   <div key={index}>
-                    <TimelinePostCard post={post} postUser={post.user} />
+                    <PostLikesContextProvider initialLikes={initialPostLikes}>
+                      <TimelinePostCard post={post} postUser={post.user} />
+                    </PostLikesContextProvider>
                   </div>
                 );
               })}

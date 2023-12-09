@@ -13,7 +13,7 @@ import { getUserProfile, postFriendRequest } from '../services/user.service';
 import { getUserProfilePosts } from '../services/post.service';
 import TimelinePostCard from '../components/TimlinePostCard';
 import ProfilePicButton from '../components/ProfilePicButton';
-import { AppContext } from '../utils/AppContext';
+import { AppContext, PostLikesContextProvider } from '../utils/AppContext';
 
 interface UserProfile {
   firstName: string;
@@ -155,9 +155,12 @@ export default function ProfilePage() {
             </div>
             <Stack spacing={2}>
               {userPosts?.map((post: any, index: number) => {
+                const initialPostLikes = post.likes;
                 return (
                   <div key={index}>
-                    <TimelinePostCard post={post} user={post.user} />
+                    <PostLikesContextProvider initialLikes={initialPostLikes}>
+                      <TimelinePostCard post={post} user={post.user} />
+                    </PostLikesContextProvider>
                   </div>
                 );
               })}

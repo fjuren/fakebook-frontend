@@ -70,16 +70,21 @@ interface CommentBoxData {
 //     title: string;
 //   };
 // }
-export default function TimelinePostCardModal({ post }: any) {
+export default function TimelinePostCardModal({
+  post,
+  localLikes,
+  setLocalLikes,
+  handleLike,
+}: any) {
   const [expanded, setExpanded] = useState(false);
   // const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
   const {
     comments,
     setComments,
-    postLikeCount,
-    setPostLikeCount,
-    postLikes, // holds likes context. Not needed at this time so commenting it out together with its implementation code
-    setPostLikes,
+    // postLikeCount,
+    // setPostLikeCount,
+    // postLikes,
+    // setPostLikes,
     user,
   } = useContext(AppContext);
   const navigate = useNavigate();
@@ -100,29 +105,29 @@ export default function TimelinePostCardModal({ post }: any) {
   const commentsToRender =
     comments.length > 0 ? [...post.comments, ...comments] : post.comments;
   // Check if post is liked by the logged in user
-  const isLikedByCurrentUser = postLikes.includes(user._id);
+  const isLikedByCurrentUser = localLikes.includes(user._id);
 
   // Expands/collapses comment
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const handleLike = () => {
-    // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
-    if (isLikedByCurrentUser) {
-      // remove the user Id from list of post likes
-      const updatedLike = postLikes.filter((id: string) => id !== user._id);
-      // setPostLikes(updatedLike);
-      setPostLikes(updatedLike);
-    } else {
-      // add the user Id to list of post likes
-      // setPostLikes([...localLikes, user._id]);
-      setPostLikes([...postLikes, user._id]);
-    }
+  // const handleLike = () => {
+  //   // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
+  //   if (isLikedByCurrentUser) {
+  //     // remove the user Id from list of post likes
+  //     const updatedLike = localLikes.filter((id: string) => id !== user._id);
+  //     // setPostLikes(updatedLike);
+  //     setLocalLikes(updatedLike);
+  //   } else {
+  //     // add the user Id to list of post likes
+  //     // setPostLikes([...localLikes, user._id]);
+  //     setLocalLikes([...localLikes, user._id]);
+  //   }
 
-    // calling API after conditional
-    likePost(post._id);
-  };
+  //   // calling API after conditional
+  //   likePost(post._id);
+  // };
 
   const countLikes = (postLikes: string[] | []) => {
     const countPostLikes = postLikes.length;
@@ -179,7 +184,7 @@ export default function TimelinePostCardModal({ post }: any) {
           alt="image"
         />
       ) : null}
-      {countLikes(postLikes)}
+      {countLikes(localLikes)}
       <br></br>
       {post.comments.length} Comments
       <CardActions disableSpacing>

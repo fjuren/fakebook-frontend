@@ -22,10 +22,16 @@ export default function PostModal({
   open,
   onClose,
   post,
+  localLikes,
+  setLocalLikes,
+  handleLike,
 }: {
   open: boolean;
   onClose: () => void;
   post: any;
+  localLikes: any;
+  setLocalLikes: any;
+  handleLike: any;
 }) {
   return (
     <div>
@@ -36,7 +42,12 @@ export default function PostModal({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <TimelinePostCardModal post={post} />
+          <TimelinePostCardModal
+            post={post}
+            localLikes={localLikes}
+            setLocalLikes={setLocalLikes}
+            handleLike={handleLike}
+          />
         </Box>
       </Modal>
     </div>

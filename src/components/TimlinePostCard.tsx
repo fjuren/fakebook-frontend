@@ -83,30 +83,23 @@ interface CommentBoxData {
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
   // const [localComments, setLocalComments] = useState<any[]>(post.comments);
-  // const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
+  const [localLikes, setLocalLikes] = useState<any[]>(post.likes);
   const {
     comments,
     setComments,
-    postLikeCount,
-    setPostLikeCount,
-    postLikes,
-    setPostLikes,
+    // postLikeCount,
+    // setPostLikeCount,
+    // postLikes,
+    // setPostLikes,
     user,
   } = useContext(AppContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Assuming 'post' is obtained from the API
-    const { likes } = post;
-    console.log(likes);
-    setPostLikes(likes);
-  }, [post, setPostLikes]);
 
   // Check if comments context has new comments. If so, add to end of post.comments
   const commentsToRender =
     comments.length > 0 ? [...post.comments, ...comments] : post.comments;
   // Check if post is liked by the logged in user
-  const isLikedByCurrentUser = postLikes.includes(user._id);
+  const isLikedByCurrentUser = localLikes.includes(user._id);
 
   const navToProfile = (userID: any) => {
     navigate(`/profile/${userID}`);
@@ -121,13 +114,13 @@ export default function TimelinePostCard({ post }: any) {
     // don't need ID here. Add it to 'like' context instead and decrypt id in BE.
     if (isLikedByCurrentUser) {
       // remove the user Id from list of post likes
-      const updatedLike = postLikes.filter((id: any) => id !== user._id);
+      const updatedLike = localLikes.filter((id: any) => id !== user._id);
       // setPostLikes(updatedLike);
-      setPostLikes(updatedLike);
+      setLocalLikes(updatedLike);
     } else {
       // add the user Id to list of post likes
       // setPostLikes([...localLikes, user._id]);
-      setPostLikes([...postLikes, user._id]);
+      setLocalLikes([...localLikes, user._id]);
     }
 
     // calling API after conditional
@@ -190,9 +183,15 @@ export default function TimelinePostCard({ post }: any) {
           alt="image"
         />
       ) : null}
-      {countLikes(postLikes)}
+      {countLikes(localLikes)}
       <br></br>
-      <LinkButton post={post} comments={commentsToRender} />
+      <LinkButton
+        post={post}
+        comments={commentsToRender}
+        localLikes={localLikes}
+        setLocalLikes={setLocalLikes}
+        handleLike={handleLike}
+      />
       <CardActions disableSpacing>
         <Button
           size="medium"

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import { Stack, IconButton } from '@mui/material';
+import { Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Typography from '@mui/material/Typography';
@@ -11,11 +11,13 @@ import CustomAvatar from '../components/CustomAvatar';
 
 import { getUserProfile, postFriendRequest } from '../services/user.service';
 import { getUserProfilePosts } from '../services/post.service';
+import { unFriend } from '../services/user.service';
 import TimelinePostCard from '../components/TimlinePostCard';
 import ProfilePicButton from '../components/ProfilePicButton';
 import { AppContext, PostLikesContextProvider } from '../utils/AppContext';
 
 interface UserProfile {
+  _id: string;
   firstName: string;
   lastName: string;
   friends: any[];
@@ -25,6 +27,7 @@ interface UserProfile {
 }
 
 const initialUserProfile: UserProfile = {
+  _id: '',
   firstName: '',
   lastName: '',
   friends: [],
@@ -51,9 +54,18 @@ export default function ProfilePage() {
     friendRequest: [],
   });
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
+  const [authUserContent, setAuthUserContent] = useState<UserProfile>({
+    ...initialUserProfile,
+  });
   // user is the signed in user and captured as context
-  const { user, friendRequest, setFriendRequest, profilePic } =
-    useContext(AppContext);
+  const {
+    user,
+    friendRequest,
+    setFriendRequest,
+    unfriend,
+    setUnfriend,
+    profilePic,
+  } = useContext(AppContext);
   // userID is the user of the visited profile page
   const { userID } = useParams();
 
@@ -65,27 +77,39 @@ export default function ProfilePage() {
     postFriendRequest(profileUserID, authedUserID);
   };
 
+  const handleDelete = (profileUserID: string, authedUserID: string) => {
+    // authedUserID = current user logged in and accepting the friend request
+    // profileUserID = user who submitted the friend request
+    unFriend(true, authedUserID, profileUserID);
+    setUnfriend((prevRequest: string[]) => [...prevRequest, authedUserID]);
+  };
+
   useEffect(() => {
-    if (userID) {
-      getUserProfile(userID)
-        .then((response) => {
-          setProfileContent(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      getUserProfilePosts(userID)
-        .then((response) => {
-          setUserPosts(response.data.userProfilePosts.posts);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log('Profile not found'); // TODO create error page for these types of things
-    }
+    const fetchData = async () => {
+      try {
+        if (userID) {
+          const profileResponse = await getUserProfile(userID);
+          setProfileContent(profileResponse.data);
+
+          const postsResponse = await getUserProfilePosts(userID);
+          setUserPosts(postsResponse.data.userProfilePosts.posts);
+        }
+        if (user._id) {
+          const authUserResponse = await getUserProfile(user._id);
+          setAuthUserContent(authUserResponse.data);
+        } else {
+          console.log('Profile not found'); // TODO: create an error page for these types of things
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, [userID]);
 
+  console.log('profileContent', profileContent);
+  console.log('authuserContent', authUserContent);
   return (
     <>
       <div id="profilePage">
@@ -117,9 +141,12 @@ export default function ProfilePage() {
             </Typography>
             {profileContent?.friends.length !== 0 ? (
               <div>
+                avatar group:
                 <AvatarGroup total={profileContent?.friends.length}>
-                  {profileContent?.friends.map((friend) => (
-                    <Avatar alt={friend.firstName} src={friend.avatar} />
+                  {profileContent?.friends.map((friend, index) => (
+                    <div key={index}>
+                      <Avatar alt={friend.firstName} src={friend.avatar} />
+                    </div>
                   ))}
                 </AvatarGroup>
               </div>
@@ -138,6 +165,21 @@ export default function ProfilePage() {
                     <Button variant="contained" disabled>
                       Friend request sent
                     </Button>
+                  ) : authUserContent.friends.includes(profileContent._id) ? (
+                    unfriend && unfriend.includes(user._id) ? (
+                      <Button variant="outlined" disabled>
+                        Unfriended
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        onClick={() =>
+                          handleDelete(userID as string, user._id as string)
+                        }
+                      >
+                        Unfriend
+                      </Button>
+                    )
                   ) : (
                     <Button
                       variant="contained"
@@ -148,24 +190,33 @@ export default function ProfilePage() {
                       Add friend
                     </Button>
                   )}
-                  {profileContent.friends.includes(user._id) ? (
-                    <Button variant="outlined">Unfriend</Button>
-                  ) : null}
                 </div>
               ) : null}
             </div>
-            <Stack spacing={2}>
-              {userPosts?.map((post: any, index: number) => {
-                const initialPostLikes = post.likes;
-                return (
-                  <div key={index}>
-                    <PostLikesContextProvider initialLikes={initialPostLikes}>
-                      <TimelinePostCard post={post} user={post.user} />
-                    </PostLikesContextProvider>
-                  </div>
-                );
-              })}
-            </Stack>
+            <div className="posts">
+              <Typography
+                sx={{
+                  color: theme.typography.body2,
+                  lineHeight: 1.1875,
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                }}
+              >
+                {profileContent.firstName}'s Posts:
+              </Typography>
+              <Stack spacing={2}>
+                {userPosts?.map((post: any, index: number) => {
+                  const initialPostLikes = post.likes;
+                  return (
+                    <div key={index}>
+                      <PostLikesContextProvider initialLikes={initialPostLikes}>
+                        <TimelinePostCard post={post} user={post.user} />
+                      </PostLikesContextProvider>
+                    </div>
+                  );
+                })}
+              </Stack>
+            </div>
           </div>
         </ThemeProvider>
       </div>

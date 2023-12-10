@@ -77,7 +77,7 @@ export default function FriendRequests(userData: any) {
               variant="contained"
               onClick={() => navToProfile(userData.user._id)}
             >
-              Friend added
+              Friend added! View profile
             </Button>
           </div>
           <div className="FriendRequestItem5"></div>

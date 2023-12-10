@@ -40,12 +40,15 @@ export default function Friends(userData: any) {
       {unfriend && unfriend.includes(user._id) ? (
         <>
           <div className="FriendRequestItem4">
-            <Button variant="contained" onClick={() => navToProfile(user._id)}>
+            <Button
+              variant="contained"
+              onClick={() => navToProfile(userData.user._id)}
+            >
               View profile
             </Button>
           </div>
           <div className="FriendRequestItem5">
-            <Button variant="outlined" disabled onClick={handleDelete}>
+            <Button variant="outlined" disabled>
               Unfriended
             </Button>
           </div>
@@ -53,7 +56,10 @@ export default function Friends(userData: any) {
       ) : (
         <>
           <div className="FriendRequestItem4">
-            <Button variant="contained" onClick={() => navToProfile(user._id)}>
+            <Button
+              variant="contained"
+              onClick={() => navToProfile(userData.user._id)}
+            >
               View profile
             </Button>
           </div>

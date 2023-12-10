@@ -52,7 +52,7 @@ export default function ProfilePage() {
   });
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
   // user is the signed in user and captured as context
-  const { user, friendRequest, setFriendRequest, profilePic, setProfilePic } =
+  const { user, friendRequest, setFriendRequest, profilePic } =
     useContext(AppContext);
   // userID is the user of the visited profile page
   const { userID } = useParams();
@@ -70,7 +70,6 @@ export default function ProfilePage() {
       getUserProfile(userID)
         .then((response) => {
           setProfileContent(response.data);
-          setProfilePic(response.data.avatar);
         })
         .catch((err) => {
           console.log(err);
@@ -94,7 +93,7 @@ export default function ProfilePage() {
           <div id="profile-content">
             <div className="profile-pic">
               <CustomAvatar
-                avatarURL={profilePic}
+                avatarURL={profilePic ? profilePic : profileContent?.avatar}
                 userFirstnameLetter={profileContent?.firstName.substring(0, 1)}
                 sx={{ fontSize: 84, width: 168, height: 168 }}
               ></CustomAvatar>

@@ -14,13 +14,20 @@ export const updateProfilePic = (
   profileImage: FormData,
   authedUserID: string
 ) => {
-  return axios.post(
-    API_URL + `/update_profile_pic/${authedUserID}`,
-    profileImage,
-    {
+  return axios
+    .post(API_URL + `/update_profile_pic/${authedUserID}`, profileImage, {
       headers: authHeader(),
-    }
-  );
+    })
+    .then((response) => {
+      const storedLocalData = JSON.parse(
+        localStorage.getItem('token') as string
+      );
+      if (storedLocalData) {
+        storedLocalData.user.avatar = response.data.fileURL;
+      }
+      localStorage.setItem('token', JSON.stringify(storedLocalData));
+      return response;
+    });
 };
 
 // Sends a friend request, from authedUser to user

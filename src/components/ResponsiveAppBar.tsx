@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,11 +11,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+import { getUser } from '../services/auth.service';
 import CustomAvatar from './CustomAvatar';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { logout } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../utils/AppContext';
 
 // const pages = ['Timeline']; // Leaving this in case I need to create many pages
 // const settings = ['Profile', 'Logout']; // consider map function if more settings are added
@@ -28,6 +30,22 @@ function ResponsiveAppBar({
   handleLogout,
 }: any) {
   const navigate = useNavigate();
+
+  const { profilePic } = useContext(AppContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        getUser();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        // Uncomment the setLoading line if you need it
+        // setLoading(false);
+      }
+    };
+    fetchData();
+  }, [profilePic]);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -215,7 +233,7 @@ function ResponsiveAppBar({
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <CustomAvatar
-                      avatarURL={userAvatar}
+                      avatarURL={profilePic ? profilePic : userAvatar}
                       userFirstnameLetter={userFirstnameLetter}
                     ></CustomAvatar>
                   </IconButton>

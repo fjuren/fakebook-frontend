@@ -92,11 +92,9 @@ export default function SignupForm({ toggleLogin }: any) {
     // [ ] create process.env development & production urls
     signup(firstName, lastName, email, password, confirmPassword)
       .then((response) => {
-        console.log(response.data);
         if (response.status === 200) {
           navigate('/timeline');
           window.location.reload();
-          console.log(response.data);
         }
       })
       .catch((err) => {

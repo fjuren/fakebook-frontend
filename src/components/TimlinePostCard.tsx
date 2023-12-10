@@ -82,7 +82,7 @@ interface CommentBoxData {
 // }
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
-  const { comments, setComments, user } = useContext(AppContext);
+  const { comments, setComments, profilePic, user } = useContext(AppContext);
 
   const { postLikes, setPostLikes } = useContext(PostLikesContext);
 
@@ -152,7 +152,7 @@ export default function TimelinePostCard({ post }: any) {
         avatar={
           <IconButton onClick={() => navToProfile(post.user._id)} sx={{ p: 0 }}>
             <CustomAvatar
-              avatarURL={post.user.avatar}
+              avatarURL={profilePic ? profilePic : post.user.avatar}
               userFirstnameLetter={post.user.firstName.substring(0, 1)}
             ></CustomAvatar>
           </IconButton>

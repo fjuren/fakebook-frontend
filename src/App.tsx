@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,11 +13,10 @@ import { getUser, logout } from './services/auth.service';
 import './App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 import ProfilePage from './pages/ProfilePage';
-import { AppContextProvider } from './utils/AppContext';
+
+import { AppContextProvider, AppContext } from './utils/AppContext';
 
 function App() {
-  // getUser checks localStorage
-  // const [authUser, setAuthUser] = useState(getUser());
   const [authUser, setAuthUser] = useState(() => {
     return getUser();
   });

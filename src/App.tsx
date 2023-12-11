@@ -37,47 +37,58 @@ function App() {
     <AppContextProvider minimalUserData={minimalUserData}>
       <>
         <Router>
-          {authUser ? (
-            <ResponsiveAppBar
-              userID={authUser.user._id}
-              userAvatar={authUser.user.avatar}
-              userFirstnameLetter={authUser.user.firstName}
-              userName={authUser.user.firstName + '.' + authUser.user.lastName}
-              handleLogout={handleLogout}
-            />
-          ) : null}
-          <Routes>
-            <Route
-              path="/"
-              element={
-                !authUser ? <AuthorizationPage /> : <Navigate to="/timeline" />
-              }
-            ></Route>
-            <Route
-              path="/timeline"
-              element={authUser ? <TimelinePage /> : <Navigate to="/" />}
-            ></Route>
-            <Route
-              // the "userOrAuthUserID" id here could be the user of the authed individual, or it could be the user of someone else. It's based on which userID is being requested, and further checks and API calls in FriendsPage will be based on whether the requesting user is an authed user trying to access their own content, or if it is an authed user tyring to access someone else's content
-              path="/friends/:userName"
-              // path="/friends/:userName"
-              element={
-                authUser ? (
-                  <FriendsPage authedUser={minimalUserData} />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            ></Route>
-            <Route
-              path="/create-post"
-              element={authUser ? <CreatePostPage /> : <Navigate to="/" />}
-            ></Route>
-            <Route
-              path="/profile/:userID"
-              element={authUser ? <ProfilePage /> : <Navigate to="/" />}
-            ></Route>
-          </Routes>
+          <div className="navbar">
+            {authUser ? (
+              <ResponsiveAppBar
+                userID={authUser.user._id}
+                userAvatar={authUser.user.avatar}
+                userFirstnameLetter={authUser.user.firstName}
+                userName={
+                  authUser.user.firstName + '.' + authUser.user.lastName
+                }
+                handleLogout={handleLogout}
+              />
+            ) : null}
+          </div>
+
+          <div id="pages">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  !authUser ? (
+                    <AuthorizationPage />
+                  ) : (
+                    <Navigate to="/timeline" />
+                  )
+                }
+              ></Route>
+              <Route
+                path="/timeline"
+                element={authUser ? <TimelinePage /> : <Navigate to="/" />}
+              ></Route>
+              <Route
+                // the "userOrAuthUserID" id here could be the user of the authed individual, or it could be the user of someone else. It's based on which userID is being requested, and further checks and API calls in FriendsPage will be based on whether the requesting user is an authed user trying to access their own content, or if it is an authed user tyring to access someone else's content
+                path="/friends/:userName"
+                // path="/friends/:userName"
+                element={
+                  authUser ? (
+                    <FriendsPage authedUser={minimalUserData} />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              ></Route>
+              <Route
+                path="/create-post"
+                element={authUser ? <CreatePostPage /> : <Navigate to="/" />}
+              ></Route>
+              <Route
+                path="/profile/:userID"
+                element={authUser ? <ProfilePage /> : <Navigate to="/" />}
+              ></Route>
+            </Routes>
+          </div>
         </Router>
       </>
     </AppContextProvider>

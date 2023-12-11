@@ -16,7 +16,7 @@ export default function CustomAvatar({
         <Avatar alt="Profile picture" src={avatarURL} {...props} />
       ) : (
         <Avatar alt="Profile picture" {...props}>
-          {userFirstnameLetter}
+          {userFirstnameLetter.substring(0, 1)}
         </Avatar>
       )}
     </>

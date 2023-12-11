@@ -34,7 +34,10 @@ export default function Friends(userData: any) {
         {userData.user.friends.length === 0 ? (
           'You have no mutual friends'
         ) : (
-          <GroupAvatars userFriends={userData.user.friends} maxNum={2} />
+          <>
+            mutual friends:
+            <GroupAvatars userFriends={userData.user.friends} maxNum={2} />
+          </>
         )}
       </div>
       {unfriend && unfriend.includes(user._id) ? (

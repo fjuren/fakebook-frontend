@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -212,10 +212,7 @@ export default function TimelinePostCard({ post }: any) {
                 >
                   <CustomAvatar
                     avatarURL={commentData.user.avatar}
-                    userFirstnameLetter={commentData.user.firstName.substring(
-                      0,
-                      1
-                    )}
+                    userFirstnameLetter={commentData.user.firstName}
                   />
                 </IconButton>
               </AvatarContainer>

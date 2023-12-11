@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { Stack } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
+import GroupAvatars from '../components/GroupAvatars';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CustomAvatar from '../components/CustomAvatar';
+import IconButton from '@mui/material/IconButton';
 
 import { getUserProfile, postFriendRequest } from '../services/user.service';
 import { getUserProfilePosts } from '../services/post.service';
@@ -68,6 +69,11 @@ export default function ProfilePage() {
   } = useContext(AppContext);
   // userID is the user of the visited profile page
   const { userID } = useParams();
+  const navigate = useNavigate();
+
+  const navToProfile = (userID: any) => {
+    navigate(`/profile/${userID}`);
+  };
 
   const addFriend = (profileUserID: string, authedUserID: string) => {
     setFriendRequest((prevFriendRequst: string[]) => [
@@ -108,8 +114,6 @@ export default function ProfilePage() {
     fetchData();
   }, [userID]);
 
-  console.log('profileContent', profileContent);
-  console.log('authuserContent', authUserContent);
   return (
     <>
       <div id="profilePage">
@@ -139,23 +143,7 @@ export default function ProfilePage() {
               {} {/* space */}
               {profileContent?.lastName}
             </Typography>
-            {profileContent?.friends.length !== 0 ? (
-              <div>
-                avatar group:
-                <AvatarGroup total={profileContent?.friends.length}>
-                  {profileContent?.friends.map((friend, index) => (
-                    <div key={index}>
-                      <Avatar alt={friend.firstName} src={friend.avatar} />
-                    </div>
-                  ))}
-                </AvatarGroup>
-              </div>
-            ) : (
-              <div>
-                You haven't added any friends yet! Send friend requests to add
-                new friends.
-              </div>
-            )}
+
             <div className="friendRequestBtns">
               {user._id !== userID ? (
                 <div>
@@ -165,7 +153,9 @@ export default function ProfilePage() {
                     <Button variant="contained" disabled>
                       Friend request sent
                     </Button>
-                  ) : authUserContent.friends.includes(profileContent._id) ? (
+                  ) : profileContent.friends.some(
+                      (friend) => friend._id === user._id
+                    ) ? (
                     unfriend && unfriend.includes(user._id) ? (
                       <Button variant="outlined" disabled>
                         Unfriended
@@ -193,6 +183,41 @@ export default function ProfilePage() {
                 </div>
               ) : null}
             </div>
+
+            <Typography
+              sx={{
+                color: theme.typography.body2,
+                lineHeight: 1.1875,
+                fontSize: '1rem',
+                fontWeight: 'bold',
+              }}
+            >
+              {profileContent.firstName}'s Friends:
+            </Typography>
+            {profileContent?.friends.length >= 2 ? (
+              <div>
+                <GroupAvatars
+                  userFriends={profileContent?.friends}
+                  maxNum={profileContent?.friends.length}
+                />
+              </div>
+            ) : profileContent?.friends.length === 1 ? (
+              <IconButton
+                onClick={() => navToProfile(profileContent.friends[0]._id)}
+                sx={{ p: 0 }}
+              >
+                <CustomAvatar
+                  avatarURL={profileContent.friends[0].avatar}
+                  userFirstnameLetter={profileContent.friends[0].firstName}
+                />
+              </IconButton>
+            ) : (
+              <div>
+                You haven't added any friends yet! Send friend requests to add
+                new friends.
+              </div>
+            )}
+
             <div className="posts">
               <Typography
                 sx={{
@@ -204,18 +229,24 @@ export default function ProfilePage() {
               >
                 {profileContent.firstName}'s Posts:
               </Typography>
-              <Stack spacing={2}>
-                {userPosts?.map((post: any, index: number) => {
-                  const initialPostLikes = post.likes;
-                  return (
-                    <div key={index}>
-                      <PostLikesContextProvider initialLikes={initialPostLikes}>
-                        <TimelinePostCard post={post} user={post.user} />
-                      </PostLikesContextProvider>
-                    </div>
-                  );
-                })}
-              </Stack>
+              {userPosts?.length !== 0 ? (
+                <Stack spacing={2}>
+                  {userPosts?.map((post: any, index: number) => {
+                    const initialPostLikes = post.likes;
+                    return (
+                      <div key={index}>
+                        <PostLikesContextProvider
+                          initialLikes={initialPostLikes}
+                        >
+                          <TimelinePostCard post={post} user={post.user} />
+                        </PostLikesContextProvider>
+                      </div>
+                    );
+                  })}
+                </Stack>
+              ) : (
+                <div>There are no posts yet</div>
+              )}
             </div>
           </div>
         </ThemeProvider>

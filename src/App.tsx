@@ -41,7 +41,7 @@ function App() {
             <ResponsiveAppBar
               userID={authUser.user._id}
               userAvatar={authUser.user.avatar}
-              userFirstnameLetter={authUser.user.firstName.substring(0, 1)}
+              userFirstnameLetter={authUser.user.firstName}
               userName={authUser.user.firstName + '.' + authUser.user.lastName}
               handleLogout={handleLogout}
             />

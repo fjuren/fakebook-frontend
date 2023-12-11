@@ -20,8 +20,11 @@ import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 
 import { conditionalDateDisplay } from '../utils/helpers';
-import { AppContext } from '../utils/AppContext';
-import { PostLikesContext } from '../utils/AppContext';
+import {
+  AppContext,
+  PostLikesContext,
+  PostCommentsContext,
+} from '../utils/AppContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -70,17 +73,25 @@ interface CommentBoxData {
 // }
 export default function TimelinePostCardModal({ post, handleLike }: any) {
   const [expanded, setExpanded] = useState(false);
-  const { comments, setComments, user } = useContext(AppContext);
+  const { user } = useContext(AppContext);
   const { postLikes } = useContext(PostLikesContext);
+  const { comments, setComments } = useContext(PostCommentsContext);
   const navigate = useNavigate();
 
   const navToProfile = (userID: any) => {
     navigate(`/profile/${userID}`);
   };
 
-  // Check if comments context has new comments. If so, add to end of post.comments
-  const commentsToRender =
-    comments.length > 0 ? [...post.comments, ...comments] : post.comments;
+  const existingCommentIds = new Set(
+    post.comments.map((comment: any) => comment._id)
+  );
+
+  const newComments = comments.filter(
+    (comment: any) => !existingCommentIds.has(comment._id)
+  );
+
+  const allComments = [...post.comments, ...newComments];
+
   // Check if post is liked by the logged in user
   const isLikedByCurrentUser = postLikes.includes(user._id);
 
@@ -154,7 +165,7 @@ export default function TimelinePostCardModal({ post, handleLike }: any) {
         </Button>
       </CardActions>
       <Stack spacing={1}>
-        {commentsToRender.map((commentData: commentsInt, index: number) => {
+        {allComments.map((commentData: commentsInt, index: number) => {
           return (
             <ContentContainer key={index}>
               <AvatarContainer>

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState } from 'react';
 
 export const AppContext = createContext();
 export const PostLikesContext = createContext();

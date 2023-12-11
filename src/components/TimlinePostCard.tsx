@@ -109,7 +109,6 @@ export default function TimelinePostCard({ post }: any) {
       : renderLastComment;
 
   const allComments = [...post.comments, ...newComments];
-  console.log(allComments);
 
   // Check if post is liked by the logged in user
   const isLikedByCurrentUser = postLikes.includes(user._id);

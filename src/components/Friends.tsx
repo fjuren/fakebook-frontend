@@ -32,10 +32,10 @@ export default function Friends(userData: any) {
       <div className="FriendRequestItem2">{`${userData.user.firstName} ${userData.user.lastName}`}</div>
       <div className="FriendRequestItem3">
         {userData.user.friends.length === 0 ? (
-          'You have no mutual friends'
+          'No friends yet'
         ) : (
           <>
-            mutual friends:
+            <div>Friends:</div>
             <GroupAvatars userFriends={userData.user.friends} maxNum={2} />
           </>
         )}

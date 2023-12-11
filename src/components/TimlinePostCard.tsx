@@ -24,7 +24,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { likePost } from '../services/post.service';
 import { conditionalDateDisplay } from '../utils/helpers';
-import { AppContext, PostLikesContext } from '../utils/AppContext';
+import {
+  AppContext,
+  PostLikesContext,
+  PostCommentsContext,
+} from '../utils/AppContext';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -82,15 +86,31 @@ interface CommentBoxData {
 // }
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
-  const { comments, setComments, profilePic, user } = useContext(AppContext);
-
+  const { profilePic, user } = useContext(AppContext);
   const { postLikes, setPostLikes } = useContext(PostLikesContext);
+  const { comments, setComments } = useContext(PostCommentsContext);
 
   const navigate = useNavigate();
 
+  const existingCommentIds = new Set(
+    post.comments.map((comment: any) => comment._id)
+  );
+
+  const newComments = comments.filter(
+    (comment: any) => !existingCommentIds.has(comment._id)
+  );
+
+  const renderLastComment =
+    post.comments.length > 0 ? [post.comments[post.comments.length - 1]] : [];
   // Check if comments context has new comments. If so, add to end of post.comments
   const commentsToRender =
-    comments.length > 0 ? [...post.comments, ...comments] : post.comments;
+    newComments.length > 0
+      ? [...renderLastComment, ...newComments]
+      : renderLastComment;
+
+  const allComments = [...post.comments, ...newComments];
+  console.log(allComments);
+
   // Check if post is liked by the logged in user
   const isLikedByCurrentUser = postLikes.includes(user._id);
 
@@ -176,11 +196,7 @@ export default function TimelinePostCard({ post }: any) {
       ) : null}
       {countLikes(postLikes)}
       <br></br>
-      <LinkButton
-        post={post}
-        comments={commentsToRender}
-        handleLike={handleLike}
-      />
+      <LinkButton post={post} comments={allComments} handleLike={handleLike} />
       <CardActions disableSpacing>
         <Button
           size="medium"

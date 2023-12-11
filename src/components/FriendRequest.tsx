@@ -61,14 +61,13 @@ export default function FriendRequests(userData: any) {
         }
       </div>
       <div className="FriendRequestItem3">
-        {/* TODO these don't show mutual friends yet, just friends of the the requesting user */}
         {userData.user.friends.length === 0 ? (
-          'No mutual friends'
-        ) : userData.user.friends[0]._id == user._id ? ( // also checks if the 'mutual friend' is the authed user. If so, you can't be 'mutual friends' with yourself
-          'No mutual friends'
+          'No friends yet'
+        ) : userData.user.friends[0]._id == user._id ? ( // also checks if the 'friend' is the authed user. If so, you can't be 'friends' with yourself
+          'No friends yet'
         ) : (
           <>
-            Mutual friends:
+            <div>Friends:</div>
             <GroupAvatars userFriends={userData.user.friends} maxNum={2} />
           </>
         )}

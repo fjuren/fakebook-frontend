@@ -2,9 +2,10 @@ import { createContext, useState, useContext } from 'react';
 
 export const AppContext = createContext();
 export const PostLikesContext = createContext();
+export const PostCommentsContext = createContext();
 
 export const AppContextProvider = ({ children, minimalUserData }: any) => {
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
   const [acceptFriendRequest, setAcceptFriendRequest] = useState([]);
   const [declineFriendRequest, setDeclineFriendRequest] = useState([]);
@@ -15,8 +16,8 @@ export const AppContextProvider = ({ children, minimalUserData }: any) => {
   return (
     <AppContext.Provider
       value={{
-        comments,
-        setComments,
+        // comments,
+        // setComments,
         friendRequest,
         setFriendRequest,
         acceptFriendRequest,
@@ -42,5 +43,17 @@ export const PostLikesContextProvider = ({ children, initialLikes }: any) => {
     <PostLikesContext.Provider value={{ postLikes, setPostLikes }}>
       {children}
     </PostLikesContext.Provider>
+  );
+};
+
+export const PostCommentsContextProvider = ({
+  children,
+  initialComments,
+}: any) => {
+  const [comments, setComments] = useState(initialComments || []);
+  return (
+    <PostCommentsContext.Provider value={{ comments, setComments }}>
+      {children}
+    </PostCommentsContext.Provider>
   );
 };

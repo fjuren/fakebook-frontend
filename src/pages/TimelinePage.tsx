@@ -8,7 +8,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 
 import { getTimelinePosts } from '../services/post.service';
-import { PostLikesContextProvider } from '../utils/AppContext';
+import {
+  PostCommentsContextProvider,
+  PostLikesContextProvider,
+} from '../utils/AppContext';
 
 export default function TimelinePage() {
   const [timelinePosts, setTimelinePosts] = useState<any[]>([]);
@@ -92,11 +95,16 @@ export default function TimelinePage() {
             <Stack spacing={2}>
               {timelinePosts.map((post, index) => {
                 const initialPostLikes = post.likes;
+                const initialComments = post.comments;
                 return (
                   <div key={index}>
-                    <PostLikesContextProvider initialLikes={initialPostLikes}>
-                      <TimelinePostCard post={post} postUser={post.user} />
-                    </PostLikesContextProvider>
+                    <PostCommentsContextProvider
+                      initialComments={initialComments}
+                    >
+                      <PostLikesContextProvider initialLikes={initialPostLikes}>
+                        <TimelinePostCard post={post} postUser={post.user} />
+                      </PostLikesContextProvider>
+                    </PostCommentsContextProvider>
                   </div>
                 );
               })}

@@ -166,7 +166,7 @@ export default function TimelinePostCard({ post }: any) {
   };
 
   return (
-    <Card sx={{ maxWidth: 300 }}>
+    <Card className="post">
       <CardHeader
         avatar={
           <IconButton onClick={() => navToProfile(post.user._id)} sx={{ p: 0 }}>
@@ -188,14 +188,21 @@ export default function TimelinePostCard({ post }: any) {
       {post.image !== '' ? (
         <CardMedia
           component="img"
-          height="194"
           image={post.image}
           alt="image"
+          className="postImage"
         />
       ) : null}
-      {countLikes(postLikes)}
-      <br></br>
-      <LinkButton post={post} comments={allComments} handleLike={handleLike} />
+      <div className="likecommentContainer">
+        <div className="postLikes">{countLikes(postLikes)}</div>
+        <div className="postComments">
+          <LinkButton
+            post={post}
+            comments={allComments}
+            handleLike={handleLike}
+          />
+        </div>
+      </div>
       <CardActions disableSpacing>
         <Button
           size="medium"
@@ -257,7 +264,7 @@ export default function TimelinePostCard({ post }: any) {
               />
             </IconButton>
           </AvatarContainer>
-          <CommentContainer>
+          <CommentContainer className="commentContainer">
             <CommentBox
               postID={post._id}
               postCommentHandler={postCommentHandler}

@@ -91,31 +91,29 @@ export default function TimelinePage() {
               Create post
             </Fab>
           </div>
-          <div id="timeline-content">
-            <Stack spacing={2}>
-              {timelinePosts.map((post, index) => {
-                const initialPostLikes = post.likes;
-                const initialComments = post.comments;
-                return (
-                  <div key={index}>
-                    <PostCommentsContextProvider
-                      initialComments={initialComments}
-                    >
-                      <PostLikesContextProvider initialLikes={initialPostLikes}>
-                        <TimelinePostCard post={post} postUser={post.user} />
-                      </PostLikesContextProvider>
-                    </PostCommentsContextProvider>
-                  </div>
-                );
-              })}
-              {loading && hasMorePosts && (
-                <div style={{ textAlign: 'center' }}>
-                  <CircularProgress />
+          <Stack spacing={2}>
+            {timelinePosts.map((post, index) => {
+              const initialPostLikes = post.likes;
+              const initialComments = post.comments;
+              return (
+                <div key={index} className="postContainer">
+                  <PostCommentsContextProvider
+                    initialComments={initialComments}
+                  >
+                    <PostLikesContextProvider initialLikes={initialPostLikes}>
+                      <TimelinePostCard post={post} postUser={post.user} />
+                    </PostLikesContextProvider>
+                  </PostCommentsContextProvider>
                 </div>
-              )}
-              {!loading && !hasMorePosts && <div>No more posts. </div>}
-            </Stack>
-          </div>
+              );
+            })}
+            {loading && hasMorePosts && (
+              <div style={{ textAlign: 'center' }}>
+                <CircularProgress />
+              </div>
+            )}
+            {!loading && !hasMorePosts && <div>No more posts. </div>}
+          </Stack>
         </ThemeProvider>
       </div>
     </>

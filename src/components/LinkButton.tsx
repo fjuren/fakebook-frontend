@@ -12,12 +12,15 @@ export default function LinkButton({ post, comments, handleLike }: any) {
     <>
       <Link
         component="button"
-        variant="body2"
+        variant="body1"
         onClick={() => {
           handleModalOpen();
         }}
+        sx={{ textDecoration: 'none', color: 'grey' }}
       >
-        {comments.length} Comments
+        {comments.length == 1
+          ? `${comments.length} Comment`
+          : `${comments.length} Comments`}
       </Link>
       <PostModal
         open={modalOpen}

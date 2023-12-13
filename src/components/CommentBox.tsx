@@ -44,11 +44,9 @@ export default function CommentBox({ postID, postCommentHandler }: any) {
       <Box
         component="form"
         onSubmit={commentHandler}
-        sx={{
-          '& .MuiTextField-root': { m: 1 },
-        }}
         noValidate
         autoComplete="off"
+        className="commentBox"
       >
         <TextField
           id="filled-multiline-flexible"
@@ -61,6 +59,7 @@ export default function CommentBox({ postID, postCommentHandler }: any) {
           error={commentTextError}
           helperText={commentTextErrorText}
           onKeyPress={handleTextFieldEnterPress}
+          className="postWriteComment"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

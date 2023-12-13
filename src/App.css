@@ -1,5 +1,32 @@
-#pages {
+#timelinePage {
   display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+}
+.post {
+  border: 1px solid #ccc;
+  /* height: 50rem; */
+}
+.commentContainer {
+  width: 100%;
+}
+.commentBox {
+  width: 95%;
+}
+.postWriteComment {
+  width: 100%;
+}
+
+.likecommentContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.postLikes {
+  justify-self: start;
+  padding-left: 10px;
+}
+.postComments {
+  justify-self: end;
+  padding-right: 10px;
 }
 
 .logo {
@@ -15,25 +42,18 @@
   /* filter: drop-shadow(0 0 2em #61dafbaa); */
 }
 
-@keyframes logo-spin {
-  /* from {
-    transform: rotate(0deg);
+/* Desktop-specific */
+@media screen and (min-width: 769px) {
+  .postImage {
+    height: 35rem;
   }
-  to {
-    transform: rotate(360deg);
-  } */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  } */
-}
-
-.card {
-  /* padding: 2em; */
-}
-
-.read-the-docs {
-  /* color: #888; */
+/* mobile-specific */
+@media screen and (max-width: 768px) {
+  #timelinePage {
+    grid-template-columns: 1fr;
+  }
+  .postWriteComment {
+  }
 }

@@ -1,24 +1,11 @@
 import { useContext, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Card, Box, Button, Typography } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Modal from '@mui/material/Modal';
 
 import CustomAvatar from './CustomAvatar';
 import { updateProfilePic } from '../services/user.service';
 import { AppContext } from '../utils/AppContext';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '80%',
-  height: '80%',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  padding: 0,
-};
 
 export default function PostModal({
   open,
@@ -107,50 +94,74 @@ export default function PostModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography>Choose profile picture</Typography>
-          <div className="profile-pic-modal">
-            {filePreview ? (
-              <CustomAvatar
-                avatarURL={filePreview}
-                userFirstnameLetter={firstName.substring(0, 1)}
-                sx={{ fontSize: 84, width: 168, height: 168 }}
-              ></CustomAvatar>
-            ) : (
-              <CustomAvatar
-                avatarURL={avatar}
-                userFirstnameLetter={firstName.substring(0, 1)}
-                sx={{ fontSize: 84, width: 168, height: 168 }}
-              ></CustomAvatar>
-            )}
-          </div>
-          <div>
-            <input
-              id="add-media"
-              type="file"
-              accept="image/*"
-              onChange={edit}
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="add-media">
-              <Button variant="outlined" component="span" size="medium">
-                Edit
-              </Button>
-            </label>
-          </div>
-          <Button variant="outlined" type="submit" onClick={cancel}>
-            Cancel
-          </Button>
-          <Button variant="contained" type="submit" onClick={saveProfilePic}>
-            Save
-          </Button>
-          <div className="error-message">
-            {contentError ? (
-              <Typography style={{ color: 'red' }}>
-                {contentErrorText}
-              </Typography>
-            ) : null}
-          </div>
+        <Box className="postModal">
+          <Card>
+            <div className="modalHeader">
+              <Typography variant="h2">Choose profile picture</Typography>
+            </div>
+            <div className="profilePicModal">
+              {filePreview ? (
+                <CustomAvatar
+                  avatarURL={filePreview}
+                  userFirstnameLetter={firstName.substring(0, 1)}
+                  sx={{ fontSize: 84, width: 168, height: 168 }}
+                ></CustomAvatar>
+              ) : (
+                <CustomAvatar
+                  avatarURL={avatar}
+                  userFirstnameLetter={firstName.substring(0, 1)}
+                  sx={{ fontSize: 84, width: 168, height: 168 }}
+                ></CustomAvatar>
+              )}
+            </div>
+            <div className="profilePicBtnsContainer">
+              <div className="profilePicBtns">
+                <Button
+                  className="profilePicBtns"
+                  variant="outlined"
+                  type="submit"
+                  onClick={cancel}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <input
+                id="add-media"
+                type="file"
+                accept="image/*"
+                onChange={edit}
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="add-media">
+                <Button
+                  className="profilePicBtns"
+                  variant="outlined"
+                  component="span"
+                  size="medium"
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload file
+                </Button>
+              </label>
+              <div className="profilePicBtns">
+                <Button
+                  className="profilePicBtns"
+                  variant="outlined"
+                  type="submit"
+                  onClick={saveProfilePic}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+            <div className="error-message">
+              {contentError ? (
+                <Typography style={{ color: 'red' }}>
+                  {contentErrorText}
+                </Typography>
+              ) : null}
+            </div>
+          </Card>
         </Box>
       </Modal>
     </div>

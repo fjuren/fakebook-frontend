@@ -1,12 +1,12 @@
 import { useEffect, useState, useContext } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import TimelinePostCard from '../components/TimlinePostCard';
 import { CircularProgress, Stack } from '@mui/material';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 
+import TimelinePostCard from '../components/TimlinePostCard';
 import { getTimelinePosts } from '../services/post.service';
 import {
   PostCommentsContextProvider,

@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
+import { ThemeProvider } from '@emotion/react';
+import theme from '../theme';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-// import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-// import { red } from '@mui/material/colors';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import { Button, ButtonProps } from '@mui/material';
@@ -18,6 +18,7 @@ import Box from '@mui/material/Box';
 import MyComment from './MyComment';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
+import '../assets/styles/modals.css';
 
 import { conditionalDateDisplay } from '../utils/helpers';
 import {
@@ -100,6 +101,8 @@ export default function TimelinePostCardModal({ post, handleLike }: any) {
     return countPostLikes;
   };
 
+  const renderLikes = countLikes(postLikes);
+
   // Triggered by the commentBox component
   const postCommentHandler = async (newCommentData: CommentBoxData) => {
     addCommentToContext(newCommentData);
@@ -123,96 +126,115 @@ export default function TimelinePostCardModal({ post, handleLike }: any) {
   };
 
   return (
-    <Card sx={{ height: '100%' }}>
-      <CardHeader
-        avatar={
-          <IconButton onClick={() => navToProfile(post.user._id)} sx={{ p: 0 }}>
-            <CustomAvatar
-              avatarURL={post.user.avatar}
-              userFirstnameLetter={post.user.firstName.substring(0, 1)}
-            ></CustomAvatar>
-          </IconButton>
-        }
-        // action=headerClick}
-        title={post.user.firstName + ' ' + post.user.lastName}
-        subheader={conditionalDateDisplay(post.postCreated)}
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {post.content}
-        </Typography>
-      </CardContent>
-      {post.image !== '' ? (
-        <CardMedia
-          component="img"
-          height="194"
-          image={post.image}
-          alt="image"
-        />
-      ) : null}
-      {countLikes(postLikes)}
-      <br></br>
-      {post.comments.length} Comments
-      <CardActions disableSpacing>
-        <Button
-          size="medium"
-          startIcon={
-            isLikedByCurrentUser ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />
-          }
-          onClick={handleLike}
-        >
-          <p>Like</p>
-        </Button>
-      </CardActions>
-      <Stack spacing={1}>
-        {allComments.map((commentData: commentsInt, index: number) => {
-          return (
-            <ContentContainer key={index}>
-              <AvatarContainer>
-                <IconButton
-                  onClick={() => navToProfile(commentData.user._id)}
-                  sx={{ p: 0 }}
-                >
-                  <CustomAvatar
-                    avatarURL={commentData.user.avatar}
-                    userFirstnameLetter={commentData.user.firstName.substring(
-                      0,
-                      1
-                    )}
-                  />
-                </IconButton>
-              </AvatarContainer>
-              <CommentContainer>
-                <MyComment
-                  commentUserName={
-                    commentData.user.firstName + ' ' + commentData.user.lastName
-                  }
-                  commentContent={commentData.content}
-                  commentDate={conditionalDateDisplay(
-                    commentData.commentCreated
-                  )}
-                />
-              </CommentContainer>
-            </ContentContainer>
-          );
-        })}
-      </Stack>
-      <ContentContainer>
-        <AvatarContainer>
-          <IconButton onClick={() => navToProfile(user._id)} sx={{ p: 0 }}>
-            <CustomAvatar
-              avatarURL={user.avatar}
-              userFirstnameLetter={user.firstName.substring(0, 1)}
-            />
-          </IconButton>
-        </AvatarContainer>
-        <CommentContainer>
-          <CommentBox
-            postID={post._id}
-            postCommentHandler={postCommentHandler}
+    <ThemeProvider theme={theme}>
+      <Card>
+        <div>
+          <div className="modalHeader">
+            <Typography variant="h2">{post.user.firstName}'s post</Typography>
+          </div>
+          <CardHeader
+            avatar={
+              <IconButton
+                onClick={() => navToProfile(post.user._id)}
+                sx={{ p: 0 }}
+              >
+                <CustomAvatar
+                  avatarURL={post.user.avatar}
+                  userFirstnameLetter={post.user.firstName.substring(0, 1)}
+                ></CustomAvatar>
+              </IconButton>
+            }
+            // action=headerClick}
+            title={post.user.firstName + ' ' + post.user.lastName}
+            subheader={conditionalDateDisplay(post.postCreated)}
           />
-        </CommentContainer>
-      </ContentContainer>
-    </Card>
+          <CardContent>
+            <Typography variant="body2">{post.content}</Typography>
+          </CardContent>
+          {post.image !== '' ? (
+            <CardMedia component="img" image={post.image} alt="image" />
+          ) : null}
+          <div className="likecommentContainer">
+            <div className="postLikes">
+              {postLikes.length == 1
+                ? `${renderLikes} like`
+                : `${renderLikes} likes`}
+            </div>
+            <div className="postComments">
+              {comments.length == 1
+                ? `${comments.length} comment`
+                : `${comments.length} comments`}
+            </div>
+          </div>
+
+          <CardActions disableSpacing>
+            <Button
+              size="medium"
+              startIcon={
+                isLikedByCurrentUser ? (
+                  <ThumbUpIcon />
+                ) : (
+                  <ThumbUpAltOutlinedIcon />
+                )
+              }
+              onClick={handleLike}
+            >
+              <p>Like</p>
+            </Button>
+          </CardActions>
+          <Stack spacing={1}>
+            {allComments.map((commentData: commentsInt, index: number) => {
+              return (
+                <ContentContainer key={index}>
+                  <AvatarContainer>
+                    <IconButton
+                      onClick={() => navToProfile(commentData.user._id)}
+                      sx={{ p: 0 }}
+                    >
+                      <CustomAvatar
+                        avatarURL={commentData.user.avatar}
+                        userFirstnameLetter={commentData.user.firstName.substring(
+                          0,
+                          1
+                        )}
+                      />
+                    </IconButton>
+                  </AvatarContainer>
+                  <CommentContainer>
+                    <MyComment
+                      commentUserName={
+                        commentData.user.firstName +
+                        ' ' +
+                        commentData.user.lastName
+                      }
+                      commentContent={commentData.content}
+                      commentDate={conditionalDateDisplay(
+                        commentData.commentCreated
+                      )}
+                    />
+                  </CommentContainer>
+                </ContentContainer>
+              );
+            })}
+          </Stack>
+        </div>
+        <ContentContainer className="modalCommentBox">
+          <AvatarContainer>
+            <IconButton onClick={() => navToProfile(user._id)} sx={{ p: 0 }}>
+              <CustomAvatar
+                avatarURL={user.avatar}
+                userFirstnameLetter={user.firstName.substring(0, 1)}
+              />
+            </IconButton>
+          </AvatarContainer>
+          <CommentContainer>
+            <CommentBox
+              postID={post._id}
+              postCommentHandler={postCommentHandler}
+            />
+          </CommentContainer>
+        </ContentContainer>
+      </Card>
+    </ThemeProvider>
   );
 }

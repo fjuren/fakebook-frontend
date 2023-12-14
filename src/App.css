@@ -1,10 +1,15 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 #timelinePage {
   display: grid;
   grid-template-columns: 1fr 1.4fr 1fr;
 }
 .post {
   border: 1px solid #ccc;
-  /* height: 50rem; */
 }
 .commentContainer {
   width: 100%;
@@ -23,10 +28,20 @@
 .postLikes {
   justify-self: start;
   padding-left: 10px;
+  font-family: 'Helvetica', 'Arial', 'sanss-erif';
+  color: grey;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 .postComments {
   justify-self: end;
   padding-right: 10px;
+  font-family: 'Helvetica', 'Arial', 'sanss-erif';
+  color: grey;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .logo {

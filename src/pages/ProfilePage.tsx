@@ -15,7 +15,11 @@ import { getUserProfilePosts } from '../services/post.service';
 import { unFriend } from '../services/user.service';
 import TimelinePostCard from '../components/TimlinePostCard';
 import ProfilePicButton from '../components/ProfilePicButton';
-import { AppContext, PostLikesContextProvider } from '../utils/AppContext';
+import {
+  AppContext,
+  PostLikesContextProvider,
+  PostCommentsContextProvider,
+} from '../utils/AppContext';
 
 interface UserProfile {
   _id: string;
@@ -233,13 +237,18 @@ export default function ProfilePage() {
                 <Stack spacing={2}>
                   {userPosts?.map((post: any, index: number) => {
                     const initialPostLikes = post.likes;
+                    const initialComments = post.comments;
                     return (
                       <div key={index}>
-                        <PostLikesContextProvider
-                          initialLikes={initialPostLikes}
+                        <PostCommentsContextProvider
+                          initialComments={initialComments}
                         >
-                          <TimelinePostCard post={post} user={post.user} />
-                        </PostLikesContextProvider>
+                          <PostLikesContextProvider
+                            initialLikes={initialPostLikes}
+                          >
+                            <TimelinePostCard post={post} user={post.user} />
+                          </PostLikesContextProvider>
+                        </PostCommentsContextProvider>
                       </div>
                     );
                   })}

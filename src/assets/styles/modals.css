@@ -1,0 +1,50 @@
+.postModal > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  max-height: 84vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+.modalHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.modalCommentBox {
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background-color: white;
+  height: 4rem;
+}
+.modalCommentBox > div:nth-child(1) {
+  padding-top: 3px;
+}
+.modalCommentBox > div:nth-child(2) {
+  padding: 0;
+  align-self: center;
+  width: 100%;
+}
+
+/* mobile-specific */
+@media screen and (max-width: 768px) {
+  .postModal > div {
+    width: 100%;
+  }
+}

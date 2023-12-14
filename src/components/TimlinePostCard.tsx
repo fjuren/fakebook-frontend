@@ -143,6 +143,8 @@ export default function TimelinePostCard({ post }: any) {
     return countPostLikes;
   };
 
+  const renderLikes = countLikes(postLikes);
+
   // Triggered by the commentBox component
   const postCommentHandler = async (newCommentData: CommentBoxData) => {
     addCommentToContext(newCommentData);
@@ -194,7 +196,11 @@ export default function TimelinePostCard({ post }: any) {
         />
       ) : null}
       <div className="likecommentContainer">
-        <div className="postLikes">{countLikes(postLikes)}</div>
+        <div className="postLikes">
+          {postLikes.length == 1
+            ? `${renderLikes} like`
+            : `${renderLikes} likes`}
+        </div>
         <div className="postComments">
           <LinkButton
             post={post}

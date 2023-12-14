@@ -18,15 +18,25 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: '"Helvetica", "Arial", "sans-serif"',
+    h1: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      color: 'black',
+    },
+    h2: {
+      fontSize: '1.25rem',
+      fontWeight: 'bold',
+      color: 'black',
+    },
     body1: {
       color: '#65676b', // light grey
     },
-    fontFamily: '"Helvetica", "Arial", "sanss-erif"',
-    button: {
-      textTransform: 'none',
-    },
     body2: {
       color: 'black',
+    },
+    button: {
+      textTransform: 'none',
     },
   },
 });

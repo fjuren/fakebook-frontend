@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CustomAvatar from '../components/CustomAvatar';
 import IconButton from '@mui/material/IconButton';
+import '../App.css';
 
 import { getUserProfile, postFriendRequest } from '../services/user.service';
 import { getUserProfilePosts } from '../services/post.service';
@@ -122,117 +123,127 @@ export default function ProfilePage() {
     <>
       <div id="profilePage">
         <ThemeProvider theme={theme}>
-          <div id="profile-content">
-            <div className="profile-pic">
-              <CustomAvatar
-                avatarURL={profilePic ? profilePic : profileContent?.avatar}
-                userFirstnameLetter={profileContent?.firstName.substring(0, 1)}
-                sx={{ fontSize: 84, width: 168, height: 168 }}
-              ></CustomAvatar>
-              <ProfilePicButton
-                avatar={profileContent.avatar}
-                firstName={profileContent.firstName}
-              />
-            </div>
+          <div className="profilePageBanner">
+            <div className="profileBannerContent">
+              <div className="profilePicAvatarName">
+                <CustomAvatar
+                  avatarURL={profilePic ? profilePic : profileContent?.avatar}
+                  userFirstnameLetter={profileContent?.firstName.substring(
+                    0,
+                    1
+                  )}
+                  sx={{ fontSize: 84, width: 168, height: 168 }}
+                ></CustomAvatar>
+                <ProfilePicButton
+                  avatar={profileContent.avatar}
+                  firstName={profileContent.firstName}
+                />
+              </div>
+              <Typography
+                className="profileName"
+                sx={{
+                  color: theme.typography.body2,
+                  lineHeight: 1.1875,
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                }}
+              >
+                {profileContent?.firstName}
+                {} {/* space */}
+                {profileContent?.lastName}
+              </Typography>
 
-            <Typography
-              sx={{
-                color: theme.typography.body2,
-                lineHeight: 1.1875,
-                fontSize: '2rem',
-                fontWeight: 'bold',
-              }}
-            >
-              {profileContent?.firstName}
-              {} {/* space */}
-              {profileContent?.lastName}
-            </Typography>
+              <div className="profileFriends">
+                <Typography
+                  sx={{
+                    color: theme.typography.body2,
+                    lineHeight: 1.1875,
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Friends:
+                </Typography>
+                {profileContent?.friends.length >= 2 ? (
+                  <div>
+                    <GroupAvatars
+                      userFriends={profileContent?.friends}
+                      maxNum={profileContent?.friends.length}
+                    />
+                  </div>
+                ) : profileContent?.friends.length === 1 ? (
+                  <IconButton
+                    onClick={() => navToProfile(profileContent.friends[0]._id)}
+                    sx={{ p: 0 }}
+                  >
+                    <CustomAvatar
+                      avatarURL={profileContent.friends[0].avatar}
+                      userFirstnameLetter={profileContent.friends[0].firstName}
+                    />
+                  </IconButton>
+                ) : (
+                  <div>
+                    You haven't added any friends yet! Send friend requests to
+                    add new friends.
+                  </div>
+                )}
+              </div>
 
-            <div className="friendRequestBtns">
-              {user._id !== userID ? (
-                <div>
-                  {(profileContent.friendRequest &&
-                    profileContent.friendRequest.includes(user._id)) ||
-                  (friendRequest && friendRequest.includes(user._id)) ? (
-                    <Button variant="contained" disabled>
-                      Friend request sent
-                    </Button>
-                  ) : profileContent.friends.some(
-                      (friend) => friend._id === user._id
-                    ) ? (
-                    unfriend && unfriend.includes(user._id) ? (
-                      <Button variant="outlined" disabled>
-                        Unfriended
+              <div className="friendRequestBtns">
+                {user._id !== userID ? (
+                  <div>
+                    {(profileContent.friendRequest &&
+                      profileContent.friendRequest.includes(user._id)) ||
+                    (friendRequest && friendRequest.includes(user._id)) ? (
+                      <Button variant="contained" disabled>
+                        Friend request sent
                       </Button>
+                    ) : profileContent.friends.some(
+                        (friend) => friend._id === user._id
+                      ) ? (
+                      unfriend && unfriend.includes(user._id) ? (
+                        <Button variant="outlined" disabled>
+                          Unfriended
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          onClick={() =>
+                            handleDelete(userID as string, user._id as string)
+                          }
+                        >
+                          Unfriend
+                        </Button>
+                      )
                     ) : (
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         onClick={() =>
-                          handleDelete(userID as string, user._id as string)
+                          addFriend(userID as string, user._id as string)
                         }
                       >
-                        Unfriend
+                        Add friend
                       </Button>
-                    )
-                  ) : (
-                    <Button
-                      variant="contained"
-                      onClick={() =>
-                        addFriend(userID as string, user._id as string)
-                      }
-                    >
-                      Add friend
-                    </Button>
-                  )}
-                </div>
-              ) : null}
+                    )}
+                  </div>
+                ) : null}
+              </div>
             </div>
+          </div>
 
-            <Typography
-              sx={{
-                color: theme.typography.body2,
-                lineHeight: 1.1875,
-                fontSize: '1rem',
-                fontWeight: 'bold',
-              }}
-            >
-              {profileContent.firstName}'s Friends:
-            </Typography>
-            {profileContent?.friends.length >= 2 ? (
-              <div>
-                <GroupAvatars
-                  userFriends={profileContent?.friends}
-                  maxNum={profileContent?.friends.length}
-                />
-              </div>
-            ) : profileContent?.friends.length === 1 ? (
-              <IconButton
-                onClick={() => navToProfile(profileContent.friends[0]._id)}
-                sx={{ p: 0 }}
-              >
-                <CustomAvatar
-                  avatarURL={profileContent.friends[0].avatar}
-                  userFirstnameLetter={profileContent.friends[0].firstName}
-                />
-              </IconButton>
-            ) : (
-              <div>
-                You haven't added any friends yet! Send friend requests to add
-                new friends.
-              </div>
-            )}
-
-            <div className="posts">
+          <div className="profilePosts">
+            <div>
               <Typography
                 sx={{
                   color: theme.typography.body2,
                   lineHeight: 1.1875,
-                  fontSize: '1rem',
+                  fontSize: '2rem',
                   fontWeight: 'bold',
                 }}
               >
-                {profileContent.firstName}'s Posts:
+                Posts
               </Typography>
+              <br />
               {userPosts?.length !== 0 ? (
                 <Stack spacing={2}>
                   {userPosts?.map((post: any, index: number) => {

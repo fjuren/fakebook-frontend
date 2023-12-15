@@ -8,6 +8,52 @@
   display: grid;
   grid-template-columns: 1fr 1.4fr 1fr;
 }
+
+#profilePage {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.profilePageBanner {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  background-color: white;
+  margin-bottom: 3rem;
+}
+.profileBannerContent {
+  grid-column: 2;
+  display: grid;
+  grid-template-areas: 'pic null' 'friends friends' 'btn btn';
+  max-width: fit-content;
+  align-items: center;
+  gap: 10px;
+}
+.profilePicAvatarName {
+  grid-area: pic;
+  text-align: end;
+  max-width: fit-content;
+}
+.profilePic > div > span:nth-child(2) {
+  bottom: 2rem;
+}
+.profileFriends {
+  grid-area: friends;
+  display: grid;
+  justify-items: flex-start;
+}
+.friendRequestBtns {
+  /* grid-row: 3; */
+  grid-area: btn;
+  padding: 10px;
+}
+
+.profilePosts {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+}
+.profilePosts > div {
+  grid-column: 2;
+}
+
 .post {
   border: 1px solid #ccc;
 }
@@ -69,6 +115,29 @@
   #timelinePage {
     grid-template-columns: 1fr;
   }
-  .postWriteComment {
+
+  .profilePageBanner {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: white;
+    justify-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .profileBannerContent {
+    grid-column: 1;
+    display: grid;
+    grid-template-areas: 'pic' 'name' 'friends' 'btn';
+    justify-items: center;
+  }
+  .profileName {
+    grid-area: name;
+  }
+
+  .profilePosts {
+    grid-template-columns: 1fr;
+  }
+  .profilePosts > div {
+    grid-column: 1;
   }
 }

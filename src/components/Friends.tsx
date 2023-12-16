@@ -1,4 +1,3 @@
-import '../assets/styles/FriendRequest.css';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import GroupAvatars from './GroupAvatars';

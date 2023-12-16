@@ -1,4 +1,3 @@
-import '../assets/styles/FriendRequest.css';
 import { useContext } from 'react';
 import GroupAvatars from './GroupAvatars';
 import { IconButton } from '@mui/material';

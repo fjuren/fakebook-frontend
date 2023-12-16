@@ -42,8 +42,8 @@ export default function FriendsPage(authedUser: any) {
       <div id="friendsPage">
         <ThemeProvider theme={theme}>
           <h2>Friend Requests</h2>
-          <div id="friendRequests-content">
-            <Stack spacing={2}>
+          <div className="allFriendsContent">
+            <Stack>
               {allFriendRequests.length === 0
                 ? 'No friend requests at this time'
                 : allFriendRequests.map((friendRequest, index) => {
@@ -56,10 +56,10 @@ export default function FriendsPage(authedUser: any) {
             </Stack>
           </div>
           <h2>Friends</h2>
-          <div id="allFriends-content">
-            <Stack spacing={2}>
+          <div className="allFriendsContent">
+            <Stack>
               {allFriends.length === 0
-                ? 'You have no friends :( Send some friend requests! :D'
+                ? 'You have no friends :( Send some friend requests!'
                 : allFriends.map((friends, index) => {
                     return (
                       <div key={index}>

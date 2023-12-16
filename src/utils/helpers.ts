@@ -1,5 +1,4 @@
 /* eslint no-useless-escape: 0 */ // --> OFF (due to regex pattern warning)
-import axios from 'axios';
 
 // validate string is an acceptable email address
 export const validateEmail = (email: string) => {

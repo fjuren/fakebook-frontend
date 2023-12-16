@@ -86,9 +86,9 @@ interface CommentBoxData {
 // }
 export default function TimelinePostCard({ post }: any) {
   const [expanded, setExpanded] = useState(false);
-  const { profilePic, user } = useContext(AppContext);
-  const { postLikes, setPostLikes } = useContext(PostLikesContext);
-  const { comments, setComments } = useContext(PostCommentsContext);
+  const { profilePic, user } = useContext(AppContext)!;
+  const { postLikes, setPostLikes } = useContext(PostLikesContext)!;
+  const { comments, setComments } = useContext(PostCommentsContext)!;
 
   const navigate = useNavigate();
 

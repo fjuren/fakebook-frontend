@@ -1,50 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import FacebookLogin from '@greatsumini/react-facebook-login';
-import { configVars } from '../services/auth.service';
+// TODO This component is not implemented yet. Used if I implement login using FB credentials
 
-export default function FacebookLoginBtn() {
-  const [fbClientID, setFbClientID] = useState('');
+// import { useState} from 'react';
+// import FacebookLogin from '@greatsumini/react-facebook-login';
+// import { configVars } from '../services/auth.service';
 
-  // useEffect(() => {
-  const fetchfbClientID = () => {
-    configVars()
-      .then((response) => {
-        const { data } = response.data;
+// export default function FacebookLoginBtn() {
+//   const [fbClientID, setFbClientID] = useState('');
 
-        setFbClientID(data);
-      })
-      .catch((err) => {
-        throw err;
-      });
-  };
-  //   fetchfbClientID();
-  // }, []);
+//   // useEffect(() => {
+//   const fetchfbClientID = () => {
+//     configVars()
+//       .then((response) => {
+//         const { data } = response.data;
 
-  return (
-    <>
-      <FacebookLogin
-        appId={fbClientID} // TODO
-        onSuccess={(response) => {
-          console.log('Login Success!', response);
-        }}
-        onFail={(error) => {
-          console.log('Login Failed!', error);
-        }}
-        onProfileSuccess={(response) => {
-          console.log('Get Profile Success!', response);
-        }}
-        // render={({ fetchfbClientID }) => {
-        //   <button onClick={fetchfbClientID} />
-        // }}
-        // style={{
-        //   backgroundColor: '#4267b2',
-        //   color: '#fff',
-        //   fontSize: '16px',
-        //   padding: '12px 24px',
-        //   border: 'none',
-        //   borderRadius: '4px',
-        // }}
-      />
-    </>
-  );
-}
+//         setFbClientID(data);
+//       })
+//       .catch((err) => {
+//         throw err;
+//       });
+//   };
+//   //   fetchfbClientID();
+//   // }, []);
+
+//   return (
+//     <>
+//       <FacebookLogin
+//         appId={fbClientID} // TODO
+//         onSuccess={(response) => {
+//           console.log('Login Success!', response);
+//         }}
+//         onFail={(error) => {
+//           console.log('Login Failed!', error);
+//         }}
+//         onProfileSuccess={(response) => {
+//           console.log('Get Profile Success!', response);
+//         }}
+//         // render={({ fetchfbClientID }) => {
+//         //   <button onClick={fetchfbClientID} />
+//         // }}
+//         // style={{
+//         //   backgroundColor: '#4267b2',
+//         //   color: '#fff',
+//         //   fontSize: '16px',
+//         //   padding: '12px 24px',
+//         //   border: 'none',
+//         //   borderRadius: '4px',
+//         // }}
+//       />
+//     </>
+//   );
+// }

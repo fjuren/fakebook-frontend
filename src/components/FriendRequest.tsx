@@ -14,7 +14,7 @@ export default function FriendRequests(userData: any) {
     setAcceptFriendRequest,
     declineFriendRequest,
     setDeclineFriendRequest,
-  } = useContext(AppContext);
+  } = useContext(AppContext)!;
   const navigate = useNavigate();
 
   const navToProfile = (userID: string) => {

@@ -13,7 +13,7 @@ export const updateProfilePic = (
       headers: authHeader(),
     })
     .then((response) => {
-      const storedLocalData = JSON.parse(localStorage.getItem('token'));
+      const storedLocalData = JSON.parse(localStorage.getItem('token')!);
       if (storedLocalData) {
         storedLocalData.avatar = response.data.avatar;
       }

@@ -31,7 +31,7 @@ function ResponsiveAppBar({
 }: any) {
   const navigate = useNavigate();
 
-  const { profilePic } = useContext(AppContext);
+  const { profilePic } = useContext(AppContext)!;
 
   useEffect(() => {
     const fetchData = async () => {

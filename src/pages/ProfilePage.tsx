@@ -60,7 +60,7 @@ export default function ProfilePage() {
     friendRequest: [],
   });
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
-  const [authUserContent, setAuthUserContent] = useState<UserProfile>({
+  const [, setAuthUserContent] = useState<UserProfile>({
     ...initialUserProfile,
   });
   // user is the signed in user and captured as context
@@ -71,7 +71,7 @@ export default function ProfilePage() {
     unfriend,
     setUnfriend,
     profilePic,
-  } = useContext(AppContext);
+  } = useContext(AppContext)!;
   // userID is the user of the visited profile page
   const { userID } = useParams();
   const navigate = useNavigate();

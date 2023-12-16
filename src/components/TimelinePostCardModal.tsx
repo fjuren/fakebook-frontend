@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import { ThemeProvider } from '@emotion/react';
@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import { Button, ButtonProps } from '@mui/material';
+import { Button } from '@mui/material';
 import CustomAvatar from './CustomAvatar';
 import CommentBox from './CommentBox';
 import Box from '@mui/material/Box';
@@ -27,9 +27,9 @@ import {
   PostCommentsContext,
 } from '../utils/AppContext';
 
-interface ExpandMoreProps extends ButtonProps {
-  expand: boolean | string; // added string here due to reactordom error in console when rendering
-}
+// interface ExpandMoreProps extends ButtonProps {
+//   expand: boolean | string; // added string here due to reactordom error in console when rendering
+// }
 
 interface commentsInt {
   content: string;
@@ -73,10 +73,9 @@ interface CommentBoxData {
 //   };
 // }
 export default function TimelinePostCardModal({ post, handleLike }: any) {
-  const [expanded, setExpanded] = useState(false);
-  const { user } = useContext(AppContext);
-  const { postLikes } = useContext(PostLikesContext);
-  const { comments, setComments } = useContext(PostCommentsContext);
+  const { user } = useContext(AppContext)!;
+  const { postLikes } = useContext(PostLikesContext)!;
+  const { comments, setComments } = useContext(PostCommentsContext)!;
   const navigate = useNavigate();
 
   const navToProfile = (userID: any) => {

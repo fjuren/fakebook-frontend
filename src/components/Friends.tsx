@@ -7,7 +7,7 @@ import { AppContext } from '../utils/AppContext';
 import { unFriend } from '../services/user.service';
 
 export default function Friends(userData: any) {
-  const { user, unfriend, setUnfriend } = useContext(AppContext);
+  const { user, unfriend, setUnfriend } = useContext(AppContext)!;
   const navigate = useNavigate();
 
   const navToProfile = (userID: string) => {

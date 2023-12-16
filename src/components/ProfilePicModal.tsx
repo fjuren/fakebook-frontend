@@ -23,7 +23,7 @@ export default function PostModal({
   const [filePreview, setFilePreview] = useState<any>(null);
   const [contentError, setContentError] = useState(false);
   const [contentErrorText, setContentErrorText] = useState('');
-  const { user, setProfilePic } = useContext(AppContext);
+  const { user, setProfilePic } = useContext(AppContext)!;
 
   const edit = (e: any) => {
     const fileFromEdit = e.target.files[0];

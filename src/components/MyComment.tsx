@@ -1,9 +1,7 @@
-import * as React from 'react';
 import { ThemeProvider } from '@mui/material';
 import theme from '../theme';
 import Box from '@mui/material/Box';
-import { Grid, ListItem, List, ListItemText } from '@mui/material';
-import CustomAvatar from './CustomAvatar';
+import { Grid, ListItemText } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 export default function MyComment({

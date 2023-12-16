@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { CircularProgress, Stack } from '@mui/material';

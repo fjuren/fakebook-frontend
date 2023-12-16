@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,12 +9,12 @@ import AuthorizationPage from './pages/AuthorizationPage';
 import TimelinePage from './pages/TimelinePage';
 import FriendsPage from './pages/FriendsPage';
 import CreatePostPage from './pages/CreatePostPage';
-import { getUser, logout } from './services/auth.service';
+import { getUser } from './services/auth.service';
 import './App.css';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 import ProfilePage from './pages/ProfilePage';
 
-import { AppContextProvider, AppContext } from './utils/AppContext';
+import { AppContextProvider } from './utils/AppContext';
 
 function App() {
   const [authUser, setAuthUser] = useState(() => {

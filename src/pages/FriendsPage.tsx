@@ -1,9 +1,8 @@
-import { useEffect, useState, useContext } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
 import { Stack } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 import FriendRequest from '../components/FriendRequest';
 import Friends from '../components/Friends';
@@ -22,7 +21,6 @@ export default function FriendsPage(authedUser: any) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const userOrAuthUserID = queryParams.get('userOrAuthUserID'); // Read attention note above. This is current state
-  const navigate = useNavigate();
   useEffect(() => {
     if (userOrAuthUserID) {
       getAllFriendRequests(userOrAuthUserID, authedUser.authedUser._id)

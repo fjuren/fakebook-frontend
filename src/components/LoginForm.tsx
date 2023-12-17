@@ -19,6 +19,9 @@ export default function LoginForm({ toggleLogin }: any) {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorText, setPasswordErrorText] = useState('');
 
+  const [otherError, setOtherError] = useState(false);
+  const [otherErrorText, setOtherErrorText] = useState('');
+
   const navigate = useNavigate();
 
   const loginHandler = (e: any) => {
@@ -74,6 +77,11 @@ export default function LoginForm({ toggleLogin }: any) {
         }
       })
       .catch((err) => {
+        // handler if network error
+        if (err.code == 'ERR_NETWORK') {
+          setOtherError(true);
+          setOtherErrorText('Network issue. Please try again later');
+        }
         // handler if email doesn't exist
         if (err.response.data.error.includes('Email')) {
           setEmailError(true);
@@ -84,7 +92,6 @@ export default function LoginForm({ toggleLogin }: any) {
           setPasswordError(true);
           setPasswordErrorText(err.response.data.error);
         }
-        console.log(err.response.data);
       });
   };
 
@@ -127,6 +134,7 @@ export default function LoginForm({ toggleLogin }: any) {
       <Button variant="contained" type="submit">
         Log In
       </Button>
+      <p style={{ color: 'red' }}>{otherErrorText}</p>
       <a href="">Forgot account?</a>
       <div id="divider">
         <Divider> or </Divider>

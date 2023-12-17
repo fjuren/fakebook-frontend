@@ -19,7 +19,7 @@ export default function LoginForm({ toggleLogin }: any) {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorText, setPasswordErrorText] = useState('');
 
-  const [otherError, setOtherError] = useState(false);
+  const [, setOtherError] = useState(false);
   const [otherErrorText, setOtherErrorText] = useState('');
 
   const navigate = useNavigate();
@@ -73,6 +73,8 @@ export default function LoginForm({ toggleLogin }: any) {
         if (response.status === 200) {
           event?.preventDefault();
           window.location.reload();
+          setOtherError(false);
+          setOtherErrorText('');
           navigate('/timeline');
         }
       })

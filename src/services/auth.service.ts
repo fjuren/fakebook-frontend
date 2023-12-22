@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'http://localhost:3000/api/users';
+import { API_URL } from '../utils/api';
 
 export const signup = (
   firstName: string,
@@ -10,7 +9,7 @@ export const signup = (
   confirmPassword: string
 ) => {
   return axios
-    .post(API_URL + '/signup', {
+    .post(API_URL + '/users/signup', {
       firstName,
       lastName,
       email,
@@ -27,7 +26,7 @@ export const signup = (
 
 export const login = (email: string, password: string) => {
   return axios
-    .post(API_URL + '/login', {
+    .post(API_URL + '/users/login', {
       email,
       password,
     })
@@ -42,7 +41,7 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
   localStorage.removeItem('token');
-  return axios.post(API_URL + '/logout');
+  return axios.post(API_URL + '/users/logout');
   // .then((response) => {
   //   console.log(response.data.message);
   // });

@@ -2,8 +2,6 @@ import axios from 'axios';
 import { authHeader } from './auth-header';
 import { API_URL } from '../utils/api';
 
-console.log(API_URL);
-
 export const getTimelinePosts = (page: number) => {
   return axios.get(API_URL + `/posts/timeline?page=${page}`, {
     headers: authHeader(),

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { authHeader } from './auth-header';
-
-export const API_URL = 'http://localhost:3000/api/users';
+import { API_URL } from '../utils/api';
+// export const API_URL = 'http://localhost:3000/api/users';
 
 export const getUserProfile = (userID: string) => {
-  return axios.get(API_URL + `/profile/${userID}`, {
+  return axios.get(API_URL + `/users/profile/${userID}`, {
     headers: authHeader(),
   });
 };
@@ -15,7 +15,7 @@ export const updateProfilePic = (
   authedUserID: string
 ) => {
   return axios
-    .post(API_URL + `/update_profile_pic/${authedUserID}`, profileImage, {
+    .post(API_URL + `/users/update_profile_pic/${authedUserID}`, profileImage, {
       headers: authHeader(),
     })
     .then((response) => {
@@ -33,7 +33,7 @@ export const updateProfilePic = (
 // Sends a friend request, from authedUser to user
 export const postFriendRequest = (userID: string, authedUserID: string) => {
   return axios.post(
-    API_URL + `/friend_request/${userID}`,
+    API_URL + `/users/friend_request/${userID}`,
     { userID: userID, authedUserID: authedUserID },
     {
       headers: authHeader(),
@@ -48,7 +48,7 @@ export const postFriendRequestAnswer = (
   userID: string
 ) => {
   return axios.post(
-    API_URL + `/friend_request_answer/`,
+    API_URL + `/users/friend_request_answer/`,
     { acceptOrDecline: answer, userID: userID, authedUserID: authedUserID },
     {
       headers: authHeader(),
@@ -63,7 +63,7 @@ export const unFriend = (
   userID: string
 ) => {
   return axios.post(
-    API_URL + `/unfriend/${userID}`,
+    API_URL + `/users/unfriend/${userID}`,
     { unfriend, userID, authedUserID },
     {
       headers: authHeader(),
@@ -77,7 +77,7 @@ export const getAllFriendRequests = (
   authedUserID: string
 ) => {
   return axios.get(
-    API_URL + `/friends/`,
+    API_URL + `/users/friends/`,
     // { userOrAuthUserID: userOrAuthUserID, authedUserID: authedUserID },
     {
       headers: authHeader(),

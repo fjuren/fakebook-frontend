@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { authHeader } from './auth-header';
-
-const API_URL = 'http://localhost:3000/api/comments';
+import { API_URL } from '../utils/api';
 
 export const postComment = (comment: string, postID: string) => {
   return axios.post(
-    API_URL + '/create_comment',
+    API_URL + '/comments/create_comment',
     { content: comment, postID: postID },
     {
       headers: authHeader(),

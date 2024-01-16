@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { timelinePost } from '../services/post.service';
+import Breadcrumb from '../components/Breadcrumb';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
 const TextFieldHideRequiredAsterisk = styled(TextField)({
@@ -69,7 +70,11 @@ export default function CreatePostPage() {
       <div id="createPostPage">
         <ThemeProvider theme={theme}>
           <div>
-            <p>breadcrumb</p>
+            <Breadcrumb
+              parentRoute="/timeline"
+              parentPage="Timeline"
+              currentPage="Create Post"
+            />
           </div>
           <div>
             <Box

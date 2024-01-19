@@ -76,12 +76,19 @@ export default function CreatePostPage() {
               currentPage="Create Post"
             />
           </div>
-          <div>
+          <div
+            style={{
+              marginTop: '3rem',
+              paddingTop: '5rem',
+              paddingBottom: '5rem',
+              backgroundColor: 'white',
+            }}
+          >
             <Box
               component="form"
               onSubmit={postHandler}
               sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
+                '& > :not(style)': { m: 1, width: '20rem' },
               }}
               noValidate
               autoComplete="on"
@@ -93,7 +100,7 @@ export default function CreatePostPage() {
                 label="What's on your mind?"
                 variant="outlined"
                 multiline
-                rows={4}
+                rows={8}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 error={contentError}
@@ -110,7 +117,7 @@ export default function CreatePostPage() {
                 <label htmlFor="add-media">
                   <Button component="span" size="medium">
                     <AddPhotoAlternateIcon />
-                    <p>Add photo/video</p>
+                    <p>Add photo</p>
                   </Button>
                 </label>
               </div>

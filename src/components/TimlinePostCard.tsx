@@ -204,6 +204,7 @@ export default function TimelinePostCard({ post }: any) {
           alt="image"
           className="postImage"
           onClick={handleModalOpen}
+          style={{ cursor: 'pointer' }}
         />
       ) : null}
       <div className="likecommentContainer">

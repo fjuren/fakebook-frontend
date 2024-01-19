@@ -29,6 +29,7 @@ import {
   PostLikesContext,
   PostCommentsContext,
 } from '../utils/AppContext';
+import PostModal from './PostModal';
 
 interface ExpandMoreProps extends ButtonProps {
   expand: boolean | string; // added string here due to reactordom error in console when rendering
@@ -89,6 +90,7 @@ export default function TimelinePostCard({ post }: any) {
   const { profilePic, user } = useContext(AppContext)!;
   const { postLikes, setPostLikes } = useContext(PostLikesContext)!;
   const { comments, setComments } = useContext(PostCommentsContext)!;
+  const [modalOpen, setModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -120,6 +122,14 @@ export default function TimelinePostCard({ post }: any) {
   // Expands/collapses comment
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   const handleLike = () => {
@@ -193,6 +203,7 @@ export default function TimelinePostCard({ post }: any) {
           image={post.image}
           alt="image"
           className="postImage"
+          onClick={handleModalOpen}
         />
       ) : null}
       <div className="likecommentContainer">
@@ -206,9 +217,16 @@ export default function TimelinePostCard({ post }: any) {
             post={post}
             comments={allComments}
             handleLike={handleLike}
+            handleModalOpen={handleModalOpen}
           />
         </div>
       </div>
+      <PostModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        post={post}
+        handleLike={handleLike}
+      />
       <CardActions disableSpacing>
         <Button
           size="medium"

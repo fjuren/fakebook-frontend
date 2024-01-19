@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import Link from '@mui/material/Link';
-import PostModal from './PostModal';
 
 export default function LinkButton({ comments, handleModalOpen }: any) {
   return (

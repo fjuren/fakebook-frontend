@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Card, Box, Button, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Modal from '@mui/material/Modal';
+import Spinner from './Spinner';
 
 import CustomAvatar from './CustomAvatar';
 import { updateProfilePic } from '../services/user.service';
@@ -18,6 +19,7 @@ export default function PostModal({
   avatar: string;
   firstName: string;
 }) {
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<any>(null);
   const [fileType, setFileType] = useState<any>(null);
   const [filePreview, setFilePreview] = useState<any>(null);
@@ -60,6 +62,7 @@ export default function PostModal({
   };
 
   const saveProfilePic = () => {
+    setLoading(true);
     setContentError(false);
     setContentErrorText('');
 
@@ -72,13 +75,17 @@ export default function PostModal({
         .then((response: any) => {
           if (response.status === 200) {
             setProfilePic(response.data.fileURL);
+            setLoading(false);
             onClose();
           }
+          setLoading(false);
         })
         .catch((err: any) => {
+          setLoading(false);
           console.log(err);
         });
     } else {
+      setLoading(false);
       setContentError(true);
       setContentErrorText(
         'Whoops! Please choose a new profile picture, or cancel'
@@ -153,6 +160,17 @@ export default function PostModal({
                   Save
                 </Button>
               </div>
+              {loading ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Spinner />
+                </div>
+              ) : null}
             </div>
             <div className="error-message">
               {contentError ? (

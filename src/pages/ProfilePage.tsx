@@ -141,10 +141,12 @@ export default function ProfilePage() {
                   )}
                   sx={{ fontSize: 84, width: 168, height: 168 }}
                 ></CustomAvatar>
-                <ProfilePicButton
-                  avatar={profileContent.avatar}
-                  firstName={profileContent.firstName}
-                />
+                {user._id === userID ? (
+                  <ProfilePicButton
+                    avatar={profileContent.avatar}
+                    firstName={profileContent.firstName}
+                  />
+                ) : null}
               </div>
               <Typography
                 className="profileName"

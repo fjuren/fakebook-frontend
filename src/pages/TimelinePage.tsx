@@ -63,7 +63,7 @@ export default function TimelinePage() {
       const { scrollHeight, scrollTop, clientHeight } =
         document.documentElement;
 
-      // scrolled to the bottom of the page?
+      // scrolled to the bottom of the page? and is the current spinner active?
       if (
         scrollTop + clientHeight >= scrollHeight - 10 &&
         loadingPage !== true

@@ -188,10 +188,15 @@ export default function ProfilePage() {
                       userFirstnameLetter={profileContent.friends[0].firstName}
                     />
                   </IconButton>
-                ) : (
+                ) : user._id === userID ? (
                   <div>
                     You haven't added any friends yet! Send friend requests to
                     add new friends.
+                  </div>
+                ) : (
+                  <div>
+                    {profileContent.firstName} hasn't added any friends yet. Add
+                    them as a friend!
                   </div>
                 )}
               </div>

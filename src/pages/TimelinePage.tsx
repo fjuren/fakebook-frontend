@@ -64,7 +64,10 @@ export default function TimelinePage() {
         document.documentElement;
 
       // scrolled to the bottom of the page?
-      if (scrollTop + clientHeight >= scrollHeight - 10) {
+      if (
+        scrollTop + clientHeight >= scrollHeight - 10 &&
+        loadingPage !== true
+      ) {
         fetchTimelinePosts();
         setLoadingMorePosts(true);
       }
@@ -130,7 +133,13 @@ export default function TimelinePage() {
               );
             })}
             {loadingMorePosts && hasMorePosts && (
-              <div style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
                 <Spinner />
               </div>
             )}

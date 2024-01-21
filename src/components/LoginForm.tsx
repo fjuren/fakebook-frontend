@@ -6,8 +6,10 @@ import { Divider, Typography } from '@mui/material';
 import { login } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../utils/helpers';
+import Spinner from './Spinner';
 
 export default function LoginForm({ toggleLogin }: any) {
+  const [loading, setLoading] = useState(false);
   // field values
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -66,12 +68,13 @@ export default function LoginForm({ toggleLogin }: any) {
       setPasswordError(false);
       setPasswordErrorText('');
     }
-
+    setLoading(true);
     // API call in login helper; includes validation from backend
     login(email, password)
       .then((response) => {
         if (response.status === 200) {
           event?.preventDefault();
+          setLoading(false);
           window.location.reload();
           setOtherError(false);
           setOtherErrorText('');
@@ -79,6 +82,7 @@ export default function LoginForm({ toggleLogin }: any) {
         }
       })
       .catch((err) => {
+        setLoading(false);
         // handler if network error
         if (err.code == 'ERR_NETWORK') {
           setOtherError(true);
@@ -132,7 +136,7 @@ export default function LoginForm({ toggleLogin }: any) {
         error={passwordError}
         helperText={passwordErrorText}
       />
-
+      {loading ? <Spinner /> : null}
       <Button variant="contained" type="submit">
         Log In
       </Button>

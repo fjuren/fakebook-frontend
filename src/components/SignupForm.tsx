@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { validateEmail, validatePassword } from '../utils/helpers';
 import { signup } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import Spinner from './Spinner';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
 const TextFieldHideRequiredAsterisk = styled(TextField)({
@@ -13,6 +14,7 @@ const TextFieldHideRequiredAsterisk = styled(TextField)({
 });
 
 export default function SignupForm({ toggleLogin }: any) {
+  const [loading, setLoading] = useState(false);
   // field values
   const [firstName, setFname] = useState('');
   const [lastName, setLname] = useState('');
@@ -87,17 +89,19 @@ export default function SignupForm({ toggleLogin }: any) {
       setConfirmPasswordError(false);
       setConfirmPasswordErrorText('');
     }
-
+    setLoading(true);
     // TODO
     // [ ] create process.env development & production urls
     signup(firstName, lastName, email, password, confirmPassword)
       .then((response) => {
         if (response.status === 200) {
+          setLoading(false);
           navigate('/timeline');
           window.location.reload();
         }
       })
       .catch((err) => {
+        setLoading(false);
         // handler if email already exists
         if (err.response.data.error.includes('Email')) {
           setEmailError(true);
@@ -169,7 +173,7 @@ export default function SignupForm({ toggleLogin }: any) {
         error={confirmPasswordError}
         helperText={confirmPasswordErrorText}
       />
-
+      {loading ? <Spinner /> : null}
       <Button variant="contained" type="submit">
         Sign Up
       </Button>

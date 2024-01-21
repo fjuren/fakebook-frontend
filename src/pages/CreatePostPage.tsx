@@ -7,6 +7,7 @@ import { Box, TextField, Button, Typography } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { timelinePost } from '../services/post.service';
 import Breadcrumb from '../components/Breadcrumb';
+import Spinner from '../components/Spinner';
 
 // new way to do makeStyles - due to MUI update to V5 & React 18 compatibility
 const TextFieldHideRequiredAsterisk = styled(TextField)({
@@ -19,6 +20,7 @@ export default function CreatePostPage() {
   const [content, setContent] = useState('');
   const [contentError, setContentError] = useState(false);
   const [contentErrorText, setContentErrorText] = useState('');
+  const [loadingPage, setLoadingPage] = useState(false);
 
   const [file, setFile] = useState<any>(null);
   const [fileType, setFileType] = useState<any>(null);
@@ -32,9 +34,11 @@ export default function CreatePostPage() {
     // user: Types.ObjectId;
     // comments?: Types.ObjectId[];
     // postCreated: Date; // note: This is stored in an ISO 8601 format and is UTC
+    setLoadingPage(true);
     if (content.length < 6) {
       setContentError(true);
       setContentErrorText('Your post is too short');
+      setLoadingPage(false);
       return;
     } else {
       setContentError(false);
@@ -46,16 +50,18 @@ export default function CreatePostPage() {
     postData.append('file', file); // file as image/video/GIF
     postData.set('type', fileType);
 
-    timelinePost(postData)
-      .then((response) => {
-        if (response.status === 200) {
-          navigate('/timeline');
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const response = await timelinePost(postData);
+
+      if (response.status === 200) {
+        navigate('/timeline');
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingPage(false);
+    }
   };
 
   const addMedia = (e: any) => {
@@ -79,9 +85,8 @@ export default function CreatePostPage() {
           <div
             style={{
               marginTop: '3rem',
-              paddingTop: '5rem',
+              paddingTop: '3rem',
               paddingBottom: '5rem',
-              backgroundColor: 'white',
             }}
           >
             <Box
@@ -131,6 +136,17 @@ export default function CreatePostPage() {
               <Button variant="contained" type="submit">
                 Post
               </Button>
+              {loadingPage ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Spinner />
+                </div>
+              ) : null}
             </Box>
           </div>
         </ThemeProvider>

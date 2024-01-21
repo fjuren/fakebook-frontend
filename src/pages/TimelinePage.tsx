@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
-import { CircularProgress, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
+import Spinner from '../components/Spinner';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
@@ -17,28 +18,37 @@ export default function TimelinePage() {
   const [timelinePosts, setTimelinePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loadingMorePosts, setLoadingMorePosts] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTimelinePosts = async () => {
-      if (loading || !hasMorePosts) return;
+      if (loadingMorePosts || !hasMorePosts) {
+        return;
+      } else {
+        setLoadingPage(true);
+      }
 
       setTimeout(async () => {
         try {
           const response = await getTimelinePosts(page);
           if (response.data.length === 0) {
             setHasMorePosts(false);
+            setLoadingPage(false);
           } else {
+            setLoadingPage(false);
             setTimelinePosts((prevPosts) => [...prevPosts, ...response.data]);
             setPage((prevPage) => prevPage + 1);
           }
         } catch (err) {
           console.log(err);
+          setLoadingPage(false);
         } finally {
-          setLoading(false);
+          setLoadingMorePosts(false);
+          setLoadingPage(false);
         }
       }, 500);
     };
@@ -56,7 +66,7 @@ export default function TimelinePage() {
       // scrolled to the bottom of the page?
       if (scrollTop + clientHeight >= scrollHeight - 10) {
         fetchTimelinePosts();
-        setLoading(true);
+        setLoadingMorePosts(true);
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -65,7 +75,7 @@ export default function TimelinePage() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [page, loading, hasMorePosts, initialLoad]);
+  }, [page, loadingMorePosts, hasMorePosts, initialLoad]);
 
   return (
     <>
@@ -91,6 +101,18 @@ export default function TimelinePage() {
               Create post
             </Fab>
           </div>
+          {loadingPage ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '10vh',
+              }}
+            >
+              <Spinner />
+            </div>
+          ) : null}
           <Stack spacing={2}>
             {timelinePosts.map((post, index) => {
               const initialPostLikes = post.likes;
@@ -107,12 +129,12 @@ export default function TimelinePage() {
                 </div>
               );
             })}
-            {loading && hasMorePosts && (
+            {loadingMorePosts && hasMorePosts && (
               <div style={{ textAlign: 'center' }}>
-                <CircularProgress />
+                <Spinner />
               </div>
             )}
-            {!loading && !hasMorePosts && <div>No more posts. </div>}
+            {!loadingMorePosts && !hasMorePosts && <div>No more posts. </div>}
           </Stack>
         </ThemeProvider>
       </div>

@@ -7,6 +7,7 @@ import { Stack } from '@mui/material';
 import GroupAvatars from '../components/GroupAvatars';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
+import Spinner from '../components/Spinner';
 import CustomAvatar from '../components/CustomAvatar';
 import IconButton from '@mui/material/IconButton';
 import '../App.css';
@@ -60,6 +61,7 @@ export default function ProfilePage() {
     friendRequest: [],
   });
   const [userPosts, setUserPosts] = useState<UserProfilePosts[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [, setAuthUserContent] = useState<UserProfile>({
     ...initialUserProfile,
   });
@@ -96,6 +98,7 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
+    setLoadingPosts(true);
     const fetchData = async () => {
       try {
         if (userID) {
@@ -104,15 +107,19 @@ export default function ProfilePage() {
 
           const postsResponse = await getUserProfilePosts(userID);
           setUserPosts(postsResponse.data.userProfilePosts.posts);
+          setLoadingPosts(false);
         }
         if (user._id) {
           const authUserResponse = await getUserProfile(user._id);
           setAuthUserContent(authUserResponse.data);
+          setLoadingPosts(false);
         } else {
           console.log('Profile not found'); // TODO: create an error page for these types of things
+          setLoadingPosts(false);
         }
       } catch (error) {
         console.error(error);
+        setLoadingPosts(false);
       }
     };
 
@@ -244,6 +251,18 @@ export default function ProfilePage() {
                 Posts
               </Typography>
               <br />
+              {loadingPosts ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '10vh',
+                  }}
+                >
+                  <Spinner />
+                </div>
+              ) : null}
               {userPosts?.length !== 0 ? (
                 <Stack spacing={2}>
                   {userPosts?.map((post: any, index: number) => {

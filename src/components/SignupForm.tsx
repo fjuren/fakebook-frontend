@@ -177,7 +177,6 @@ export default function SignupForm({ toggleLogin }: any) {
       <Button variant="contained" type="submit">
         Sign Up
       </Button>
-      <Button variant="contained">Log in with a test account</Button>
       <Link component="button" variant="body2" onClick={toggleLogin}>
         Already have an account?
       </Link>

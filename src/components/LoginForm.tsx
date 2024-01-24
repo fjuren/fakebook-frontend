@@ -101,6 +101,12 @@ export default function LoginForm({ toggleLogin }: any) {
       });
   };
 
+  const addTestUser = () => {
+    setEmail('test@user.com');
+    setPassword('Test1234!');
+    loginHandler;
+  };
+
   return (
     <Box
       component="form"
@@ -141,14 +147,16 @@ export default function LoginForm({ toggleLogin }: any) {
         Log In
       </Button>
       <p style={{ color: 'red' }}>{otherErrorText}</p>
-      <a href="">Forgot account?</a>
       <div id="divider">
         <Divider> or </Divider>
       </div>
+      <br />
       <Button variant="contained" onClick={toggleLogin}>
         Create new account
       </Button>
-      <Button variant="contained">Log in with a test account</Button>
+      <Button variant="contained" onClick={addTestUser}>
+        Log in with a test account
+      </Button>
     </Box>
   );
 }

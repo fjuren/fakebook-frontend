@@ -1,6 +1,8 @@
 # Fakebook personal project
 
-Welcome to Fakebook - a fun and lighthearted take on a popular social networking site.
+Welcome to Fakebook - a fun and lighthearted take on a popular social networking site. Try the [live](https://social-personal-project.netlify.app/) site.
+
+If you don't want to create your own account, use the "Log in with a test account" option on the login page
 
 ## Table of Contents
 
@@ -8,10 +10,11 @@ Welcome to Fakebook - a fun and lighthearted take on a popular social networking
 - [Backlogged Functionality](#backlogged-functionality)
 - [Technologies Used](#technologies-used)
 - [Fakebook API](#fakebook-api)
-- [Getting Started](#getting-started)
+- [License](#license)
 
 ## Existing Functionality
 
+- [x] Fake user account available
 - [x] User signup and login
 - [x] Create posts in the timeline with text and images/gifs
 - [x] All posts visible on the timline, user-specific posts viewed in user profile
@@ -43,9 +46,6 @@ Welcome to Fakebook - a fun and lighthearted take on a popular social networking
 
 This client-side application relies on the [Fakebook API](https://github.com/fjuren/fakebook-api) for server-side functionalities. Make sure to set up and run the API server before using this client. Note that I'm using the same database for both development and production environments to simplify this personal project a bit.
 
-## Getting Started
+## License
 
-1. Clone the repository: `git clone https://github.com/fjuren/fakebook-frontend.git`
-2. Install dependencies: `npm install`
-3. Start the development server: `npm start`
-4. Open your browser and navigate to `http://localhost:5173`
+This project is licensed under the [MIT License](LICENSE).
